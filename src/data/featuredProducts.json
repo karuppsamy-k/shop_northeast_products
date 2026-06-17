@@ -1,0 +1,42 @@
+[
+  {
+    "productId": "prod_0001",
+    "priority": 1,
+    "bannerText": "Top Pick:  Bamboo Shoot"
+  },
+  {
+    "productId": "prod_0019",
+    "priority": 2,
+    "bannerText": "Top Pick:  Plum"
+  },
+  {
+    "productId": "prod_0024",
+    "priority": 3,
+    "bannerText": "Top Pick:  Oolong Tea"
+  },
+  {
+    "productId": "prod_0030",
+    "priority": 4,
+    "bannerText": "Top Pick:  Masala Chai"
+  },
+  {
+    "productId": "prod_0034",
+    "priority": 5,
+    "bannerText": "Top Pick:  Sesame Ladoo"
+  },
+  {
+    "productId": "prod_0036",
+    "priority": 6,
+    "bannerText": "Top Pick:  Dry Fish"
+  },
+  {
+    "productId": "prod_0045",
+    "priority": 7,
+    "bannerText": "Top Pick:  Beef Pickle"
+  },
+  {
+    "productId": "prod_0046",
+    "priority": 8,
+    "bannerText": "Top Pick:  Garlic Pickle"
+  }
+]

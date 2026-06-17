@@ -1,0 +1,137 @@
+[
+  {
+    "id": "cat_001",
+    "name": "Fresh Vegetables",
+    "description": "Fresh farm vegetables sourced from Northeast farms",
+    "image": "/src/assets/Veg.png",
+    "bannerImage": "/src/assets/Veg.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_002",
+    "name": "Fresh Fruits",
+    "description": "Seasonal and exotic fruits from the Northeast hills",
+    "image": "/src/assets/Fruit.png",
+    "bannerImage": "/src/assets/Fruit.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_003",
+    "name": "Northeast Tea",
+    "description": "Authentic Assam, Darjeeling and herbal teas",
+    "image": "/src/assets/tea.png",
+    "bannerImage": "/src/assets/tea.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_004",
+    "name": "Handmade Foods",
+    "description": "Traditional smoked meats and sweets",
+    "image": "/src/assets/food.png",
+    "bannerImage": "/src/assets/food.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_005",
+    "name": "Pickles",
+    "description": "Spicy King Chilli and Bamboo shoot pickles",
+    "image": "/src/assets/pickle.png",
+    "bannerImage": "/src/assets/pickle.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_006",
+    "name": "Traditional Snacks",
+    "description": "Local rice snacks and handmade cookies",
+    "image": "/src/assets/snaks.png",
+    "bannerImage": "/src/assets/snaks.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_007",
+    "name": "Rice and Grains",
+    "description": "Organic Joha, Black rice and sticky rice",
+    "image": "/src/assets/rice.png",
+    "bannerImage": "/src/assets/rice.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_008",
+    "name": "Spices and Masala",
+    "description": "Pure Lakadong turmeric and Bhut Jolokia",
+    "image": "/src/assets/spices.png",
+    "bannerImage": "/src/assets/spices.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_009",
+    "name": "Organic Products",
+    "description": "Wild forest honey and natural products",
+    "image": "/src/assets/organic.png",
+    "bannerImage": "/src/assets/organic.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_010",
+    "name": "Dairy Products",
+    "description": "Fresh local dairy essentials",
+    "image": "/src/assets/milk.png",
+    "bannerImage": "/src/assets/milk.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_011",
+    "name": "Beverages",
+    "description": "Local juices and healthy drinks",
+    "image": "/src/assets/juices.png",
+    "bannerImage": "/src/assets/juices.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_012",
+    "name": "Ready To Eat",
+    "description": "Quick regional meals",
+    "image": "/src/assets/ready to eat.png",
+    "bannerImage": "/src/assets/ready to eat.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_013",
+    "name": "Dry Fruits and Nuts",
+    "description": "Premium nuts and dry fruits",
+    "image": "/src/assets/dry feiuets.png",
+    "bannerImage": "/src/assets/dry feiuets.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_014",
+    "name": "Grocery Essentials",
+    "description": "Daily grocery needs",
+    "image": "/src/assets/g.png",
+    "bannerImage": "/src/assets/g.png",
+    "productCount": 10,
+    "isActive": true
+  },
+  {
+    "id": "cat_015",
+    "name": "Household Essentials",
+    "description": "Cleaning and home items",
+    "image": "/src/assets/household.png",
+    "bannerImage": "/src/assets/household.png",
+    "productCount": 10,
+    "isActive": true
+  }
+]

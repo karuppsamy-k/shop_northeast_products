@@ -1,0 +1,30 @@
+[
+  {
+    "orderId": "ord_001",
+    "userId": "user_001",
+    "items": [
+      {
+        "productId": "prod_0003",
+        "quantity": 1,
+        "price": 395
+      }
+    ],
+    "totalAmount": 395,
+    "status": "DELIVERED",
+    "createdAt": "2026-06-15T00:02:35.392Z"
+  },
+  {
+    "orderId": "ord_002",
+    "userId": "user_001",
+    "items": [
+      {
+        "productId": "prod_0006",
+        "quantity": 3,
+        "price": 431
+      }
+    ],
+    "totalAmount": 1293,
+    "status": "PREPARING",
+    "createdAt": "2026-06-17T00:02:35.392Z"
+  }
+]

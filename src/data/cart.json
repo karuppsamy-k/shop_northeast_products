@@ -1,0 +1,17 @@
+{
+  "cartId": "cart_001",
+  "userId": "user_001",
+  "items": [
+    {
+      "productId": "prod_0001",
+      "quantity": 2,
+      "price": 275
+    },
+    {
+      "productId": "prod_0011",
+      "quantity": 1,
+      "price": 296
+    }
+  ],
+  "totalAmount": 846
+}
