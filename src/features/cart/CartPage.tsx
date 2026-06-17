@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import { api } from '@/services/api';
@@ -90,7 +90,7 @@ export const CartPage = () => {
                         background: `linear-gradient(135deg, hsl(${(i * 47) % 360},70%,80%), hsl(${(i * 47 + 40) % 360},65%,70%))`,
                       }}>
                       <img
-                        src={item?.images?.[0] || item?.image || ''}
+                        src={item?.images?.[0] || ''}
                         alt={item?.name || 'Item'}
                         className="object-contain w-full h-full drop-shadow-lg"
                         style={{ padding: '12px' }}
@@ -109,7 +109,7 @@ export const CartPage = () => {
                       <div>
                         <p className="text-[10px] font-bold uppercase tracking-wider mb-0.5"
                           style={{ color: 'var(--color-primary-val)' }}>
-                          {item.category || item.unit}
+                          {item.categoryId || item.unit}
                         </p>
                         <h3 className="font-bold text-sm md:text-base leading-snug mb-1"
                           style={{ color: 'var(--color-fg)' }}>

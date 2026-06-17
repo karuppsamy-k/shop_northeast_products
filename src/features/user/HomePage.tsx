@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ShoppingBag, Star, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ShoppingBag, Star } from 'lucide-react';
 import { api, type Product } from '@/services/api';
 import { useCartStore } from '@/store/cartStore';
 
@@ -11,10 +11,10 @@ export const HomePage = () => {
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right'>('right');
-  const [catDirection, setCatDirection] = useState<'left' | 'right'>('right');
+
   const categoryCarouselRef = useRef<HTMLDivElement>(null);
   const mobileCarouselRef = useRef<HTMLDivElement>(null);
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { addItem } = useCartStore();
 
   const handleMobileScroll = useCallback(() => {
@@ -37,7 +37,6 @@ export const HomePage = () => {
       });
 
       if (closestIndex !== activeCategoryIndex) {
-        setCatDirection(closestIndex > activeCategoryIndex ? 'right' : 'left');
         setActiveCategoryIndex(closestIndex);
       }
     }, 1); // 150ms debounce for smoother scrolling performance
@@ -79,14 +78,12 @@ export const HomePage = () => {
   }, []);
 
   const goCategory = useCallback((dir: 'left' | 'right') => {
-    setCatDirection(dir);
     setActiveCategoryIndex((prev) =>
       dir === 'right' ? (prev + 1) % categories.length : (prev - 1 + categories.length) % categories.length
     );
   }, [categories.length]);
 
   const selectCategoryIndex = useCallback((i: number) => {
-    setCatDirection(i > activeCategoryIndex ? 'right' : 'left');
     setActiveCategoryIndex(i);
   }, [activeCategoryIndex]);
 
@@ -131,9 +128,6 @@ export const HomePage = () => {
     );
   }
 
-  const discount = activeProduct.price > activeProduct.discountPrice
-    ? Math.round(((activeProduct.price - activeProduct.discountPrice) / activeProduct.price) * 100)
-    : 0;
 
   return (
     <div className="min-h-screen pt-16 md:pt-20" style={{ background: 'var(--body-gradient)' }}>
@@ -170,7 +164,7 @@ export const HomePage = () => {
                       variants={textVariants} initial="enter" animate="center" exit="exit">
                       <p className="text-[9px] md:text-xs font-bold uppercase tracking-widest mb-1"
                         style={{ color: 'var(--color-primary-val)' }}>
-                        #1 Most Loved — {activeProduct.category}
+                        #1 Most Loved — {activeCategory?.name || 'Category'}
                       </p>
                       <h1 className="text-2xl md:text-4xl lg:text-5xl font-black leading-tight mb-2 uppercase break-words line-clamp-3 min-h-[64px] md:min-h-[80px] lg:min-h-[96px]"
                         style={{ color: 'var(--color-fg)', fontFamily: 'Poppins, sans-serif' }}>

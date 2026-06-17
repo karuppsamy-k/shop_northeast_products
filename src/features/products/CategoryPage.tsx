@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProductCard } from '@/components/ProductCard';
 import { api, type Product, type Category } from '@/services/api';
