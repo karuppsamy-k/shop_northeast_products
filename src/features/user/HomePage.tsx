@@ -154,7 +154,7 @@ export const HomePage = () => {
             {/* --- HERO CONTENT ROW --- */}
             {/* --- HERO CONTENT ROW --- */}
             <div className="relative z-10 flex flex-col md:flex-row md:items-center border-b border-black/5 pb-2 md:pb-0">
-              
+
               {/* Inner wrapper for Text and Image to keep them side-by-side */}
               <div className="relative flex flex-row items-center w-full md:flex-1 min-h-[260px] md:min-h-0 overflow-visible">
                 {/* ── Left: text ── */}
@@ -417,7 +417,7 @@ export const HomePage = () => {
               </p>
               <div className="flex gap-3">
                 <button className="bg-black/20 hover:bg-black/30 transition px-4 py-2 rounded-full text-sm font-semibold">Google Play</button>
-                <button className="bg-black/20 hover:bg-black/30 transition px-4 py-2 rounded-full text-sm font-semibold">App Store</button>
+                <button className="bg-black/20 hover:bg-black/30 transition px-4 py-2 rounded-full text-sm font-semibold" onClick={()=>{alert("i am app store")}}>App Store</button>
               </div>
             </div>
             <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80"
