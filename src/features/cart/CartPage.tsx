@@ -5,7 +5,7 @@ import { api } from '@/services/api';
 import { notificationService } from '@/services/notification';
 import { Button } from '@/components/ui/Button';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, User, Phone, MapPin, Mail, CheckCircle2 } from 'lucide-react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 
 // ─── EmailJS Config ─────────────────────────────────────────────────────────
