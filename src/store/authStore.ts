@@ -1,79 +1,64 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-
-export interface UserProfile {
-  name: string;
-  email: string;
-  username: string;
-  phone: string;
-  avatar: string;
-  address?: string;
-}
+import type { User } from '../models/User';
+import { AuthService } from '../services/auth.service';
 
 interface AuthState {
+  user: User | null;
   isLoggedIn: boolean;
-  user: UserProfile | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  signup: (name: string, email: string, username: string, password: string, phone: string, address?: string) => Promise<boolean>;
-  logout: () => void;
-  updateProfile: (updates: Partial<UserProfile>) => void;
+  isLoading: boolean;
+  error: string | null;
+  login: (email: string, pass: string) => Promise<void>;
+  register: (email: string, pass: string, data: Partial<User>) => Promise<void>;
+  logout: () => Promise<void>;
+  updateProfile: (data: Partial<User>) => Promise<void>;
+  setUser: (user: User) => void;
+  setError: (error: string | null) => void;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
-      isLoggedIn: false,
-      user: null,
-
-      login: async (email, password) => {
-        // Simulate async auth
-        await new Promise((r) => setTimeout(r, 600));
-        if (email && password.length >= 6) {
-          set({
-            isLoggedIn: true,
-            user: {
-              name: 'Aditya Sharma',
-              email,
-              username: email.split('@')[0],
-              phone: '+91 9876543210',
-              avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-            },
-          });
-          return true;
-        }
-        return false;
-      },
-
-      signup: async (name, email, username, password, phone, address) => {
-        await new Promise((r) => setTimeout(r, 600));
-        if (name && email && password.length >= 6) {
-          set({
-            isLoggedIn: true,
-            user: {
-              name,
-              email,
-              username,
-              phone,
-              address,
-              avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-            },
-          });
-          return true;
-        }
-        return false;
-      },
-
-      logout: () => {
-        set({ isLoggedIn: false, user: null });
-      },
-
-      updateProfile: (updates) => {
-        const current = get().user;
-        if (current) {
-          set({ user: { ...current, ...updates } });
-        }
-      },
-    }),
-    { name: 'auth-storage' }
-  )
-);
+export const useAuthStore = create<AuthState>((set) => ({
+  user: null,
+  isLoggedIn: false,
+  isLoading: false,
+  error: null,
+  
+  login: async (email, pass) => {
+    set({ isLoading: true, error: null });
+    try {
+      const user = await AuthService.login(email, pass);
+      set({ user, isLoggedIn: true, isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Login failed', isLoading: false });
+      throw err;
+    }
+  },
+  
+  register: async (email, pass, data) => {
+    set({ isLoading: true, error: null });
+    try {
+      const user = await AuthService.register(email, pass, data);
+      set({ user, isLoggedIn: true, isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Registration failed', isLoading: false });
+      throw err;
+    }
+  },
+  
+  logout: async () => {
+    try {
+      await AuthService.logout();
+      set({ user: null, isLoggedIn: false });
+    } catch (err: any) {
+      console.error('Logout error', err);
+    }
+  },
+  
+  updateProfile: async (data: Partial<User>) => {
+    // We can just implement a simple local update for now, or call FirestoreService
+    set((state) => ({
+      user: state.user ? { ...state.user, ...data } : null
+    }));
+  },
+  
+  setUser: (user) => set({ user, isLoggedIn: !!user }),
+  setError: (error) => set({ error })
+}));

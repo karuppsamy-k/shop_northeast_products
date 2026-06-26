@@ -9,6 +9,7 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { useThemeStore } from '@/store/themeStore';
 import { useOrderStore, type Order } from '@/store/orderStore';
+import { Avatar } from '@/components/ui/Avatar';
 
 /* ─── Shared Types ─── */
 const fmtDate = (iso: string) =>
@@ -199,7 +200,7 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
         {/* Avatar */}
         <div className="flex justify-center mb-2">
           <div className="relative">
-            <img src={user?.avatar} alt="Avatar" loading="lazy" decoding="async" className="w-24 h-24 rounded-full object-cover shadow-lg" />
+            <Avatar name={user?.name || ''} size={96} className="shadow-lg" />
             <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md"
               style={{ background: 'var(--color-primary-val)' }}>
               <Camera className="w-4 h-4 text-white" />
@@ -347,8 +348,7 @@ export const ProfilePage = () => {
           <div className="glass-card p-6 mb-4">
             <div className="flex items-center gap-5">
               <div className="relative shrink-0">
-                <img src={user?.avatar} alt="Avatar" loading="lazy" decoding="async"
-                  className="w-20 h-20 rounded-2xl object-cover shadow-md" />
+                <Avatar name={user?.name || ''} size={80} className="shadow-md rounded-2xl" />
                 <button
                   onClick={() => setEditOpen(true)}
                   className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center shadow"

@@ -2,7 +2,6 @@
 
 /* ── Tailwind v4 theme tokens ──────────────────────────── */
 @theme {
-  /* These reference CSS variables so they respond to theme changes */
   --color-background: var(--color-bg);
   --color-foreground: var(--color-fg);
   --color-card: var(--color-card-bg);
@@ -21,97 +20,126 @@
   --color-input: var(--color-input-val);
   --color-ring: var(--color-ring-val);
   --color-surface: var(--color-surface-val);
-  --radius-lg: 1rem;
-  --radius-md: 0.75rem;
-  --radius-sm: 0.5rem;
+  --radius-lg: 1.25rem;
+  --radius-md: 0.875rem;
+  --radius-sm: 0.625rem;
 }
 
-/* ── LIGHT THEME (default) ─────────────────────────────── */
+/* ── LIGHT THEME (default) — Liquid Glass ──────────────── */
 :root,
 [data-theme="light"] {
   --color-bg: transparent;
-  --color-fg: hsl(160, 20%, 15%);
-  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
-  --color-card-fg: hsl(160, 20%, 15%);
-  --color-primary-val: hsl(163, 94%, 24%); /* Deep Green */
+  --color-fg: hsl(220, 20%, 16%);
+  --color-card-bg: rgba(255, 255, 255, 0.55);
+  --color-card-fg: hsl(220, 20%, 16%);
+  --color-primary-val: hsl(163, 94%, 24%);
   --color-primary-fg: hsl(0, 0%, 100%);
-  --color-secondary-val: hsl(25, 95%, 53%); /* Warm Orange */
+  --color-secondary-val: hsl(25, 95%, 53%);
   --color-secondary-fg: hsl(0, 0%, 100%);
-  --color-muted-val: hsl(40, 15%, 85%);
-  --color-muted-fg: hsl(160, 10%, 45%);
-  --color-accent-val: hsl(25, 95%, 53%);
+  --color-muted-val: hsl(220, 15%, 88%);
+  --color-muted-fg: hsl(220, 12%, 48%);
+  --color-accent-val: hsl(270, 80%, 65%);
   --color-accent-fg: hsl(0, 0%, 100%);
   --color-destructive-val: hsl(0, 62%, 50%);
   --color-destructive-fg: hsl(0, 0%, 100%);
-  --color-border-val: rgba(0, 0, 0, 0.05);
-  --color-input-val: rgba(0, 0, 0, 0.03);
+  --color-border-val: rgba(255, 255, 255, 0.55);
+  --color-input-val: rgba(255, 255, 255, 0.45);
   --color-ring-val: hsl(163, 94%, 24%);
-  --color-surface-val: rgba(255, 255, 255, 0.5);
+  --color-surface-val: rgba(255, 255, 255, 0.35);
 
-  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
-  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
-  --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
-  --glass-border: rgba(255, 255, 255, 0.8);
-  --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-  --glass-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  /* ── Liquid Glass surfaces ── */
+  --glass-bg: rgba(255, 255, 255, 0.42);
+  --glass-card-bg: rgba(255, 255, 255, 0.52);
+  --glass-panel-bg: rgba(255, 255, 255, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-inner-border: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 4px 24px rgba(100, 120, 200, 0.10), 0 1.5px 0 rgba(255,255,255,0.7) inset;
+  --glass-card-shadow: 0 8px 32px rgba(80, 100, 180, 0.12), 0 1.5px 0 rgba(255,255,255,0.8) inset;
+  --glass-panel-shadow: 0 12px 48px rgba(80, 100, 180, 0.15), 0 1.5px 0 rgba(255,255,255,0.9) inset;
 
-  --body-gradient: 
-    radial-gradient(circle at 15% 20%, #fef3c7 0%, transparent 40%),
-    radial-gradient(circle at 85% 30%, #ffedd5 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, #dcfce7 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, #fae8ff 0%, transparent 55%),
-    #f8f5f0; /* Off-white / Beige */
-  --hero-overlay-from: rgba(255, 255, 255, 0.4);
-  --hero-overlay-via: rgba(255, 255, 255, 0.7);
-  --hero-overlay-to: rgba(255, 255, 255, 0.9);
+  /* ── Iridescent glow accents ── */
+  --glow-primary: rgba(22, 163, 74, 0.18);
+  --glow-accent: rgba(139, 92, 246, 0.15);
+  --glow-warm: rgba(251, 146, 60, 0.14);
+  --shimmer-1: hsl(270, 80%, 78%);
+  --shimmer-2: hsl(200, 85%, 72%);
+  --shimmer-3: hsl(163, 70%, 65%);
+  --shimmer-4: hsl(40, 90%, 72%);
+
+  /* ── Body: soft iridescent orbs ── */
+  --body-gradient:
+    radial-gradient(ellipse 70% 50% at 15% 10%, hsla(270, 80%, 88%, 0.55) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 85% 20%, hsla(200, 85%, 88%, 0.50) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 50% 85%, hsla(163, 70%, 85%, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 75%, hsla(40, 90%, 88%, 0.40) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 20% 60%, hsla(340, 70%, 90%, 0.40) 0%, transparent 50%),
+    linear-gradient(160deg, #f0f4ff 0%, #faf5ff 35%, #f0fff8 65%, #fff8f0 100%);
+
+  --hero-overlay-from: rgba(255, 255, 255, 0.35);
+  --hero-overlay-via: rgba(255, 255, 255, 0.65);
+  --hero-overlay-to: rgba(255, 255, 255, 0.88);
   --text-gradient-from: var(--color-primary-val);
   --text-gradient-to: hsl(160, 80%, 15%);
 }
 
-/* ── DARK THEME ────────────────────────────────────────── */
+/* ── DARK THEME — Liquid Glass Dark ───────────────────── */
 [data-theme="dark"] {
   --color-bg: transparent;
-  --color-fg: hsl(40, 30%, 95%);
-  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
-  --color-card-fg: hsl(40, 30%, 95%);
-  --color-primary-val: hsl(163, 80%, 40%);
+  --color-fg: hsl(220, 25%, 92%);
+  --color-card-bg: rgba(30, 35, 55, 0.65);
+  --color-card-fg: hsl(220, 25%, 92%);
+  --color-primary-val: hsl(163, 80%, 42%);
   --color-primary-fg: hsl(0, 0%, 100%);
-  --color-secondary-val: hsl(25, 95%, 53%);
+  --color-secondary-val: hsl(25, 95%, 58%);
   --color-secondary-fg: hsl(0, 0%, 100%);
-  --color-muted-val: hsl(160, 15%, 20%);
-  --color-muted-fg: hsl(160, 15%, 70%);
-  --color-accent-val: hsl(25, 95%, 53%);
+  --color-muted-val: hsl(220, 18%, 22%);
+  --color-muted-fg: hsl(220, 18%, 62%);
+  --color-accent-val: hsl(270, 70%, 68%);
   --color-accent-fg: hsl(0, 0%, 100%);
-  --color-destructive-val: hsl(0, 62.8%, 45%);
+  --color-destructive-val: hsl(0, 65%, 52%);
   --color-destructive-fg: hsl(0, 0%, 100%);
   --color-border-val: rgba(255, 255, 255, 0.1);
-  --color-input-val: rgba(255, 255, 255, 0.05);
-  --color-ring-val: hsl(163, 80%, 40%);
-  --color-surface-val: rgba(0, 0, 0, 0.3);
+  --color-input-val: rgba(255, 255, 255, 0.07);
+  --color-ring-val: hsl(163, 80%, 42%);
+  --color-surface-val: rgba(0, 0, 0, 0.35);
 
-  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
-  --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  /* ── Liquid Glass surfaces (dark) ── */
+  --glass-bg: rgba(20, 25, 45, 0.50);
+  --glass-card-bg: rgba(25, 30, 55, 0.58);
+  --glass-panel-bg: rgba(30, 36, 60, 0.68);
   --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  --glass-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  --glass-inner-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(255,255,255,0.10) inset;
+  --glass-card-shadow: 0 8px 40px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255,255,255,0.12) inset;
+  --glass-panel-shadow: 0 12px 50px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255,255,255,0.15) inset;
 
-  --body-gradient: 
-    radial-gradient(circle at 15% 20%, #1a2e22 0%, transparent 40%),
-    radial-gradient(circle at 85% 30%, #3a2210 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, #0d2719 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, #2a1b1f 0%, transparent 55%),
-    #111814;
-  --hero-overlay-from: rgba(0, 0, 0, 0.3);
-  --hero-overlay-via: rgba(0, 0, 0, 0.7);
-  --hero-overlay-to: rgba(0, 0, 0, 0.9);
+  /* ── Iridescent glow accents (dark) ── */
+  --glow-primary: rgba(22, 163, 74, 0.22);
+  --glow-accent: rgba(139, 92, 246, 0.20);
+  --glow-warm: rgba(251, 146, 60, 0.18);
+  --shimmer-1: hsl(270, 60%, 55%);
+  --shimmer-2: hsl(200, 70%, 55%);
+  --shimmer-3: hsl(163, 60%, 48%);
+  --shimmer-4: hsl(40, 80%, 58%);
+
+  /* ── Body: dark iridescent orbs ── */
+  --body-gradient:
+    radial-gradient(ellipse 70% 50% at 10% 10%, hsla(270, 60%, 20%, 0.70) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 88% 18%, hsla(200, 70%, 16%, 0.65) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 50% 88%, hsla(163, 60%, 14%, 0.60) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 78% 78%, hsla(40, 80%, 14%, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 22% 60%, hsla(340, 60%, 14%, 0.50) 0%, transparent 50%),
+    linear-gradient(160deg, #0c0f1e 0%, #110e1f 35%, #0c1a12 65%, #1a110a 100%);
+
+  --hero-overlay-from: rgba(0, 0, 0, 0.25);
+  --hero-overlay-via: rgba(0, 0, 0, 0.60);
+  --hero-overlay-to: rgba(0, 0, 0, 0.88);
   --text-gradient-from: var(--color-primary-val);
-  --text-gradient-to: hsl(163, 80%, 60%);
+  --text-gradient-to: hsl(163, 80%, 65%);
 }
 
-/* ── Base styles ───────────────────────────────────────── */
+/* ── Base styles ──────────────────────────────────────── */
 @layer base {
-
   *,
   *::before,
   *::after {
@@ -121,53 +149,145 @@
 
   body {
     background: var(--body-gradient);
+    background-attachment: fixed;
     color: var(--color-fg);
     font-family: 'Inter', system-ui, sans-serif;
     min-height: 100vh;
-    transition: background 0.35s ease, color 0.35s ease;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-/* ── Glassmorphism utility classes ─────────────────────── */
+/* ── Liquid Glass utility classes ─────────────────────── */
 @layer utilities {
+
+  /* Base glass surface */
   .glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(1.6);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
   }
 
+  /* Glass card — main card surface */
   .glass-card {
     background: var(--glass-card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px) saturate(1.7);
+    -webkit-backdrop-filter: blur(20px) saturate(1.7);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-card-shadow);
     border-radius: 1.5rem;
-    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
   }
 
+  .glass-card:hover {
+    box-shadow: var(--glass-panel-shadow);
+    border-color: var(--glass-inner-border);
+  }
+
+  /* Panel — heavier blur, like a modal/panel backdrop */
   .glass-panel {
     background: var(--glass-panel-bg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-color: var(--glass-border);
+    backdrop-filter: blur(28px) saturate(1.8);
+    -webkit-backdrop-filter: blur(28px) saturate(1.8);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-panel-shadow);
     transition: background 0.35s ease;
   }
 
+  /* Liquid pill button surface */
+  .glass-btn {
+    background: var(--glass-card-bg);
+    backdrop-filter: blur(14px) saturate(1.5);
+    -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+  }
+
+  .glass-btn:hover {
+    box-shadow: var(--glass-card-shadow);
+    border-color: var(--glass-inner-border);
+    transform: translateY(-1px);
+  }
+
+  /* Iridescent shimmer strip — top highlight */
+  .glass-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--shimmer-1) 20%,
+      var(--shimmer-2) 40%,
+      var(--shimmer-3) 60%,
+      var(--shimmer-4) 80%,
+      transparent 100%
+    );
+    opacity: 0.7;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* Iridescent gradient background blob */
+  .liquid-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(48px);
+    pointer-events: none;
+    opacity: 0.55;
+  }
+
+  /* Text gradient */
   .text-gradient {
-    background: linear-gradient(to right, var(--text-gradient-from), var(--text-gradient-to));
+    background: linear-gradient(135deg, var(--text-gradient-from), var(--text-gradient-to));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
 
+  /* Iridescent text gradient */
+  .text-iridescent {
+    background: linear-gradient(135deg, var(--shimmer-1), var(--shimmer-2), var(--shimmer-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 20px var(--glow-primary);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px var(--glow-accent);
+  }
+
   .border-border {
     border-color: var(--color-border-val);
   }
 
+  .border-glass {
+    border-color: var(--glass-border);
+  }
+
+  /* Scrollbar hide */
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -175,5 +295,44 @@
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Liquid button — primary CTA with color + glass */
+  .btn-liquid-primary {
+    background: linear-gradient(135deg, var(--color-primary-val), hsl(163, 94%, 18%));
+    box-shadow: 0 4px 20px var(--glow-primary), 0 1px 0 rgba(255,255,255,0.2) inset;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    border-radius: 9999px;
+    transition: all 0.22s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .btn-liquid-primary:hover {
+    box-shadow: 0 6px 28px var(--glow-primary), 0 1px 0 rgba(255,255,255,0.25) inset;
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+
+  .btn-liquid-primary:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  /* Secondary liquid button */
+  .btn-liquid-secondary {
+    background: var(--glass-card-bg);
+    backdrop-filter: blur(14px) saturate(1.5);
+    -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    border: 1px solid var(--glass-inner-border);
+    box-shadow: var(--glass-shadow);
+    color: var(--color-primary-val);
+    border-radius: 9999px;
+    transition: all 0.22s ease;
+  }
+
+  .btn-liquid-secondary:hover {
+    box-shadow: var(--glass-card-shadow);
+    border-color: var(--glass-inner-border);
+    transform: translateY(-1px);
   }
 }

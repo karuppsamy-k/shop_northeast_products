@@ -54,15 +54,23 @@ const requestLocation = (): Promise<{ lat: number; lng: number } | undefined> =>
 export const CartPage = () => {
   const { items, updateQuantity, removeItem, getTotals, clearCart } = useCartStore();
   const { subtotal, tax, total } = getTotals();
-  const { isLoggedIn, user, signup } = useAuthStore();
+  const { isLoggedIn, user } = useAuthStore();
   const { addOrder } = useOrderStore();
   const navigate = useNavigate();
 
   const [showCheckout, setShowCheckout] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
-  const [placedCustomerName, setPlacedCustomerName] = useState('');
   const [locationStatus, setLocationStatus] = useState<'idle' | 'requesting' | 'granted' | 'denied'>('idle');
+
+  // Navigate to login if not logged in
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/signin?redirect=/cart');
+    }
+  }, [isLoggedIn, navigate]);
+
+  // Guest details state (now just acting as a local state for editing address)
 
   // Guest-only form state
   const [guest, setGuest] = useState<GuestDetails>({
@@ -76,7 +84,7 @@ export const CartPage = () => {
       setGuest((g) => ({
         ...g,
         name: user.name,
-        phone: user.phone,
+        phone: user.phone || '',
         email: user.email,
         address: user.address || '',
       }));
@@ -122,34 +130,12 @@ export const CartPage = () => {
       const location = await requestLocation();
       setLocationStatus(location ? 'granted' : 'denied');
 
-      // 2. Resolve customer details
-      let customerName = '';
-      let customerPhone = '';
-      let customerEmail = '';
-      let customerAddress = '';
-
-      if (isLoggedIn && user) {
-        customerName = user.name;
-        customerPhone = user.phone;
-        customerEmail = user.email;
-        customerAddress = guest.address || user.address || '';
-      } else {
-        // Auto-signup the guest user first
-        await signup(
-          guest.name.trim(),
-          guest.email.trim(),
-          guest.email.split('@')[0],
-          guest.password,
-          guest.phone.trim(),
-          guest.address.trim()
-        );
-        customerName = guest.name.trim();
-        customerPhone = guest.phone.trim();
-        customerEmail = guest.email.trim();
-        customerAddress = guest.address.trim();
-      }
-
-      setPlacedCustomerName(customerName);
+      if (!user) throw new Error("No valid user found.");
+      
+      const customerName = user.name;
+      const customerPhone = user.phone || guest.phone;
+      const customerEmail = user.email;
+      const customerAddress = guest.address || user.address || '';
 
       // 3. Send email notification
       const orderLines = items.map(item =>
@@ -216,7 +202,7 @@ export const CartPage = () => {
 
           <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--color-fg)' }}>Order Placed! 🎉</h1>
           <p className="text-sm mb-1" style={{ color: 'var(--color-muted-fg)' }}>
-            Thank you, <strong>{placedCustomerName}</strong>! Your order has been received.
+            Thank you, <strong>{user?.name}</strong>! Your order has been received.
           </p>
           <p className="text-xs mb-2" style={{ color: 'var(--color-muted-fg)' }}>
             A confirmation has been sent to the store.
