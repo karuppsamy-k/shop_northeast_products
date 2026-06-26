@@ -13,28 +13,24 @@ export const CategoryPage = () => {
   const { addItem } = useCartStore();
 
   useEffect(() => {
-    // Scroll to top when page is loaded, wrap in setTimeout to ensure DOM is ready
     setTimeout(() => {
       const list = document.getElementById('scrollableProductList');
-      if (list) {
-        list.scrollTo({ top: 0 });
-      }
+      if (list) list.scrollTo({ top: 0 });
       window.scrollTo(0, 0);
     }, 10);
 
     api.getProducts().then(setProducts);
     api.getCategories().then((cats) => {
       setCategories(cats);
-      if (cats.length > 0) {
-        setSelectedCategory(cats[0].id);
-      }
+      // Default to 'all' so users see everything on first load
+      setSelectedCategory('all');
     });
   }, []);
 
   const filteredProducts = products.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           p.tags.join(' ').toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = p.categoryId === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' || p.categoryId === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -68,6 +64,38 @@ export const CategoryPage = () => {
         {/* Left Sidebar - Categories (Independent Scroll) */}
         <aside className="w-[100px] md:w-[160px] lg:w-[220px] flex-shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)] overflow-y-auto hide-scrollbar pb-24">
           <div className="flex flex-col p-2 md:p-3 space-y-2 md:space-y-4">
+            {/* All category synthetic entry */}
+            {(() => {
+              const isSelected = selectedCategory === 'all';
+              return (
+                <button
+                  key="all"
+                  onClick={() => handleCategorySelect('all')}
+                  className={`relative flex flex-col items-center justify-center p-3 md:p-4 rounded-2xl transition-all duration-300 w-full group ${
+                    isSelected
+                      ? 'bg-primary/10 border-primary'
+                      : 'bg-transparent border-transparent hover:bg-black/5 dark:hover:bg-white/5'
+                  } border-2`}
+                >
+                  {isSelected && (
+                    <motion.div
+                      layoutId="activeCategoryIndicator"
+                      className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-primary rounded-l-full"
+                    />
+                  )}
+                  <div className={`w-14 h-14 md:w-20 md:h-20 mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    isSelected ? 'shadow-md ring-4 ring-primary/20' : 'bg-black/5 dark:bg-white/5 group-hover:scale-105'
+                  }`}
+                    style={{ background: isSelected ? 'rgba(22,163,74,0.15)' : undefined }}>
+                    <span className="text-2xl">🛒</span>
+                  </div>
+                  <span className={`text-[10px] md:text-sm font-semibold text-center leading-tight ${
+                    isSelected ? 'text-primary' : 'text-foreground/70 group-hover:text-foreground'
+                  }`}>All</span>
+                </button>
+              );
+            })()}
+
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat.id;
               return (
@@ -111,8 +139,10 @@ export const CategoryPage = () => {
           <div className="p-4 md:p-6 lg:p-8">
             <div className="flex items-center justify-between mb-4 md:mb-6">
               <h1 className="text-xl md:text-3xl font-extrabold text-foreground tracking-tight">
-                {categories.find(c => c.id === selectedCategory)?.name || 'Products'}
-              </h1>
+            {selectedCategory === 'all'
+              ? 'All Products'
+              : categories.find(c => c.id === selectedCategory)?.name || 'Products'}
+          </h1>
               <div className="bg-[var(--color-surface)] px-3 py-1 rounded-full border border-[var(--color-border)] text-xs md:text-sm font-semibold text-foreground/70 shadow-sm">
                 {filteredProducts.length} items
               </div>
