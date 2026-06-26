@@ -4,6 +4,8 @@ import { Footer } from '../components/Footer';
 import { BottomNav } from '../components/BottomNav';
 import { useThemeStore } from '../store/themeStore';
 import { useToastStore } from '../store/toastStore';
+import { useAuthStore } from '../store/authStore';
+import { useOrderStore } from '../store/orderStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 
@@ -21,10 +23,20 @@ import { useEffect } from 'react';
 const MainLayout = () => {
   const { theme } = useThemeStore();
   const toast = useToastStore();
+  const { user } = useAuthStore();
+  const { fetchOrders, clearOrders } = useOrderStore();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (user?.uid) {
+      fetchOrders(user.uid);
+    } else {
+      clearOrders();
+    }
+  }, [user?.uid, fetchOrders, clearOrders]);
 
   return (
     <div className="flex flex-col min-h-screen pb-16 md:pb-0">

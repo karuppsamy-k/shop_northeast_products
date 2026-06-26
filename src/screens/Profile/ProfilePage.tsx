@@ -8,7 +8,8 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useThemeStore } from '@/store/themeStore';
-import { useOrderStore, type Order } from '@/store/orderStore';
+import { useOrderStore } from '@/store/orderStore';
+import type { Order } from '@/models/Order';
 import { Avatar } from '@/components/ui/Avatar';
 
 /* ─── Shared Types ─── */
@@ -50,7 +51,7 @@ const MenuItem = ({
 const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
   const { orders } = useOrderStore();
 
-  const statusColor = (s: Order['status']) =>
+  const statusColor = (s: Order['orderStatus']) =>
     s === 'Delivered' ? '#16a34a' : s === 'Cancelled' ? '#dc2626' : '#f97316';
 
   return (
@@ -86,23 +87,23 @@ const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
         ) : (
           <div className="space-y-4">
             {orders.map((order) => (
-              <div key={order.id} className="glass-card p-5">
+              <div key={order.orderId} className="glass-card p-5">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <p className="text-xs font-medium" style={{ color: 'var(--color-muted-fg)' }}>
-                      {fmtDate(order.date)}
+                      {fmtDate(order.createdAt)}
                     </p>
                     <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--color-muted-fg)' }}>
-                      #{order.id.toUpperCase()}
+                      #{order.orderId.toUpperCase()}
                     </p>
                   </div>
                   <span className="text-xs font-bold px-3 py-1 rounded-full"
                     style={{
-                      background: `${statusColor(order.status)}18`,
-                      color: statusColor(order.status),
+                      background: `${statusColor(order.orderStatus)}18`,
+                      color: statusColor(order.orderStatus),
                     }}>
-                    {order.status}
+                    {order.orderStatus}
                   </span>
                 </div>
 
@@ -126,10 +127,10 @@ const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
                 </div>
 
                 {/* Address */}
-                {order.address && (
+                {order.deliveryAddress && (
                   <div className="flex items-start gap-1.5 text-xs mb-3" style={{ color: 'var(--color-muted-fg)' }}>
                     <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: 'var(--color-primary-val)' }} />
-                    <span className="line-clamp-2">{order.address}</span>
+                    <span className="line-clamp-2">{order.deliveryAddress}</span>
                   </div>
                 )}
 
