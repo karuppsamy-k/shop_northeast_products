@@ -51,6 +51,11 @@ const bannerSlides = [
   },
 ];
 
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
 const AutoBanner = () => {
   const [current, setCurrent] = useState(0);
   const navigate = useNavigate();
@@ -75,7 +80,18 @@ const AutoBanner = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -60 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="absolute inset-0"
+          className="absolute inset-0 cursor-grab active:cursor-grabbing"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={(_, { offset, velocity }) => {
+            const swipe = swipePower(offset.x, velocity.x);
+            if (swipe < -swipeConfidenceThreshold) {
+              setCurrent((prev) => (prev + 1) % bannerSlides.length);
+            } else if (swipe > swipeConfidenceThreshold) {
+              setCurrent((prev) => (prev === 0 ? bannerSlides.length - 1 : prev - 1));
+            }
+          }}
         >
           {/* Background image */}
           <img src={slide.image} alt={slide.title}

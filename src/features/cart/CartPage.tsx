@@ -4,6 +4,8 @@ import { useCartStore } from '@/store/cartStore';
 import { api } from '@/services/api';
 import { notificationService } from '@/services/notification';
 import { Button } from '@/components/ui/Button';
+import { useAuthStore } from '@/store/authStore';
+import { OrderSummary } from '@/components/OrderSummary';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, User, Phone, MapPin, Mail, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
@@ -52,6 +54,7 @@ export const CartPage = () => {
   });
   const [errors, setErrors] = useState<Partial<CustomerDetails>>({});
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuthStore();
 
   const validate = () => {
     const e: Partial<CustomerDetails> = {};
@@ -207,6 +210,7 @@ export const CartPage = () => {
                               background: `linear-gradient(135deg, hsl(${(i * 47) % 360},70%,80%), hsl(${(i * 47 + 40) % 360},65%,70%))`,
                             }}>
                             <img src={item?.images?.[0] || ''} alt={item?.name || 'Item'}
+                              loading="lazy" decoding="async"
                               className="object-contain w-full h-full drop-shadow-lg" style={{ padding: '12px' }} />
                             {item.price > item.discountPrice && (
                               <div className="absolute top-2 left-2 bg-white/90 text-xs font-bold px-2 py-0.5 rounded-full"
@@ -270,59 +274,24 @@ export const CartPage = () => {
 
                 {/* Order Summary */}
                 <div className="w-full lg:w-80 flex-shrink-0">
-                  <div className="sticky top-24 rounded-3xl border overflow-hidden"
-                    style={{
-                      background: 'var(--glass-panel-bg)',
-                      backdropFilter: 'blur(24px)',
-                      WebkitBackdropFilter: 'blur(24px)',
-                      borderColor: 'var(--glass-border)',
-                      boxShadow: 'var(--glass-card-shadow)',
-                    }}>
-                    <div className="p-5 text-white"
-                      style={{ background: 'linear-gradient(135deg, var(--color-primary-val), var(--color-secondary-val))' }}>
-                      <h2 className="text-base font-bold">Order Summary</h2>
-                      <p className="text-xs opacity-75 mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''} in cart</p>
-                    </div>
-
-                    <div className="p-5 space-y-3">
-                      {items.map((item) => (
-                        <div key={item.id} className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0"
-                            style={{ background: 'linear-gradient(135deg,hsl(38,95%,88%),hsl(14,78%,85%))' }}>
-                            <img src={item?.images?.[0] || ''} alt={item.name}
-                              className="w-full h-full object-contain p-1" />
-                          </div>
-                          <span className="flex-1 text-xs truncate" style={{ color: 'var(--color-fg)' }}>
-                            {item.name} ×{item.quantity}
-                          </span>
-                          <span className="text-xs font-bold flex-shrink-0" style={{ color: 'var(--color-fg)' }}>
-                            ₹{((item.discountPrice || item.price) * item.quantity).toFixed(0)}
-                          </span>
-                        </div>
-                      ))}
-
-                      <div className="border-t pt-3 space-y-2" style={{ borderColor: 'var(--glass-border)' }}>
-                        <div className="flex justify-between text-sm" style={{ color: 'var(--color-muted-fg)' }}>
-                          <span>Subtotal</span><span>₹{subtotal.toFixed(0)}</span>
-                        </div>
-                        <div className="flex justify-between text-sm" style={{ color: 'var(--color-muted-fg)' }}>
-                          <span>Tax (8%)</span><span>₹{tax.toFixed(0)}</span>
-                        </div>
-                        <div className="flex justify-between font-black text-base pt-2 border-t"
-                          style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
-                          <span>Total</span>
-                          <span style={{ color: 'var(--color-primary-val)' }}>₹{total.toFixed(0)}</span>
-                        </div>
-                      </div>
-
-                      <Button className="w-full mt-2" size="lg" onClick={() => setShowCheckout(true)}>
+                  <OrderSummary
+                    items={items}
+                    subtotal={subtotal}
+                    tax={tax}
+                    total={total}
+                    subtitle="Secure checkout • Free delivery on orders ₹499+"
+                    renderButton={() => (
+                      <Button className="w-full mt-2" size="lg" onClick={() => {
+                        if (!isLoggedIn) {
+                          navigate('/signin?redirect=/cart');
+                        } else {
+                          setShowCheckout(true);
+                        }
+                      }}>
                         Proceed to Checkout →
                       </Button>
-                      <p className="text-[10px] text-center" style={{ color: 'var(--color-muted-fg)' }}>
-                        Secure checkout • Free delivery on orders ₹499+
-                      </p>
-                    </div>
-                  </div>
+                    )}
+                  />
                 </div>
 
               </div>
@@ -433,51 +402,13 @@ export const CartPage = () => {
 
                 {/* Right: mini summary + place order */}
                 <div className="w-full lg:w-80 flex-shrink-0">
-                  <div className="sticky top-24 rounded-3xl border overflow-hidden"
-                    style={{
-                      background: 'var(--glass-panel-bg)',
-                      backdropFilter: 'blur(24px)',
-                      WebkitBackdropFilter: 'blur(24px)',
-                      borderColor: 'var(--glass-border)',
-                      boxShadow: 'var(--glass-card-shadow)',
-                    }}>
-                    <div className="p-5 text-white"
-                      style={{ background: 'linear-gradient(135deg, var(--color-primary-val), var(--color-secondary-val))' }}>
-                      <h2 className="text-base font-bold">Order Summary</h2>
-                      <p className="text-xs opacity-75 mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''}</p>
-                    </div>
-
-                    <div className="p-5 space-y-3">
-                      {items.map((item) => (
-                        <div key={item.id} className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0"
-                            style={{ background: 'linear-gradient(135deg,hsl(38,95%,88%),hsl(14,78%,85%))' }}>
-                            <img src={item?.images?.[0] || ''} alt={item.name}
-                              className="w-full h-full object-contain p-1" />
-                          </div>
-                          <span className="flex-1 text-xs truncate" style={{ color: 'var(--color-fg)' }}>
-                            {item.name} ×{item.quantity}
-                          </span>
-                          <span className="text-xs font-bold flex-shrink-0" style={{ color: 'var(--color-fg)' }}>
-                            ₹{((item.discountPrice || item.price) * item.quantity).toFixed(0)}
-                          </span>
-                        </div>
-                      ))}
-
-                      <div className="border-t pt-3 space-y-2" style={{ borderColor: 'var(--glass-border)' }}>
-                        <div className="flex justify-between text-sm" style={{ color: 'var(--color-muted-fg)' }}>
-                          <span>Subtotal</span><span>₹{subtotal.toFixed(0)}</span>
-                        </div>
-                        <div className="flex justify-between text-sm" style={{ color: 'var(--color-muted-fg)' }}>
-                          <span>Tax (8%)</span><span>₹{tax.toFixed(0)}</span>
-                        </div>
-                        <div className="flex justify-between font-black text-base pt-2 border-t"
-                          style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
-                          <span>Total</span>
-                          <span style={{ color: 'var(--color-primary-val)' }}>₹{total.toFixed(0)}</span>
-                        </div>
-                      </div>
-
+                  <OrderSummary
+                    items={items}
+                    subtotal={subtotal}
+                    tax={tax}
+                    total={total}
+                    subtitle="Order details will be sent to store via email"
+                    renderButton={() => (
                       <Button
                         id="place-order-btn"
                         className="w-full mt-2"
@@ -487,11 +418,8 @@ export const CartPage = () => {
                       >
                         {isProcessing ? 'Placing Order...' : 'Place Order →'}
                       </Button>
-                      <p className="text-[10px] text-center" style={{ color: 'var(--color-muted-fg)' }}>
-                        Order details will be sent to store via email
-                      </p>
-                    </div>
-                  </div>
+                    )}
+                  />
                 </div>
 
               </div>

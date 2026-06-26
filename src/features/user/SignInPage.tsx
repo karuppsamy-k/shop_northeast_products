@@ -1,17 +1,20 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { AuthInput } from '@/components/ui/AuthInput';
 
 export const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const redirectUrl = query.get('redirect') || '/profile';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,14 +23,14 @@ export const SignInPage = () => {
     const ok = await login(email, password);
     setLoading(false);
     if (ok) {
-      navigate('/profile');
+      navigate(redirectUrl);
     } else {
       setError('Invalid email or password. Password must be at least 6 characters.');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 pt-20 pb-28"
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 md:pt-24 md:pb-12"
       style={{ background: 'var(--body-gradient)' }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -54,51 +57,24 @@ export const SignInPage = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
-            <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-fg)' }}>
-                Email Address
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none transition-all"
-                style={{
-                  background: 'rgba(255,255,255,0.5)',
-                  border: '1.5px solid var(--glass-border)',
-                  color: 'var(--color-fg)',
-                }}
-              />
-            </div>
+            <AuthInput
+              label="Email Address"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+            />
 
             {/* Password */}
-            <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-fg)' }}>
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPass ? 'text' : 'password'}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 pr-12 rounded-xl text-sm focus:outline-none transition-all"
-                  style={{
-                    background: 'rgba(255,255,255,0.5)',
-                    border: '1.5px solid var(--glass-border)',
-                    color: 'var(--color-fg)',
-                  }}
-                />
-                <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1"
-                  style={{ color: 'var(--color-muted-fg)' }}>
-                  {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
+            <AuthInput
+              label="Password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+            />
 
             {error && (
               <p className="text-xs text-red-500 font-medium">{error}</p>
