@@ -45,11 +45,16 @@ export const Footer = () => {
 
           {/* About */}
           <div>
-            <h4 className="font-bold text-sm mb-4 uppercase tracking-wide" style={{ color: 'var(--color-fg)' }}>About Us</h4>
+            <Link to="/about#about-us" className="font-bold text-sm mb-4 uppercase tracking-wide block hover:opacity-80" style={{ color: 'var(--color-fg)' }}>About Us</Link>
             <ul className="space-y-2">
-              {['Our Story', 'Our Mission', 'Careers', 'Contact Us'].map((item) => (
-                <li key={item}>
-                  <Link to="/" className="text-sm transition-colors hover:text-primary" style={{ color: 'var(--color-muted-fg)' }}>{item}</Link>
+              {[
+                { name: 'Our Story', hash: '#our-story' },
+                { name: 'Our Mission', hash: '#our-mission' },
+                { name: 'Careers', hash: '#careers' },
+                { name: 'Contact Us', hash: '#contact-us' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link to={`/about${item.hash}`} className="text-sm transition-colors hover:text-primary" style={{ color: 'var(--color-muted-fg)' }}>{item.name}</Link>
                 </li>
               ))}
             </ul>

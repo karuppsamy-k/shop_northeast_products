@@ -6,12 +6,12 @@
       {
         "productId": "prod_0003",
         "quantity": 1,
-        "price": 395
+        "price": 384
       }
     ],
-    "totalAmount": 395,
+    "totalAmount": 384,
     "status": "DELIVERED",
-    "createdAt": "2026-06-15T00:02:35.392Z"
+    "createdAt": "2026-06-20T17:34:56.097Z"
   },
   {
     "orderId": "ord_002",
@@ -20,11 +20,11 @@
       {
         "productId": "prod_0006",
         "quantity": 3,
-        "price": 431
+        "price": 283
       }
     ],
-    "totalAmount": 1293,
+    "totalAmount": 849,
     "status": "PREPARING",
-    "createdAt": "2026-06-17T00:02:35.392Z"
+    "createdAt": "2026-06-22T17:34:56.097Z"
   }
 ]

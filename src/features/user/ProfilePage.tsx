@@ -1,93 +1,287 @@
-import { Card, CardContent } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Trash2, Clock,
+  LogOut, ChevronRight, Sun, Moon, Camera, Check, Eye, EyeOff,
+  ArrowLeft, Settings
+} from 'lucide-react';
+import { useAuthStore } from '@/store/authStore';
+import { useThemeStore } from '@/store/themeStore';
 
-export const ProfilePage = () => {
+const MenuItem = ({
+  icon: Icon,
+  label,
+  onClick,
+  danger = false,
+  rightEl,
+}: {
+  icon: any;
+  label: string;
+  onClick?: () => void;
+  danger?: boolean;
+  rightEl?: React.ReactNode;
+}) => (
+  <motion.button
+    whileTap={{ scale: 0.98 }}
+    onClick={onClick}
+    className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all group"
+    style={{ background: 'transparent' }}
+    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
+    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+  >
+    <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+      style={{
+        background: danger ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.35)',
+        color: danger ? 'rgb(239,68,68)' : 'var(--color-fg)',
+      }}>
+      <Icon className="w-4 h-4" />
+    </div>
+    <span className="flex-1 text-left text-sm font-semibold"
+      style={{ color: danger ? 'rgb(239,68,68)' : 'var(--color-fg)' }}>
+      {label}
+    </span>
+    {rightEl ?? <ChevronRight className="w-4 h-4" style={{ color: 'var(--color-muted-fg)' }} />}
+  </motion.button>
+);
+
+/* ─── Edit Profile Panel ─── */
+const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
+  const { user, updateProfile } = useAuthStore();
+  const [name, setName] = useState(user?.name ?? '');
+  const [email, setEmail] = useState(user?.email ?? '');
+  const [username, setUsername] = useState(user?.username ?? '');
+  const [phone, setPhone] = useState(user?.phone ?? '');
+  const [password, setPassword] = useState('');
+  const [showPass, setShowPass] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = () => {
+    updateProfile({ name, email, username, phone });
+    setSaved(true);
+    setTimeout(() => { setSaved(false); onClose(); }, 800);
+  };
+
+  const inputStyle = {
+    background: 'rgba(255,255,255,0.45)',
+    border: '1.5px solid var(--glass-border)',
+    color: 'var(--color-fg)',
+  };
+
   return (
-    <div className="min-h-screen pt-28 pb-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div className="flex items-center gap-6 mb-12">
-        <div className="w-24 h-24 rounded-full bg-primary/20 border-2 border-primary/50 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="User" className="w-full h-full object-cover" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold mb-1">Aditya Sharma</h1>
-          <p className="text-foreground/60 mb-2">Guwahati, Assam</p>
-          <div className="flex gap-2">
-            <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">Loyalty Member</span>
-            <span className="px-3 py-1 bg-primary/20 text-primary text-xs rounded-full border border-primary/30">Artisan Patron</span>
-          </div>
-        </div>
-        <div className="ml-auto">
-          <Button variant="outline" className="glass-panel">Settings</Button>
-        </div>
+    <motion.div
+      initial={{ x: '100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '100%' }}
+      transition={{ type: 'spring', damping: 26, stiffness: 280 }}
+      className="fixed inset-0 z-50 overflow-y-auto"
+      style={{ background: 'var(--body-gradient)' }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-4 mt-16 mb-2">
+        <button onClick={onClose} className="p-2 rounded-full hover:bg-black/10 transition-colors"
+          style={{ color: 'var(--color-fg)' }}>
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-lg font-bold" style={{ color: 'var(--color-fg)' }}>Edit Profile</h2>
+        <button onClick={handleSave}
+          className="p-2 rounded-full transition-colors font-bold text-sm flex items-center gap-1"
+          style={{ color: saved ? 'rgb(34,197,94)' : 'var(--color-primary-val)' }}>
+          <Check className="w-5 h-5" strokeWidth={3} />
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="md:col-span-2 space-y-8">
-          
-          <Card className="glass-card border-white/10">
-            <CardContent className="p-8">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold">Active Tracking</h2>
-                <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">View Details &rarr;</Button>
-              </div>
-              <p className="text-sm text-foreground/60 mb-8">Order #HNE-88291 • Expected Arrival: Oct 24</p>
-              
-              <div className="relative">
-                <div className="absolute top-1/2 left-0 right-0 h-1 bg-white/10 -translate-y-1/2 rounded-full" />
-                <div className="absolute top-1/2 left-0 w-2/3 h-1 bg-primary -translate-y-1/2 rounded-full" />
-                
-                <div className="relative flex justify-between">
-                  {['Placed', 'Packed', 'Shipped', 'Delivered'].map((step, i) => (
-                    <div key={step} className="flex flex-col items-center">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 z-10 ${i < 3 ? 'bg-primary text-white' : 'bg-black/40 border border-white/20 text-white/50'}`}>
-                        {i + 1}
-                      </div>
-                      <span className={`text-xs ${i < 3 ? 'text-primary' : 'text-foreground/40'}`}>{step}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div>
-            <h2 className="text-xl font-bold mb-6">Order History</h2>
-            <div className="space-y-4">
-              {[1, 2].map((i) => (
-                <Card key={i} className="glass-card border-white/10 p-4 flex items-center gap-4 hover:bg-white/5 transition-colors cursor-pointer">
-                  <div className="w-16 h-16 rounded-lg bg-black/20 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=200&q=80" alt="Tea" className="w-full h-full object-cover opacity-80" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold">Vintage Orthodox Black Tea</h4>
-                    <p className="text-sm text-foreground/60">Order #HNE-7710{i} • Delivered</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-bold">₹1,200</div>
-                    <div className="text-xs text-foreground/40">May 12, 2024</div>
-                  </div>
-                </Card>
-              ))}
+      <div className="px-4 pb-24 space-y-5 max-w-lg mx-auto">
+        {/* Avatar */}
+        <div className="flex justify-center mb-2">
+          <div className="relative">
+            <img src={user?.avatar} alt="Avatar" className="w-24 h-24 rounded-full object-cover shadow-lg" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md"
+              style={{ background: 'var(--color-primary-val)' }}>
+              <Camera className="w-4 h-4 text-white" />
             </div>
           </div>
         </div>
 
-        <div className="space-y-8">
-          <Card className="glass-card bg-gradient-to-br from-green-900/40 to-black/40 border-green-500/20">
-            <CardContent className="p-6">
-              <h3 className="text-xs font-semibold text-green-400 tracking-wider mb-4 uppercase">Sustainability Impact</h3>
-              <div className="text-4xl font-light mb-2">12</div>
-              <p className="text-sm text-foreground/80 mb-6">Artisans supported this year</p>
-              <div className="w-full bg-white/10 h-1.5 rounded-full mb-2">
-                <div className="bg-green-500 h-1.5 rounded-full w-3/4" />
-              </div>
-              <p className="text-xs text-right text-green-400/80">Silver Patron Level</p>
-            </CardContent>
-          </Card>
+        {[
+          { label: 'Name', value: name, set: setName, type: 'text', placeholder: 'Your full name' },
+          { label: 'E mail address', value: email, set: setEmail, type: 'email', placeholder: 'you@example.com' },
+          { label: 'User name', value: username, set: setUsername, type: 'text', placeholder: '@yourname' },
+          { label: 'Phone number', value: phone, set: setPhone, type: 'tel', placeholder: '+91 9876543210' },
+        ].map(({ label, value, set, type, placeholder }) => (
+          <div key={label} className="glass-card p-5">
+            <label className="block text-sm font-bold mb-3" style={{ color: 'var(--color-fg)' }}>{label}</label>
+            <input type={type} value={value} onChange={(e) => set(e.target.value)} placeholder={placeholder}
+              className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none"
+              style={inputStyle} />
+          </div>
+        ))}
+
+        {/* Password */}
+        <div className="glass-card p-5">
+          <label className="block text-sm font-bold mb-3" style={{ color: 'var(--color-fg)' }}>Password</label>
+          <div className="relative">
+            <input type={showPass ? 'text' : 'password'} value={password}
+              onChange={(e) => setPassword(e.target.value)} placeholder="••••••••••••"
+              className="w-full px-4 py-3 pr-12 rounded-xl text-sm focus:outline-none"
+              style={inputStyle} />
+            <button type="button" onClick={() => setShowPass(!showPass)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1"
+              style={{ color: 'var(--color-muted-fg)' }}>
+              {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        <button onClick={handleSave}
+          className="w-full py-3.5 rounded-xl text-white font-bold text-sm shadow-md hover:opacity-90 active:scale-95 transition-all"
+          style={{ background: 'var(--color-primary-val)' }}>
+          {saved ? '✓ Saved!' : 'Save Changes'}
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+/* ─── Main Profile Page ─── */
+export const ProfilePage = () => {
+  const { isLoggedIn, user, logout } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
+  const [editOpen, setEditOpen] = useState(false);
+  const [toast, setToast] = useState('');
+  const navigate = useNavigate();
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 2500);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/signin');
+  };
+
+  const handleClearCache = () => showToast('Cache cleared successfully!');
+  const handleClearHistory = () => showToast('History cleared successfully!');
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 pb-28 pt-20"
+        style={{ background: 'var(--body-gradient)' }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm text-center">
+          <div className="glass-card p-10 mb-4">
+            <div className="w-20 h-20 rounded-full mx-auto mb-5 flex items-center justify-center text-white text-3xl font-bold"
+              style={{ background: 'var(--color-primary-val)' }}>
+              S
+            </div>
+            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--color-fg)' }}>My Profile</h2>
+            <p className="text-sm mb-8" style={{ color: 'var(--color-muted-fg)' }}>Sign in to manage your account, favourites, and more.</p>
+            <button onClick={() => navigate('/signin')}
+              className="w-full py-3.5 rounded-xl text-white font-bold mb-3 shadow-md hover:opacity-90 transition-opacity"
+              style={{ background: 'var(--color-primary-val)' }}>
+              Sign In
+            </button>
+            <button onClick={() => navigate('/signup')}
+              className="w-full py-3.5 rounded-xl font-bold border-2 transition-all hover:opacity-80"
+              style={{ color: 'var(--color-primary-val)', borderColor: 'var(--color-primary-val)', background: 'transparent' }}>
+              Create Account
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <AnimatePresence>
+        {editOpen && <EditProfilePanel onClose={() => setEditOpen(false)} />}
+      </AnimatePresence>
+
+      {/* Toast */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-full text-white text-sm font-semibold shadow-lg"
+            style={{ background: 'var(--color-primary-val)' }}
+          >
+            {toast}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="min-h-screen pt-20 pb-28 px-4" style={{ background: 'var(--body-gradient)' }}>
+        <div className="max-w-lg mx-auto">
+
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6 pt-2">
+            <button onClick={() => navigate(-1)} className="p-2 rounded-full hover:bg-black/10 transition-colors"
+              style={{ color: 'var(--color-fg)' }}>
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <h1 className="text-lg font-bold" style={{ color: 'var(--color-fg)' }}>My Profile</h1>
+            <button onClick={() => setEditOpen(true)} className="p-2 rounded-full hover:bg-black/10 transition-colors"
+              style={{ color: 'var(--color-fg)' }}>
+              <Settings className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Avatar + Info */}
+          <div className="glass-card p-6 flex items-center gap-5 mb-4">
+            <div className="relative shrink-0">
+              <img src={user?.avatar} alt="Avatar" className="w-20 h-20 rounded-full object-cover shadow" />
+              <button
+                onClick={() => setEditOpen(true)}
+                className="absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center shadow"
+                style={{ background: 'var(--color-primary-val)' }}>
+                <Camera className="w-3.5 h-3.5 text-white" />
+              </button>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-lg font-bold truncate" style={{ color: 'var(--color-fg)' }}>{user?.name}</h2>
+              <p className="text-sm truncate mb-3" style={{ color: 'var(--color-muted-fg)' }}>@{user?.username}</p>
+              <button
+                onClick={() => setEditOpen(true)}
+                className="px-5 py-2 rounded-full text-white text-xs font-bold shadow hover:opacity-90 transition-opacity"
+                style={{ background: 'var(--color-primary-val)' }}>
+                Edit Profile
+              </button>
+            </div>
+          </div>
+
+          {/* Menu Items */}
+          <div className="glass-card p-2 space-y-1">
+            {/* Theme Toggle */}
+            <MenuItem
+              icon={theme === 'dark' ? Moon : Sun}
+              label={theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+              onClick={toggleTheme}
+              rightEl={
+                <div className="relative w-11 h-6 rounded-full transition-colors duration-300 flex items-center px-1"
+                  style={{ background: theme === 'dark' ? 'var(--color-primary-val)' : 'rgba(0,0,0,0.15)' }}>
+                  <motion.div
+                    layout
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    className="w-4 h-4 rounded-full bg-white shadow"
+                    style={{ marginLeft: theme === 'dark' ? 'auto' : '0' }}
+                  />
+                </div>
+              }
+            />
+
+            <MenuItem icon={Trash2} label="Clear Cache" onClick={handleClearCache} />
+            <MenuItem icon={Clock} label="Clear History" onClick={handleClearHistory} />
+
+            <div className="my-1 border-t" style={{ borderColor: 'var(--glass-border)' }} />
+
+            <MenuItem icon={LogOut} label="Log Out" onClick={handleLogout} danger />
+          </div>
+
         </div>
       </div>
-      
-    </div>
+    </>
   );
 };
