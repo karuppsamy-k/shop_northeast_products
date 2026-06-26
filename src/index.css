@@ -30,83 +30,83 @@
 :root,
 [data-theme="light"] {
   --color-bg: transparent;
-  --color-fg: hsl(20, 20%, 20%);
-  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
-  --color-card-fg: hsl(20, 20%, 20%);
-  --color-primary-val: hsl(25, 75%, 60%);
+  --color-fg: hsl(160, 20%, 15%);
+  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
+  --color-card-fg: hsl(160, 20%, 15%);
+  --color-primary-val: hsl(163, 94%, 24%); /* Deep Green */
   --color-primary-fg: hsl(0, 0%, 100%);
-  --color-secondary-val: hsl(80, 20%, 90%);
-  --color-secondary-fg: hsl(20, 20%, 25%);
-  --color-muted-val: hsl(80, 15%, 85%);
-  --color-muted-fg: hsl(20, 15%, 45%);
-  --color-accent-val: hsl(25, 75%, 60%);
+  --color-secondary-val: hsl(25, 95%, 53%); /* Warm Orange */
+  --color-secondary-fg: hsl(0, 0%, 100%);
+  --color-muted-val: hsl(40, 15%, 85%);
+  --color-muted-fg: hsl(160, 10%, 45%);
+  --color-accent-val: hsl(25, 95%, 53%);
   --color-accent-fg: hsl(0, 0%, 100%);
   --color-destructive-val: hsl(0, 62%, 50%);
   --color-destructive-fg: hsl(0, 0%, 100%);
-  --color-border-val: rgba(255, 255, 255, 0.5);
-  --color-input-val: rgba(255, 255, 255, 0.5);
-  --color-ring-val: hsl(25, 75%, 60%);
-  --color-surface-val: rgba(255, 255, 255, 0.3);
+  --color-border-val: rgba(0, 0, 0, 0.05);
+  --color-input-val: rgba(0, 0, 0, 0.03);
+  --color-ring-val: hsl(163, 94%, 24%);
+  --color-surface-val: rgba(255, 255, 255, 0.5);
 
-  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
-  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 100%);
-  --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-  --glass-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+  --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --glass-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
 
   --body-gradient: 
-    radial-gradient(circle at 15% 20%, #d5dfd6 0%, transparent 40%),
-    radial-gradient(circle at 85% 30%, #eac2a5 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, #f1d9c1 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, #db9569 0%, transparent 55%),
-    #eef0ea;
-  --hero-overlay-from: rgba(255, 255, 255, 0.2);
-  --hero-overlay-via: rgba(255, 255, 255, 0.5);
-  --hero-overlay-to: rgba(255, 255, 255, 0.8);
+    radial-gradient(circle at 15% 20%, #fef3c7 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, #ffedd5 0%, transparent 45%),
+    radial-gradient(circle at 50% 80%, #dcfce7 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #fae8ff 0%, transparent 55%),
+    #f8f5f0; /* Off-white / Beige */
+  --hero-overlay-from: rgba(255, 255, 255, 0.4);
+  --hero-overlay-via: rgba(255, 255, 255, 0.7);
+  --hero-overlay-to: rgba(255, 255, 255, 0.9);
   --text-gradient-from: var(--color-primary-val);
-  --text-gradient-to: hsl(25, 85%, 45%);
+  --text-gradient-to: hsl(160, 80%, 15%);
 }
 
 /* ── DARK THEME ────────────────────────────────────────── */
 [data-theme="dark"] {
   --color-bg: transparent;
-  --color-fg: hsl(40, 30%, 90%);
-  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
-  --color-card-fg: hsl(40, 30%, 90%);
-  --color-primary-val: hsl(25, 75%, 60%);
-  --color-primary-fg: hsl(0, 0%, 10%);
-  --color-secondary-val: hsl(30, 20%, 15%);
-  --color-secondary-fg: hsl(40, 30%, 90%);
-  --color-muted-val: hsl(30, 15%, 20%);
-  --color-muted-fg: hsl(30, 15%, 65%);
-  --color-accent-val: hsl(25, 75%, 60%);
-  --color-accent-fg: hsl(0, 0%, 10%);
-  --color-destructive-val: hsl(0, 62.8%, 30.6%);
-  --color-destructive-fg: hsl(60, 10%, 90%);
+  --color-fg: hsl(40, 30%, 95%);
+  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+  --color-card-fg: hsl(40, 30%, 95%);
+  --color-primary-val: hsl(163, 80%, 40%);
+  --color-primary-fg: hsl(0, 0%, 100%);
+  --color-secondary-val: hsl(25, 95%, 53%);
+  --color-secondary-fg: hsl(0, 0%, 100%);
+  --color-muted-val: hsl(160, 15%, 20%);
+  --color-muted-fg: hsl(160, 15%, 70%);
+  --color-accent-val: hsl(25, 95%, 53%);
+  --color-accent-fg: hsl(0, 0%, 100%);
+  --color-destructive-val: hsl(0, 62.8%, 45%);
+  --color-destructive-fg: hsl(0, 0%, 100%);
   --color-border-val: rgba(255, 255, 255, 0.1);
-  --color-input-val: rgba(255, 255, 255, 0.1);
-  --color-ring-val: hsl(25, 75%, 60%);
-  --color-surface-val: rgba(0, 0, 0, 0.4);
+  --color-input-val: rgba(255, 255, 255, 0.05);
+  --color-ring-val: hsl(163, 80%, 40%);
+  --color-surface-val: rgba(0, 0, 0, 0.3);
 
   --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
   --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
   --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.12);
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
   --glass-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 
   --body-gradient: 
-    radial-gradient(circle at 15% 20%, #2a332a 0%, transparent 40%),
-    radial-gradient(circle at 85% 30%, #3d2b1f 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, #382516 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, #422513 0%, transparent 55%),
-    #171513;
-  --hero-overlay-from: rgba(0, 0, 0, 0.2);
-  --hero-overlay-via: rgba(0, 0, 0, 0.6);
-  --hero-overlay-to: rgba(0, 0, 0, 0.8);
+    radial-gradient(circle at 15% 20%, #1a2e22 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, #3a2210 0%, transparent 45%),
+    radial-gradient(circle at 50% 80%, #0d2719 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #2a1b1f 0%, transparent 55%),
+    #111814;
+  --hero-overlay-from: rgba(0, 0, 0, 0.3);
+  --hero-overlay-via: rgba(0, 0, 0, 0.7);
+  --hero-overlay-to: rgba(0, 0, 0, 0.9);
   --text-gradient-from: var(--color-primary-val);
-  --text-gradient-to: hsl(25, 85%, 45%);
+  --text-gradient-to: hsl(163, 80%, 60%);
 }
 
 /* ── Base styles ───────────────────────────────────────── */

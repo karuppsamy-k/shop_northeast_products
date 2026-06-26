@@ -3,9 +3,10 @@ import { Eye, EyeOff } from 'lucide-react';
 
 interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  error?: string;
 }
 
-export const AuthInput: React.FC<AuthInputProps> = ({ label, type = 'text', ...props }) => {
+export const AuthInput: React.FC<AuthInputProps> = ({ label, type = 'text', error, ...props }) => {
   const [showPass, setShowPass] = useState(false);
   const isPassword = type === 'password';
   const currentType = isPassword && showPass ? 'text' : type;
@@ -20,8 +21,8 @@ export const AuthInput: React.FC<AuthInputProps> = ({ label, type = 'text', ...p
           type={currentType}
           className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none transition-all ${isPassword ? 'pr-12' : ''}`}
           style={{
-            background: 'rgba(255,255,255,0.5)',
-            border: '1.5px solid var(--glass-border)',
+            background: 'rgba(255,255,255,0.6)',
+            border: `1.5px solid ${error ? 'var(--color-destructive-val)' : 'var(--glass-border)'}`,
             color: 'var(--color-fg)',
           }}
           {...props}
@@ -37,6 +38,7 @@ export const AuthInput: React.FC<AuthInputProps> = ({ label, type = 'text', ...p
           </button>
         )}
       </div>
+      {error && <p className="text-xs mt-1.5" style={{ color: 'var(--color-destructive-val)' }}>{error}</p>}
     </div>
   );
 };

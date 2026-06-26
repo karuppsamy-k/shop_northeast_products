@@ -4,36 +4,36 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Trash2, Clock,
   LogOut, ChevronRight, Sun, Moon, Camera, Check, Eye, EyeOff,
-  ArrowLeft, Settings
+  ArrowLeft, Settings, ShoppingBag, Package, MapPin
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useThemeStore } from '@/store/themeStore';
+import { useOrderStore, type Order } from '@/store/orderStore';
 
+/* ─── Shared Types ─── */
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+const fmtCur = (n: number) => `₹${n.toFixed(0)}`;
+
+/* ─── MenuItem ─── */
 const MenuItem = ({
-  icon: Icon,
-  label,
-  onClick,
-  danger = false,
-  rightEl,
+  icon: Icon, label, onClick, danger = false, rightEl,
 }: {
-  icon: any;
-  label: string;
-  onClick?: () => void;
-  danger?: boolean;
-  rightEl?: React.ReactNode;
+  icon: any; label: string; onClick?: () => void; danger?: boolean; rightEl?: React.ReactNode;
 }) => (
   <motion.button
     whileTap={{ scale: 0.98 }}
     onClick={onClick}
-    className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all group"
+    className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all"
     style={{ background: 'transparent' }}
-    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
+    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(0,0,0,0.04)')}
     onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
   >
-    <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
       style={{
-        background: danger ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.35)',
-        color: danger ? 'rgb(239,68,68)' : 'var(--color-fg)',
+        background: danger ? 'rgba(239,68,68,0.1)' : 'rgba(22,163,74,0.1)',
+        color: danger ? 'rgb(239,68,68)' : 'var(--color-primary-val)',
       }}>
       <Icon className="w-4 h-4" />
     </div>
@@ -45,6 +45,110 @@ const MenuItem = ({
   </motion.button>
 );
 
+/* ─── Orders Panel ─── */
+const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
+  const { orders } = useOrderStore();
+
+  const statusColor = (s: Order['status']) =>
+    s === 'Delivered' ? '#16a34a' : s === 'Cancelled' ? '#dc2626' : '#f97316';
+
+  return (
+    <motion.div
+      initial={{ x: '100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '100%' }}
+      transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+      className="fixed inset-0 z-50 overflow-y-auto"
+      style={{ background: 'var(--body-gradient)' }}
+    >
+      <div className="flex items-center justify-between px-4 py-4 mt-16 mb-2">
+        <button onClick={onClose} className="p-2 rounded-full hover:bg-black/10 transition-colors"
+          style={{ color: 'var(--color-fg)' }}>
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-lg font-bold" style={{ color: 'var(--color-fg)' }}>Your Orders</h2>
+        <div className="w-9" />
+      </div>
+
+      <div className="px-4 pb-24 max-w-lg mx-auto">
+        {orders.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4"
+              style={{ background: 'rgba(22,163,74,0.1)' }}>
+              <Package className="w-9 h-9" style={{ color: 'var(--color-primary-val)' }} />
+            </div>
+            <h3 className="text-lg font-bold mb-1" style={{ color: 'var(--color-fg)' }}>No orders yet</h3>
+            <p className="text-sm" style={{ color: 'var(--color-muted-fg)' }}>
+              Your completed orders will appear here.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {orders.map((order) => (
+              <div key={order.id} className="glass-card p-5">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <p className="text-xs font-medium" style={{ color: 'var(--color-muted-fg)' }}>
+                      {fmtDate(order.date)}
+                    </p>
+                    <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--color-muted-fg)' }}>
+                      #{order.id.toUpperCase()}
+                    </p>
+                  </div>
+                  <span className="text-xs font-bold px-3 py-1 rounded-full"
+                    style={{
+                      background: `${statusColor(order.status)}18`,
+                      color: statusColor(order.status),
+                    }}>
+                    {order.status}
+                  </span>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-1.5 mb-3">
+                  {order.items.slice(0, 3).map((item) => (
+                    <div key={item.id} className="flex items-center justify-between text-sm">
+                      <span className="truncate mr-2" style={{ color: 'var(--color-fg)' }}>
+                        {item.name} × {item.quantity}
+                      </span>
+                      <span className="shrink-0 font-semibold" style={{ color: 'var(--color-fg)' }}>
+                        {fmtCur((item.discountPrice || item.price) * item.quantity)}
+                      </span>
+                    </div>
+                  ))}
+                  {order.items.length > 3 && (
+                    <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>
+                      +{order.items.length - 3} more items
+                    </p>
+                  )}
+                </div>
+
+                {/* Address */}
+                {order.address && (
+                  <div className="flex items-start gap-1.5 text-xs mb-3" style={{ color: 'var(--color-muted-fg)' }}>
+                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: 'var(--color-primary-val)' }} />
+                    <span className="line-clamp-2">{order.address}</span>
+                  </div>
+                )}
+
+                {/* Total */}
+                <div className="flex items-center justify-between pt-3 border-t"
+                  style={{ borderColor: 'var(--glass-border)' }}>
+                  <span className="text-sm font-semibold" style={{ color: 'var(--color-muted-fg)' }}>Total Paid</span>
+                  <span className="text-base font-black" style={{ color: 'var(--color-primary-val)' }}>
+                    {fmtCur(order.total)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
 /* ─── Edit Profile Panel ─── */
 const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
   const { user, updateProfile } = useAuthStore();
@@ -52,18 +156,19 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
   const [email, setEmail] = useState(user?.email ?? '');
   const [username, setUsername] = useState(user?.username ?? '');
   const [phone, setPhone] = useState(user?.phone ?? '');
+  const [address, setAddress] = useState(user?.address ?? '');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
-    updateProfile({ name, email, username, phone });
+    updateProfile({ name, email, username, phone, address });
     setSaved(true);
     setTimeout(() => { setSaved(false); onClose(); }, 800);
   };
 
   const inputStyle = {
-    background: 'rgba(255,255,255,0.45)',
+    background: 'rgba(255,255,255,0.6)',
     border: '1.5px solid var(--glass-border)',
     color: 'var(--color-fg)',
   };
@@ -77,7 +182,6 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
       className="fixed inset-0 z-50 overflow-y-auto"
       style={{ background: 'var(--body-gradient)' }}
     >
-      {/* Header */}
       <div className="flex items-center justify-between px-4 py-4 mt-16 mb-2">
         <button onClick={onClose} className="p-2 rounded-full hover:bg-black/10 transition-colors"
           style={{ color: 'var(--color-fg)' }}>
@@ -91,7 +195,7 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
         </button>
       </div>
 
-      <div className="px-4 pb-24 space-y-5 max-w-lg mx-auto">
+      <div className="px-4 pb-24 space-y-4 max-w-lg mx-auto">
         {/* Avatar */}
         <div className="flex justify-center mb-2">
           <div className="relative">
@@ -105,12 +209,13 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
 
         {[
           { label: 'Name', value: name, set: setName, type: 'text', placeholder: 'Your full name' },
-          { label: 'E mail address', value: email, set: setEmail, type: 'email', placeholder: 'you@example.com' },
-          { label: 'User name', value: username, set: setUsername, type: 'text', placeholder: '@yourname' },
-          { label: 'Phone number', value: phone, set: setPhone, type: 'tel', placeholder: '+91 9876543210' },
+          { label: 'Email', value: email, set: setEmail, type: 'email', placeholder: 'you@example.com' },
+          { label: 'Username', value: username, set: setUsername, type: 'text', placeholder: '@yourname' },
+          { label: 'Phone', value: phone, set: setPhone, type: 'tel', placeholder: '+91 9876543210' },
+          { label: 'Default Address', value: address, set: setAddress, type: 'text', placeholder: 'Your delivery address' },
         ].map(({ label, value, set, type, placeholder }) => (
-          <div key={label} className="glass-card p-5">
-            <label className="block text-sm font-bold mb-3" style={{ color: 'var(--color-fg)' }}>{label}</label>
+          <div key={label} className="glass-card p-4">
+            <label className="block text-xs font-bold mb-2" style={{ color: 'var(--color-muted-fg)' }}>{label}</label>
             <input type={type} value={value} onChange={(e) => set(e.target.value)} placeholder={placeholder}
               className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none"
               style={inputStyle} />
@@ -118,8 +223,8 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
         ))}
 
         {/* Password */}
-        <div className="glass-card p-5">
-          <label className="block text-sm font-bold mb-3" style={{ color: 'var(--color-fg)' }}>Password</label>
+        <div className="glass-card p-4">
+          <label className="block text-xs font-bold mb-2" style={{ color: 'var(--color-muted-fg)' }}>Password</label>
           <div className="relative">
             <input type={showPass ? 'text' : 'password'} value={password}
               onChange={(e) => setPassword(e.target.value)} placeholder="••••••••••••"
@@ -147,7 +252,9 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
 export const ProfilePage = () => {
   const { isLoggedIn, user, logout } = useAuthStore();
   const { theme, toggleTheme } = useThemeStore();
+  const { orders } = useOrderStore();
   const [editOpen, setEditOpen] = useState(false);
+  const [ordersOpen, setOrdersOpen] = useState(false);
   const [toast, setToast] = useState('');
   const navigate = useNavigate();
 
@@ -176,10 +283,12 @@ export const ProfilePage = () => {
           <div className="glass-card p-10 mb-4">
             <div className="w-20 h-20 rounded-full mx-auto mb-5 flex items-center justify-center text-white text-3xl font-bold"
               style={{ background: 'var(--color-primary-val)' }}>
-              S
+              <ShoppingBag className="w-9 h-9" />
             </div>
             <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--color-fg)' }}>My Profile</h2>
-            <p className="text-sm mb-8" style={{ color: 'var(--color-muted-fg)' }}>Sign in to manage your account, favourites, and more.</p>
+            <p className="text-sm mb-8" style={{ color: 'var(--color-muted-fg)' }}>
+              Sign in to manage your account, orders, and more.
+            </p>
             <button onClick={() => navigate('/signin')}
               className="w-full py-3.5 rounded-xl text-white font-bold mb-3 shadow-md hover:opacity-90 transition-opacity"
               style={{ background: 'var(--color-primary-val)' }}>
@@ -200,6 +309,7 @@ export const ProfilePage = () => {
     <>
       <AnimatePresence>
         {editOpen && <EditProfilePanel onClose={() => setEditOpen(false)} />}
+        {ordersOpen && <OrdersPanel onClose={() => setOrdersOpen(false)} />}
       </AnimatePresence>
 
       {/* Toast */}
@@ -233,31 +343,69 @@ export const ProfilePage = () => {
             </button>
           </div>
 
-          {/* Avatar + Info */}
-          <div className="glass-card p-6 flex items-center gap-5 mb-4">
-            <div className="relative shrink-0">
-              <img src={user?.avatar} alt="Avatar" loading="lazy" decoding="async" className="w-20 h-20 rounded-full object-cover shadow" />
-              <button
-                onClick={() => setEditOpen(true)}
-                className="absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center shadow"
-                style={{ background: 'var(--color-primary-val)' }}>
-                <Camera className="w-3.5 h-3.5 text-white" />
-              </button>
+          {/* Avatar + Info Card */}
+          <div className="glass-card p-6 mb-4">
+            <div className="flex items-center gap-5">
+              <div className="relative shrink-0">
+                <img src={user?.avatar} alt="Avatar" loading="lazy" decoding="async"
+                  className="w-20 h-20 rounded-2xl object-cover shadow-md" />
+                <button
+                  onClick={() => setEditOpen(true)}
+                  className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center shadow"
+                  style={{ background: 'var(--color-primary-val)' }}>
+                  <Camera className="w-3.5 h-3.5 text-white" />
+                </button>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h2 className="text-lg font-bold truncate" style={{ color: 'var(--color-fg)' }}>{user?.name}</h2>
+                <p className="text-sm truncate" style={{ color: 'var(--color-muted-fg)' }}>@{user?.username}</p>
+                <p className="text-xs truncate mt-0.5" style={{ color: 'var(--color-muted-fg)' }}>{user?.email}</p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg font-bold truncate" style={{ color: 'var(--color-fg)' }}>{user?.name}</h2>
-              <p className="text-sm truncate mb-3" style={{ color: 'var(--color-muted-fg)' }}>@{user?.username}</p>
-              <button
-                onClick={() => setEditOpen(true)}
-                className="px-5 py-2 rounded-full text-white text-xs font-bold shadow hover:opacity-90 transition-opacity"
-                style={{ background: 'var(--color-primary-val)' }}>
-                Edit Profile
-              </button>
+
+            {/* Stats row */}
+            <div className="flex items-center mt-5 pt-4 border-t" style={{ borderColor: 'var(--glass-border)' }}>
+              <div className="flex-1 text-center">
+                <p className="text-xl font-black" style={{ color: 'var(--color-primary-val)' }}>{orders.length}</p>
+                <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>Orders</p>
+              </div>
+              <div className="w-px h-10" style={{ background: 'var(--glass-border)' }} />
+              <div className="flex-1 text-center">
+                <p className="text-xl font-black" style={{ color: 'var(--color-secondary-val)' }}>
+                  {orders.reduce((a, o) => a + o.items.reduce((b, i) => b + i.quantity, 0), 0)}
+                </p>
+                <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>Items</p>
+              </div>
+              <div className="w-px h-10" style={{ background: 'var(--glass-border)' }} />
+              <div className="flex-1 text-center">
+                <p className="text-base font-black" style={{ color: 'var(--color-fg)' }}>
+                  ₹{orders.reduce((a, o) => a + o.total, 0).toFixed(0)}
+                </p>
+                <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>Spent</p>
+              </div>
             </div>
           </div>
 
           {/* Menu Items */}
-          <div className="glass-card p-2 space-y-1">
+          <div className="glass-card p-2 space-y-1 mb-4">
+            {/* Your Orders */}
+            <MenuItem
+              icon={Package}
+              label="Your Orders"
+              onClick={() => setOrdersOpen(true)}
+              rightEl={
+                <div className="flex items-center gap-2">
+                  {orders.length > 0 && (
+                    <span className="w-5 h-5 text-xs font-bold rounded-full flex items-center justify-center text-white"
+                      style={{ background: 'var(--color-secondary-val)' }}>
+                      {orders.length}
+                    </span>
+                  )}
+                  <ChevronRight className="w-4 h-4" style={{ color: 'var(--color-muted-fg)' }} />
+                </div>
+              }
+            />
+
             {/* Theme Toggle */}
             <MenuItem
               icon={theme === 'dark' ? Moon : Sun}
@@ -278,9 +426,9 @@ export const ProfilePage = () => {
 
             <MenuItem icon={Trash2} label="Clear Cache" onClick={handleClearCache} />
             <MenuItem icon={Clock} label="Clear History" onClick={handleClearHistory} />
+          </div>
 
-            <div className="my-1 border-t" style={{ borderColor: 'var(--glass-border)' }} />
-
+          <div className="glass-card p-2">
             <MenuItem icon={LogOut} label="Log Out" onClick={handleLogout} danger />
           </div>
 

@@ -7,13 +7,14 @@ export interface UserProfile {
   username: string;
   phone: string;
   avatar: string;
+  address?: string;
 }
 
 interface AuthState {
   isLoggedIn: boolean;
   user: UserProfile | null;
   login: (email: string, password: string) => Promise<boolean>;
-  signup: (name: string, email: string, username: string, password: string, phone: string) => Promise<boolean>;
+  signup: (name: string, email: string, username: string, password: string, phone: string, address?: string) => Promise<boolean>;
   logout: () => void;
   updateProfile: (updates: Partial<UserProfile>) => void;
 }
@@ -43,7 +44,7 @@ export const useAuthStore = create<AuthState>()(
         return false;
       },
 
-      signup: async (name, email, username, password, phone) => {
+      signup: async (name, email, username, password, phone, address) => {
         await new Promise((r) => setTimeout(r, 600));
         if (name && email && password.length >= 6) {
           set({
@@ -53,6 +54,7 @@ export const useAuthStore = create<AuthState>()(
               email,
               username,
               phone,
+              address,
               avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
             },
           });
