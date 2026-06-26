@@ -9,8 +9,8 @@ import { getCurrentLocation, reverseGeocode } from '@/helpers/location';
 export const SignUpPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
   const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [address, setAddress] = useState('');
   const [coords, setCoords] = useState<{latitude: number; longitude: number} | undefined>();
   const [gettingLocation, setGettingLocation] = useState(false);
@@ -22,6 +22,30 @@ export const SignUpPage = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const redirectUrl = query.get('redirect') || '/profile';
+
+  const validatePhone = (val: string) => {
+    if (!val) {
+      setPhoneError('Phone number is required.');
+      return false;
+    }
+    if (!/^\d+$/.test(val)) {
+      setPhoneError('Phone number cannot contain letters.');
+      return false;
+    }
+    if (!/^[6-9]\d{9}$/.test(val)) {
+      setPhoneError('Please enter a valid 10-digit mobile number.');
+      return false;
+    }
+    setPhoneError('');
+    return true;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setPhone(val);
+    if (val.length > 0) validatePhone(val);
+    else setPhoneError('');
+  };
 
   const handleGetLocation = async () => {
     setGettingLocation(true);
@@ -51,6 +75,8 @@ export const SignUpPage = () => {
       setError('Password must be at least 6 characters.');
       return;
     }
+    if (!validatePhone(phone)) return;
+    
     setLoading(true);
     
     try {
@@ -97,24 +123,27 @@ export const SignUpPage = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <AuthInput label="Full Name" type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Aditya Sharma" />
-            <AuthInput label="Email Address" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
-            <AuthInput label="Username" type="text" required value={username} onChange={(e) => setUsername(e.target.value)} placeholder="@yourname" />
-            <AuthInput label="Phone Number" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91 9876543210" />
+            <AuthInput label="Full Name" type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your full name" />
+            <AuthInput label="Email Address" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email address" />
+            
+            <div className="space-y-1">
+              <AuthInput label="Phone Number" type="tel" required value={phone} onChange={handlePhoneChange} placeholder="Enter your mobile number" />
+              {phoneError && <p className="text-xs text-red-500 font-medium ml-2">{phoneError}</p>}
+            </div>
             
             <div className="space-y-2">
-              <AuthInput label="Delivery Location" type="text" required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="House No, Street, City" />
+              <AuthInput label="Delivery Location" type="text" required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter your delivery address" />
               <button type="button" onClick={handleGetLocation} disabled={gettingLocation} className="text-xs font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity" style={{ color: 'var(--color-primary-val)' }}>
                 {gettingLocation ? <Loader2 className="w-3 h-3 animate-spin" /> : <Navigation className="w-3 h-3" />}
                 {gettingLocation ? 'Getting location...' : 'Use Current GPS Location'}
               </button>
             </div>
             
-            <AuthInput label="Password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+            <AuthInput label="Password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
 
             {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
 
-            <button type="submit" disabled={loading}
+            <button type="submit" disabled={loading || !!phoneError || phone.length === 0}
               className="w-full py-3.5 rounded-full text-white font-bold text-sm transition-all hover:opacity-90 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2 mt-2"
               style={{
                 background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163,94%,18%))',

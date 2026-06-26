@@ -10,7 +10,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -45,7 +45,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -80,7 +80,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -115,7 +115,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -150,7 +150,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -185,7 +185,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -220,7 +220,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -255,7 +255,7 @@
     "unit": "/bunch",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -290,7 +290,7 @@
     "unit": "1 pc",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -325,7 +325,7 @@
     "unit": "/bunch",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -360,7 +360,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -395,7 +395,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -430,7 +430,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -465,7 +465,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -500,7 +500,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -535,7 +535,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -570,7 +570,7 @@
     "unit": "2 pcs",
     "weight": 500,
     "images": [
-      "/assets/Veg.png"
+      "/assets/Veg.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -605,7 +605,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -640,7 +640,7 @@
     "unit": "5 Bunch",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -675,7 +675,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -710,7 +710,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -745,7 +745,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -780,7 +780,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -815,7 +815,7 @@
     "unit": "5 Bunch",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -850,7 +850,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -885,7 +885,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -920,7 +920,7 @@
     "unit": "/bunch",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -955,7 +955,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -990,7 +990,7 @@
     "unit": "4 Bunch",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -1025,7 +1025,7 @@
     "unit": "4 pcs",
     "weight": 500,
     "images": [
-      "/assets/spices.png"
+      "/assets/spices.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -1060,7 +1060,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/spices.png"
+      "/assets/spices.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -1095,7 +1095,7 @@
     "unit": "100g",
     "weight": 500,
     "images": [
-      "/assets/spices.png"
+      "/assets/spices.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -1130,7 +1130,7 @@
     "unit": "1 Jar",
     "weight": 500,
     "images": [
-      "/assets/spices.png"
+      "/assets/spices.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -1165,7 +1165,7 @@
     "unit": "100g",
     "weight": 500,
     "images": [
-      "/assets/spices.png"
+      "/assets/spices.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -1200,7 +1200,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/spices.png"
+      "/assets/spices.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -1235,7 +1235,7 @@
     "unit": "100g",
     "weight": 500,
     "images": [
-      "/assets/spices.png"
+      "/assets/spices.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -1270,7 +1270,7 @@
     "unit": "1 Dozen",
     "weight": 500,
     "images": [
-      "/assets/Fruit.png"
+      "/assets/Fruit.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -1305,7 +1305,7 @@
     "unit": "6 pcs",
     "weight": 500,
     "images": [
-      "/assets/Fruit.png"
+      "/assets/Fruit.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -1340,7 +1340,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/Fruit.png"
+      "/assets/Fruit.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -1375,7 +1375,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/rice.png"
+      "/assets/rice.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -1410,7 +1410,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/rice.png"
+      "/assets/rice.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -1445,7 +1445,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/rice.png"
+      "/assets/rice.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -1480,7 +1480,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/rice.png"
+      "/assets/rice.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -1515,7 +1515,7 @@
     "unit": "/kg",
     "weight": 500,
     "images": [
-      "/assets/rice.png"
+      "/assets/rice.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -1550,7 +1550,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -1585,7 +1585,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -1620,7 +1620,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -1655,7 +1655,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -1690,7 +1690,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -1725,7 +1725,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -1760,7 +1760,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -1795,7 +1795,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -1830,7 +1830,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -1865,7 +1865,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -1900,7 +1900,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -1935,7 +1935,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -1970,7 +1970,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -2005,7 +2005,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -2040,7 +2040,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -2075,7 +2075,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -2110,7 +2110,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -2145,7 +2145,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/pickle.png"
+      "/assets/pickle.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -2180,7 +2180,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/dry feiuets.png"
+      "/assets/dry feiuets.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -2215,7 +2215,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/dry feiuets.png"
+      "/assets/dry feiuets.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -2250,7 +2250,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/dry feiuets.png"
+      "/assets/dry feiuets.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -2285,7 +2285,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/dry feiuets.png"
+      "/assets/dry feiuets.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -2320,7 +2320,7 @@
     "unit": "250g",
     "weight": 500,
     "images": [
-      "/assets/dry feiuets.png"
+      "/assets/dry feiuets.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -2355,7 +2355,7 @@
     "unit": "100g",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -2390,7 +2390,7 @@
     "unit": "1 Pack",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -2425,7 +2425,7 @@
     "unit": "1 Pack",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -2460,7 +2460,7 @@
     "unit": "1 Pack",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -2495,7 +2495,7 @@
     "unit": "1 Pack",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -2530,7 +2530,7 @@
     "unit": "1 Piece",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -2565,7 +2565,7 @@
     "unit": "1 Pack",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -2600,7 +2600,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -2635,7 +2635,7 @@
     "unit": "200g",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -2670,7 +2670,7 @@
     "unit": "1 Pack",
     "weight": 500,
     "images": [
-      "/assets/snaks.png"
+      "/assets/snaks.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -2705,7 +2705,7 @@
     "unit": "/bunch",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -2740,7 +2740,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
@@ -2775,7 +2775,7 @@
     "unit": "/bunch",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Sikkim",
     "farmerOrSource": "Local Farmer Network",
@@ -2810,7 +2810,7 @@
     "unit": "1 pc",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Manipur",
     "farmerOrSource": "Local Farmer Network",
@@ -2845,7 +2845,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Nagaland",
     "farmerOrSource": "Local Farmer Network",
@@ -2880,7 +2880,7 @@
     "unit": "1 Bundle",
     "weight": 500,
     "images": [
-      "/assets/organic.png"
+      "/assets/organic.webp"
     ],
     "origin": "Assam",
     "farmerOrSource": "Local Farmer Network",
@@ -2915,7 +2915,7 @@
     "unit": "1 pc",
     "weight": 500,
     "images": [
-      "/assets/household.png"
+      "/assets/household.webp"
     ],
     "origin": "Meghalaya",
     "farmerOrSource": "Local Farmer Network",
@@ -2950,7 +2950,7 @@
     "unit": "1 pc",
     "weight": 500,
     "images": [
-      "/assets/household.png"
+      "/assets/household.webp"
     ],
     "origin": "Mizoram",
     "farmerOrSource": "Local Farmer Network",
@@ -2985,7 +2985,7 @@
     "unit": "1 Pack",
     "weight": 500,
     "images": [
-      "/assets/household.png"
+      "/assets/household.webp"
     ],
     "origin": "Arunachal Pradesh",
     "farmerOrSource": "Local Farmer Network",
@@ -3020,7 +3020,7 @@
     "unit": "1 Kit",
     "weight": 500,
     "images": [
-      "/assets/household.png"
+      "/assets/household.webp"
     ],
     "origin": "Tripura",
     "farmerOrSource": "Local Farmer Network",
