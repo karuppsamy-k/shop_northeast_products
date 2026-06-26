@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import fromHillsToTable from '@/assets/From_Hills_To_Table_A3_HighestRes.jpeg';
 import ourOrigins from '@/assets/Our_Origins_Our_Promise_A3_HighestRes.jpeg';
