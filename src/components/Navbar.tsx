@@ -35,11 +35,11 @@ export const Navbar = () => {
                 boxShadow: '0 3px 12px var(--glow-primary)',
               }}
             >
-              H
+              NF
             </div>
             <span className="text-xl font-bold" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              <span style={{ color: 'var(--color-fg)' }}>Sathish</span>
-              <span style={{ color: 'var(--color-primary-val)' }}>S</span>
+              <span style={{ color: 'var(--color-fg)' }}>Northeast</span>
+              <span style={{ color: 'var(--color-primary-val)' }}>FreshMart</span>
             </span>
           </Link>
 
