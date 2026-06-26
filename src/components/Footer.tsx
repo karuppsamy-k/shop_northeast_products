@@ -26,34 +26,17 @@ export const Footer = () => {
                   boxShadow: '0 3px 12px var(--glow-primary)',
                 }}
               >
-                H
+                NF
               </div>
               <span className="text-xl font-bold">
-                <span style={{ color: 'var(--color-fg)' }}>Sathish</span>
-                <span style={{ color: 'var(--color-primary-val)' }}>S</span>
+                <span style={{ color: 'var(--color-fg)' }}>Northeast</span>
+                <span style={{ color: 'var(--color-primary-val)' }}>FreshMart</span>
               </span>
             </div>
             <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--color-muted-fg)' }}>
               Authentic flavors from Northeast India, delivered fresh to your doorstep.
             </p>
-            <div className="flex gap-2">
-              {['G', 'f', 'in'].map((s) => (
-                <div
-                  key={s}
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer transition-all hover:-translate-y-0.5"
-                  style={{
-                    background: 'var(--glass-card-bg)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    border: '1px solid var(--glass-border)',
-                    boxShadow: 'var(--glass-shadow)',
-                    color: 'var(--color-primary-val)',
-                  }}
-                >
-                  {s}
-                </div>
-              ))}
-            </div>
+
           </div>
 
           {/* About */}
@@ -128,11 +111,9 @@ export const Footer = () => {
           style={{ borderColor: 'var(--glass-border)' }}
         >
           <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>
-            © 2025 Sathish. All rights reserved.
+            © 2026 Northeast FreshMart. All rights reserved.
           </p>
-          <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>
-            Powered by Sathish
-          </p>
+
         </div>
       </div>
     </footer>
