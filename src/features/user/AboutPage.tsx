@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import fromHillsToTable from '@/assets/From_Hills_To_Table_A3_HighestRes.jpeg';
-import ourOrigins from '@/assets/Our_Origins_Our_Promise_A3_HighestRes.jpeg';
-import northeastOrganic from '@/assets/Northeast_Organic_A3_VeryHighRes.jpeg';
-import cultivatingGoodness from '@/assets/Cultivating_Goodness_A3_HighRes.jpeg';
-import shopImage from '@/assets/Shop.jpg.jpeg';
+import fromHillsToTable from '@/assets/From_Hills_To_Table_A3_HighestRes.webp';
+import ourOrigins from '@/assets/Our_Origins_Our_Promise_A3_HighestRes.webp';
+import northeastOrganic from '@/assets/Northeast_Organic_A3_VeryHighRes.webp';
+import cultivatingGoodness from '@/assets/Cultivating_Goodness_A3_HighRes.webp';
+import shopImage from '@/assets/Shop.jpg.webp';
 
 export const AboutPage = () => {
   const location = useLocation();
@@ -31,7 +31,13 @@ export const AboutPage = () => {
           <div className="flex flex-col md:flex-row items-center gap-0 md:gap-12">
             <div className="w-full md:flex-1 md:order-2">
               <div className="rounded-[2rem] md:rounded-3xl overflow-hidden shadow-2xl relative" style={{ border: '1px solid var(--glass-border)' }}>
-                <img src={fromHillsToTable} alt="From Our Hills to Your Table" className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" />
+                <img 
+                  src={fromHillsToTable} 
+                  alt="Hills to Table" 
+                  loading="eager"
+                  decoding="async"
+                  className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" 
+                />
               </div>
             </div>
             <div className="w-[92%] md:w-full md:flex-1 mx-auto -mt-16 md:mt-0 relative z-10 md:order-1">
@@ -53,7 +59,13 @@ export const AboutPage = () => {
           <div className="flex flex-col md:flex-row items-center gap-0 md:gap-12">
             <div className="w-full md:flex-1 md:order-1">
               <div className="rounded-[2rem] md:rounded-3xl overflow-hidden shadow-2xl relative" style={{ border: '1px solid var(--glass-border)' }}>
-                <img src={ourOrigins} alt="Our Origins Our Promise" className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" />
+                <img 
+                  src={ourOrigins} 
+                  alt="Our Origins" 
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" 
+                />
               </div>
             </div>
             <div className="w-[92%] md:w-full md:flex-1 mx-auto -mt-16 md:mt-0 relative z-10 md:order-2">
@@ -75,7 +87,13 @@ export const AboutPage = () => {
           <div className="flex flex-col md:flex-row items-center gap-0 md:gap-12">
             <div className="w-full md:flex-1 md:order-2">
               <div className="rounded-[2rem] md:rounded-3xl overflow-hidden shadow-2xl relative" style={{ border: '1px solid var(--glass-border)' }}>
-                <img src={northeastOrganic} alt="Northeast Organic" className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" />
+                <img 
+                  src={northeastOrganic} 
+                  alt="Our Mission" 
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" 
+                />
               </div>
             </div>
             <div className="w-[92%] md:w-full md:flex-1 mx-auto -mt-16 md:mt-0 relative z-10 md:order-1">
@@ -97,7 +115,13 @@ export const AboutPage = () => {
           <div className="flex flex-col md:flex-row items-center gap-0 md:gap-12">
              <div className="w-full md:flex-1 md:order-1">
               <div className="rounded-[2rem] md:rounded-3xl overflow-hidden shadow-2xl relative" style={{ border: '1px solid var(--glass-border)' }}>
-                <img src={cultivatingGoodness} alt="Cultivating Goodness" className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" />
+                <img 
+                  src={cultivatingGoodness} 
+                  alt="Careers" 
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" 
+                />
               </div>
             </div>
             <div className="w-[92%] md:w-full md:flex-1 mx-auto -mt-16 md:mt-0 relative z-10 md:order-2">
@@ -122,7 +146,13 @@ export const AboutPage = () => {
           <div className="flex flex-col md:flex-row items-center gap-0 md:gap-12">
             <div className="w-full md:flex-1 md:order-2">
               <div className="rounded-[2rem] md:rounded-3xl overflow-hidden shadow-2xl relative" style={{ border: '1px solid var(--glass-border)' }}>
-                <img src={shopImage} alt="Northeast Fresh Mart Shop" className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" />
+                <img 
+                  src={shopImage} 
+                  alt="Northeast Fresh Mart Shop" 
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-[280px] md:h-auto object-cover hover:scale-105 transition-transform duration-700" 
+                />
               </div>
             </div>
             <div className="w-[92%] md:w-full md:flex-1 mx-auto -mt-16 md:mt-0 relative z-10 md:order-1">

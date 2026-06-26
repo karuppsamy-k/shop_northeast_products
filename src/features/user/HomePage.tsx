@@ -7,11 +7,11 @@ import { CategoryCard } from '@/components/CategoryCard';
 import { ProductCard } from '@/components/ProductCard';
 import { useCartStore } from '@/store/cartStore';
 
-import fromHillsImg from '@/assets/From_Hills_To_Table_A3_HighestRes.jpeg';
-import ourOriginsImg from '@/assets/Our_Origins_Our_Promise_A3_HighestRes.jpeg';
-import northeastOrganicImg from '@/assets/Northeast_Organic_A3_VeryHighRes.jpeg';
-import cultivatingImg from '@/assets/Cultivating_Goodness_A3_HighRes.jpeg';
-import shopImg from '@/assets/Shop.jpg.jpeg';
+import fromHillsImg from '@/assets/From_Hills_To_Table_A3_HighestRes.webp';
+import ourOriginsImg from '@/assets/Our_Origins_Our_Promise_A3_HighestRes.webp';
+import northeastOrganicImg from '@/assets/Northeast_Organic_A3_VeryHighRes.webp';
+import cultivatingImg from '@/assets/Cultivating_Goodness_A3_HighRes.webp';
+import shopImg from '@/assets/Shop.jpg.webp';
 
 const bannerSlides = [
   {
@@ -79,6 +79,8 @@ const AutoBanner = () => {
         >
           {/* Background image */}
           <img src={slide.image} alt={slide.title}
+            loading={current === 0 ? "eager" : "lazy"}
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover" />
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0"

@@ -51,6 +51,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
         <img
           src={product?.images?.[0] || ''}
           alt={product?.name || 'Product'}
+          loading="lazy"
+          decoding="async"
           className="h-24 w-24 object-contain drop-shadow-lg"
         />
       </div>

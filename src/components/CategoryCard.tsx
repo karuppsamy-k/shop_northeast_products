@@ -35,6 +35,8 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick })
         <img
           src={category.image}
           alt={category.name}
+          loading="lazy"
+          decoding="async"
           className="w-12 h-12 object-cover rounded-full"
         />
       </div>
