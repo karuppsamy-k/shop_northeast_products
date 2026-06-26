@@ -16,9 +16,11 @@ export const BottomNav = () => {
     <div
       className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t"
       style={{
-        background: 'var(--color-card-bg)',
+        background: 'linear-gradient(rgba(0,0,0,0.03), rgba(0,0,0,0.03)), var(--color-card-bg)',
         borderColor: 'var(--color-border-val)',
-        boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
+        boxShadow: '0 -4px 20px rgba(0,0,0,0.1)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
       }}
     >
       <div className="flex justify-around items-center h-16 px-2">

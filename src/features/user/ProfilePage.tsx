@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -150,6 +150,10 @@ export const ProfilePage = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [toast, setToast] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const showToast = (msg: string) => {
     setToast(msg);
