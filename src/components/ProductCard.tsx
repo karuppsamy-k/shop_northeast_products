@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import type { Product } from '@/services/api';
 import { useToastStore } from '@/store/toastStore';
-import { ShoppingCart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
