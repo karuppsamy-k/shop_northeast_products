@@ -19,28 +19,52 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   subtitle,
 }) => {
   return (
-    <div className="sticky top-24 rounded-3xl border overflow-hidden"
+    <div
+      className="sticky top-24 rounded-3xl overflow-hidden glass-shimmer"
       style={{
         background: 'var(--glass-panel-bg)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderColor: 'var(--glass-border)',
-        boxShadow: 'var(--glass-card-shadow)',
-      }}>
-      <div className="p-5 text-white"
-        style={{ background: 'linear-gradient(135deg, var(--color-primary-val), var(--color-secondary-val))' }}>
-        <h2 className="text-base font-bold">Order Summary</h2>
-        <p className="text-xs opacity-75 mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''}</p>
+        backdropFilter: 'blur(28px) saturate(1.8)',
+        WebkitBackdropFilter: 'blur(28px) saturate(1.8)',
+        border: '1px solid var(--glass-border)',
+        boxShadow: 'var(--glass-panel-shadow)',
+      }}
+    >
+      {/* Iridescent Header */}
+      <div
+        className="p-5 text-white relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, var(--color-primary-val) 0%, hsl(163,80%,22%) 50%, hsl(220,70%,35%) 100%)',
+        }}
+      >
+        {/* Sheen overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(160deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.02) 60%, transparent 100%)',
+            pointerEvents: 'none',
+          }}
+        />
+        <h2 className="text-base font-bold relative z-10">Order Summary</h2>
+        <p className="text-xs opacity-75 mt-0.5 relative z-10">{items.length} item{items.length !== 1 ? 's' : ''}</p>
       </div>
 
       <div className="p-5 space-y-3">
         {items.map((item) => (
           <div key={item.id} className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg,hsl(38,95%,88%),hsl(14,78%,85%))' }}>
-              <img src={item?.images?.[0] || ''} alt={item.name}
-                loading="lazy" decoding="async"
-                className="w-full h-full object-contain p-1" />
+            <div
+              className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0"
+              style={{
+                background: 'linear-gradient(135deg, hsl(38,90%,85%), hsl(14,75%,82%))',
+                border: '1px solid var(--glass-border)',
+              }}
+            >
+              <img
+                src={item?.images?.[0] || ''}
+                alt={item.name}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
             <span className="flex-1 text-xs truncate" style={{ color: 'var(--color-fg)' }}>
               {item.name} ×{item.quantity}
@@ -51,22 +75,24 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
           </div>
         ))}
 
-        <div className="border-t pt-3 space-y-2" style={{ borderColor: 'var(--glass-border)' }}>
+        <div className="border-t pt-3 space-y-2.5" style={{ borderColor: 'var(--glass-border)' }}>
           <div className="flex justify-between text-sm" style={{ color: 'var(--color-muted-fg)' }}>
             <span>Subtotal</span><span>₹{subtotal.toFixed(0)}</span>
           </div>
           <div className="flex justify-between text-sm" style={{ color: 'var(--color-muted-fg)' }}>
             <span>Tax (8%)</span><span>₹{tax.toFixed(0)}</span>
           </div>
-          <div className="flex justify-between font-black text-base pt-2 border-t"
-            style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
+          <div
+            className="flex justify-between font-black text-base pt-2.5 border-t"
+            style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}
+          >
             <span>Total</span>
             <span style={{ color: 'var(--color-primary-val)' }}>₹{total.toFixed(0)}</span>
           </div>
         </div>
 
         {renderButton && renderButton()}
-        
+
         {subtitle && (
           <p className="text-[10px] text-center" style={{ color: 'var(--color-muted-fg)' }}>
             {subtitle}
