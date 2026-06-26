@@ -8,6 +8,11 @@ import { useAuthStore } from '../store/authStore';
 import { useOrderStore } from '../store/orderStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
+import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/config';
+import { FirestoreService } from '../services/firestore.service';
+import type { User } from '../models/User';
 
 import { HomePage } from '../screens/Home/HomePage';
 import { CategoryPage } from '../screens/Category/CategoryPage';
@@ -18,12 +23,54 @@ import { SignInPage } from '../screens/Auth/SignInPage';
 import { SignUpPage } from '../screens/Auth/SignUpPage';
 import { AdminDashboard } from '../screens/Admin/AdminDashboard';
 
-import { useEffect } from 'react';
+// ─── Session Initializer — runs once at app root ──────────────────────────────
+const SessionManager = () => {
+  const { setUser, setInitializing } = useAuthStore();
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        try {
+          // Fetch the latest user document from Firestore
+          const userData = await FirestoreService.getDocument<User>('users', firebaseUser.uid);
+          if (userData) {
+            setUser(userData);
+          } else {
+            // Minimal user if doc not found
+            setUser({ uid: firebaseUser.uid, name: firebaseUser.displayName || '', email: firebaseUser.email || '' });
+          }
+        } catch {
+          setUser({ uid: firebaseUser.uid, name: firebaseUser.displayName || '', email: firebaseUser.email || '' });
+        }
+      } else {
+        setUser(null);
+      }
+      setInitializing(false);
+    });
+
+    return () => unsubscribe();
+  }, [setUser, setInitializing]);
+
+  return null;
+};
+
+// ─── Global Loading Screen ─────────────────────────────────────────────────────
+const AppLoadingScreen = () => (
+  <div className="min-h-screen flex flex-col items-center justify-center"
+    style={{ background: 'var(--body-gradient)' }}>
+    <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 animate-pulse"
+      style={{ background: 'var(--color-primary-val)' }}>
+      <ShoppingCart className="w-7 h-7 text-white" />
+    </div>
+    <p className="text-sm font-semibold" style={{ color: 'var(--color-muted-fg)' }}>Loading...</p>
+  </div>
+);
+
+// ─── Main Layout ──────────────────────────────────────────────────────────────
 const MainLayout = () => {
   const { theme } = useThemeStore();
   const toast = useToastStore();
-  const { user } = useAuthStore();
+  const { user, isInitializing } = useAuthStore();
   const { fetchOrders, clearOrders } = useOrderStore();
 
   useEffect(() => {
@@ -37,6 +84,8 @@ const MainLayout = () => {
       clearOrders();
     }
   }, [user?.uid, fetchOrders, clearOrders]);
+
+  if (isInitializing) return <AppLoadingScreen />;
 
   return (
     <div className="flex flex-col min-h-screen pb-16 md:pb-0">
@@ -68,9 +117,12 @@ const MainLayout = () => {
   );
 };
 
+// ─── Router ──────────────────────────────────────────────────────────────────
 export const AppNavigator = () => {
   return (
     <Router>
+      {/* SessionManager listens to Firebase auth state before any route renders */}
+      <SessionManager />
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
@@ -81,7 +133,7 @@ export const AppNavigator = () => {
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
         </Route>
-        
+
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>

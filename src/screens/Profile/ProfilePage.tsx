@@ -156,7 +156,6 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
   const { user, updateProfile } = useAuthStore();
   const [name, setName] = useState(user?.name ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
-  const [username, setUsername] = useState(user?.username ?? '');
   const [phone, setPhone] = useState(user?.phone ?? '');
   const [address, setAddress] = useState(user?.address ?? '');
   const [password, setPassword] = useState('');
@@ -164,7 +163,7 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
-    updateProfile({ name, email, username, phone, address });
+    updateProfile({ name, email, phone, address });
     setSaved(true);
     setTimeout(() => { setSaved(false); onClose(); }, 800);
   };
@@ -212,7 +211,6 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
         {[
           { label: 'Name', value: name, set: setName, type: 'text', placeholder: 'Your full name' },
           { label: 'Email', value: email, set: setEmail, type: 'email', placeholder: 'you@example.com' },
-          { label: 'Username', value: username, set: setUsername, type: 'text', placeholder: '@yourname' },
           { label: 'Phone', value: phone, set: setPhone, type: 'tel', placeholder: '+91 9876543210' },
           { label: 'Default Address', value: address, set: setAddress, type: 'text', placeholder: 'Your delivery address' },
         ].map(({ label, value, set, type, placeholder }) => (
@@ -359,7 +357,6 @@ export const ProfilePage = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="text-lg font-bold truncate" style={{ color: 'var(--color-fg)' }}>{user?.name}</h2>
-                <p className="text-sm truncate" style={{ color: 'var(--color-muted-fg)' }}>@{user?.username}</p>
                 <p className="text-xs truncate mt-0.5" style={{ color: 'var(--color-muted-fg)' }}>{user?.email}</p>
               </div>
             </div>

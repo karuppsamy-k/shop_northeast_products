@@ -11,6 +11,8 @@ import { OrderSummary } from '@/components/OrderSummary';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, MapPin, CheckCircle2, Navigation } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
+import { getCurrentLocation, reverseGeocode } from '@/helpers/location';
+import { Loader2 } from 'lucide-react';
 
 // ─── EmailJS Config ──────────────────────────────────────────────────────────
 const EMAILJS_SERVICE_ID = 'service_gcyueqa';
@@ -39,29 +41,20 @@ const inputStyle: React.CSSProperties = {
   outline: 'none',
 };
 
-// ─── Location helper ─────────────────────────────────────────────────────────
-const requestLocation = (): Promise<{ lat: number; lng: number } | undefined> =>
-  new Promise((resolve) => {
-    if (!navigator.geolocation) return resolve(undefined);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => resolve(undefined),
-      { timeout: 8000 }
-    );
-  });
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export const CartPage = () => {
   const { items, updateQuantity, removeItem, getTotals, clearCart } = useCartStore();
   const { subtotal, tax, total } = getTotals();
-  const { isLoggedIn, user } = useAuthStore();
+  const { isLoggedIn, user, updateProfile } = useAuthStore();
   const { addOrder } = useOrderStore();
   const navigate = useNavigate();
 
   const [showCheckout, setShowCheckout] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
-  const [locationStatus, setLocationStatus] = useState<'idle' | 'requesting' | 'granted' | 'denied'>('idle');
+  const [addressMode, setAddressMode] = useState<'view' | 'options' | 'manual'>('view');
+  const [gettingLocation, setGettingLocation] = useState(false);
 
   // Navigate to login if not logged in
   useEffect(() => {
@@ -108,6 +101,32 @@ export const CartPage = () => {
     return Object.keys(e).length === 0;
   };
 
+  const handleUseCurrentLocation = async () => {
+    setGettingLocation(true);
+    try {
+      const coords = await getCurrentLocation();
+      const addr = await reverseGeocode(coords.latitude, coords.longitude);
+      await updateProfile({ 
+        address: addr, 
+        currentLocation: { latitude: coords.latitude, longitude: coords.longitude, address: addr } 
+      });
+      setGuest(g => ({ ...g, address: addr }));
+      setAddressMode('view');
+    } catch (err) {
+      console.error(err);
+      setAddressMode('manual');
+    } finally {
+      setGettingLocation(false);
+    }
+  };
+
+  const handleManualSave = async () => {
+    if (guest.address.trim()) {
+      await updateProfile({ address: guest.address });
+      setAddressMode('view');
+    }
+  };
+
   const handleProceedToCheckout = () => {
     if (isLoggedIn) {
       // Already have profile - go straight to checkout, pre-filled
@@ -123,13 +142,9 @@ export const CartPage = () => {
     if (!isLoggedIn && !validate()) return;
 
     setIsProcessing(true);
-    setLocationStatus('requesting');
+    setIsProcessing(true);
 
     try {
-      // 1. Request location
-      const location = await requestLocation();
-      setLocationStatus(location ? 'granted' : 'denied');
-
       if (!user) throw new Error("No valid user found.");
       
       const customerName = user.name;
@@ -153,7 +168,7 @@ export const CartPage = () => {
         tax: `₹${tax.toFixed(0)}`,
         total_amount: `₹${total.toFixed(0)}`,
         order_time: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-        ...(location ? { customer_location: `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}` } : {}),
+        ...(user?.currentLocation ? { customer_location: `${user.currentLocation.latitude.toFixed(5)}, ${user.currentLocation.longitude.toFixed(5)}` } : {}),
       };
 
       try {
@@ -212,13 +227,6 @@ export const CartPage = () => {
             A confirmation has been sent to the store.
           </p>
 
-          {locationStatus === 'granted' && (
-            <div className="flex items-center justify-center gap-1.5 text-xs mb-6 font-medium"
-              style={{ color: 'var(--color-primary-val)' }}>
-              <Navigation className="w-3.5 h-3.5" />
-              Location shared for delivery
-            </div>
-          )}
 
           <div className="flex flex-col gap-3 mt-4">
             <Button onClick={() => navigate('/profile')} className="w-full">View Your Orders</Button>
@@ -427,21 +435,50 @@ export const CartPage = () => {
                           <ProfileInfoRow label="Phone" value={user?.phone || ''} />
                           <ProfileInfoRow label="Email" value={user?.email || ''} />
 
-                          {/* Delivery address - always editable */}
                           <div>
                             <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-muted-fg)' }}>
                               Delivery Address *
                             </label>
-                            <div className="relative">
-                              <MapPin className="absolute left-3 top-3.5 w-4 h-4" style={{ color: 'var(--color-muted-fg)' }} />
-                              <textarea
-                                rows={3}
-                                placeholder="House no., street, city, state, pincode"
-                                value={guest.address}
-                                onChange={setField('address')}
-                                style={{ ...inputStyle, paddingTop: '10px', paddingBottom: '10px', paddingLeft: '42px', resize: 'none' }}
-                              />
-                            </div>
+                            
+                            {addressMode === 'view' && (
+                              <div className="relative p-3 rounded-xl border flex items-start gap-3" style={{ background: 'rgba(255,255,255,0.6)', borderColor: 'var(--glass-border)' }}>
+                                <MapPin className="w-4 h-4 mt-0.5 shrink-0" style={{ color: 'var(--color-primary-val)' }} />
+                                <div className="flex-1">
+                                  <p className="text-sm text-gray-800">{guest.address || 'No address saved.'}</p>
+                                  <button onClick={() => setAddressMode('options')} className="text-xs font-bold mt-2" style={{ color: 'var(--color-primary-val)' }}>Change Address</button>
+                                </div>
+                              </div>
+                            )}
+
+                            {addressMode === 'options' && (
+                              <div className="space-y-2">
+                                <button onClick={handleUseCurrentLocation} disabled={gettingLocation} className="w-full p-3 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:bg-black/5" style={{ borderColor: 'var(--color-primary-val)', color: 'var(--color-primary-val)' }}>
+                                  {gettingLocation ? <Loader2 className="w-4 h-4 animate-spin" /> : <Navigation className="w-4 h-4" />}
+                                  Use Current Location
+                                </button>
+                                <button onClick={() => setAddressMode('manual')} className="w-full p-3 rounded-xl border text-sm font-semibold transition-all hover:bg-black/5" style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
+                                  Enter Address Manually
+                                </button>
+                                <button onClick={() => setAddressMode('view')} className="w-full p-2 text-xs font-semibold mt-1" style={{ color: 'var(--color-muted-fg)' }}>Cancel</button>
+                              </div>
+                            )}
+
+                            {addressMode === 'manual' && (
+                              <div className="relative">
+                                <MapPin className="absolute left-3 top-3.5 w-4 h-4" style={{ color: 'var(--color-muted-fg)' }} />
+                                <textarea
+                                  rows={3}
+                                  placeholder="House no., street, city, state, pincode"
+                                  value={guest.address}
+                                  onChange={setField('address')}
+                                  style={{ ...inputStyle, paddingTop: '10px', paddingBottom: '10px', paddingLeft: '42px', resize: 'none' }}
+                                />
+                                <div className="flex gap-2 mt-2">
+                                  <Button onClick={handleManualSave} className="flex-1" size="sm">Save Address</Button>
+                                  <Button onClick={() => setAddressMode('view')} className="flex-1" size="sm" style={{ background: 'transparent', color: 'var(--color-fg)', border: '1px solid var(--glass-border)' }}>Cancel</Button>
+                                </div>
+                              </div>
+                            )}
                             {errors.address && <p className="text-xs mt-1" style={{ color: 'var(--color-destructive-val)' }}>{errors.address}</p>}
                           </div>
                         </>
@@ -500,12 +537,7 @@ export const CartPage = () => {
                         </>
                       )}
 
-                      {/* Location notice */}
-                      <div className="flex items-start gap-2 text-xs p-3 rounded-xl"
-                        style={{ background: 'rgba(22,163,74,0.08)', color: 'var(--color-primary-val)' }}>
-                        <Navigation className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                        <span>We'll request your location when you place the order to assist with delivery.</span>
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -533,9 +565,7 @@ export const CartPage = () => {
                         disabled={isProcessing}
                       >
                         {isProcessing
-                          ? locationStatus === 'requesting'
-                            ? 'Getting Location...'
-                            : 'Placing Order...'
+                          ? 'Placing Order...'
                           : isLoggedIn
                             ? 'Place Order →'
                             : 'Sign Up & Place Order →'}
