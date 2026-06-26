@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, User, Search, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ShoppingCart, User } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-import { ThemeToggle } from './ThemeToggle';
+import { useAuthStore } from '@/store/authStore';
 
 export const Navbar = () => {
   const { items } = useCartStore();
+  const { isLoggedIn } = useAuthStore();
   const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
-  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <motion.nav
@@ -41,22 +41,11 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center gap-8">
             <Link to="/" className="text-sm font-semibold transition-colors hover:text-primary" style={{ color: 'var(--color-fg)' }}>Home</Link>
             <Link to="/categories" className="text-sm font-medium transition-colors" style={{ color: 'var(--color-muted-fg)' }}>Explore</Link>
-            <Link to="/cart" className="text-sm font-medium transition-colors" style={{ color: 'var(--color-muted-fg)' }}>Offers</Link>
+            <Link to="/about" className="text-sm font-medium transition-colors" style={{ color: 'var(--color-muted-fg)' }}>About</Link>
           </div>
 
           {/* Right icons */}
           <div className="flex items-center gap-1 md:gap-3">
-            <ThemeToggle />
-
-            {/* Search icon — expands on click (mobile) */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="p-2 rounded-full transition-colors hover:bg-black/5"
-              style={{ color: 'var(--color-fg)' }}
-            >
-              <Search className="w-5 h-5" />
-            </button>
-
             {/* Profile (desktop only) */}
             <Link to="/profile" className="hidden md:flex p-2 rounded-full transition-colors hover:bg-black/5" style={{ color: 'var(--color-fg)' }}>
               <User className="w-5 h-5" />
@@ -77,52 +66,19 @@ export const Navbar = () => {
               )}
             </Link>
 
-            {/* Sign in — desktop */}
-            <Link
-              to="/profile"
-              className="hidden md:flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-white shadow transition-opacity hover:opacity-90"
-              style={{ background: 'var(--color-primary-val)' }}
-            >
-              Sign In
-            </Link>
+            {/* Sign in — desktop (only when not logged in) */}
+            {!isLoggedIn && (
+              <Link
+                to="/signin"
+                className="hidden md:flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-white shadow transition-opacity hover:opacity-90"
+                style={{ background: 'var(--color-primary-val)' }}
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Full-width animated search overlay */}
-      <AnimatePresence>
-        {searchOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-            className="absolute inset-0 z-50 flex items-center px-4"
-            style={{
-              height: '64px',
-              background: 'var(--glass-panel-bg)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
-            }}
-          >
-            <Search className="w-5 h-5 shrink-0 mr-3" style={{ color: 'var(--color-muted-fg)' }} />
-            <input
-              autoFocus
-              type="text"
-              placeholder="Search products, categories..."
-              className="flex-1 bg-transparent text-sm focus:outline-none"
-              style={{ color: 'var(--color-fg)' }}
-            />
-            <button
-              onClick={() => setSearchOpen(false)}
-              className="p-2 ml-2 rounded-full hover:bg-black/10 transition-colors"
-              style={{ color: 'var(--color-muted-fg)' }}
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.nav>
   );
 };

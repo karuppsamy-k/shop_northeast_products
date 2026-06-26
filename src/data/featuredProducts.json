@@ -2,41 +2,41 @@
   {
     "productId": "prod_0001",
     "priority": 1,
-    "bannerText": "Top Pick:  Bamboo Shoot"
+    "bannerText": "Top Pick:  Assam CTC Black Tea"
   },
   {
-    "productId": "prod_0019",
+    "productId": "prod_0009",
     "priority": 2,
-    "bannerText": "Top Pick:  Plum"
+    "bannerText": "Top Pick:  Blue Pea Flower Tea"
   },
   {
-    "productId": "prod_0024",
+    "productId": "prod_0010",
     "priority": 3,
-    "bannerText": "Top Pick:  Oolong Tea"
+    "bannerText": "Top Pick:  Masala Chai Blend"
   },
   {
-    "productId": "prod_0030",
+    "productId": "prod_0011",
     "priority": 4,
-    "bannerText": "Top Pick:  Masala Chai"
+    "bannerText": "Top Pick:  Lakadong Turmeric Powder"
   },
   {
-    "productId": "prod_0034",
+    "productId": "prod_0017",
     "priority": 5,
-    "bannerText": "Top Pick:  Sesame Ladoo"
+    "bannerText": "Top Pick:  Naga Chilli Powder"
   },
   {
-    "productId": "prod_0036",
+    "productId": "prod_0018",
     "priority": 6,
-    "bannerText": "Top Pick:  Dry Fish"
+    "bannerText": "Top Pick:  Cinnamon Bark"
   },
   {
-    "productId": "prod_0045",
+    "productId": "prod_0021",
     "priority": 7,
-    "bannerText": "Top Pick:  Beef Pickle"
+    "bannerText": "Top Pick:  Bhut Jolokia Pickle"
   },
   {
-    "productId": "prod_0046",
+    "productId": "prod_0032",
     "priority": 8,
-    "bannerText": "Top Pick:  Garlic Pickle"
+    "bannerText": "Top Pick:  Chak-Hao (Black Rice)"
   }
 ]

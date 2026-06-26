@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import type { Product } from '@/services/api';
+import { useToastStore } from '@/store/toastStore';
+import { ShoppingCart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -24,6 +26,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
   const discount = product.price > product.discountPrice
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : 0;
+  const { showToast } = useToastStore();
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onAddToCart?.(product);
+    showToast(`🛒 ${product.name} added to cart!`);
+  };
 
   return (
     <motion.div
@@ -66,16 +75,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
             )}
           </div>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onAddToCart?.(product);
-            }}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md active:scale-95 transition-transform"
+          <motion.button
+            whileTap={{ scale: 0.85 }}
+            onClick={handleAdd}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md transition-transform"
             style={{ background: 'var(--color-primary-val)' }}
           >
             +
-          </button>
+          </motion.button>
         </div>
       </div>
     </motion.div>

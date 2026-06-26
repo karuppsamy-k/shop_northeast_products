@@ -29,74 +29,84 @@
 /* ── LIGHT THEME (default) ─────────────────────────────── */
 :root,
 [data-theme="light"] {
-  --color-bg: hsl(40, 30%, 96%);
-  --color-fg: hsl(140, 30%, 12%);
-  --color-card-bg: hsl(40, 25%, 93%);
-  --color-card-fg: hsl(140, 30%, 12%);
-  --color-primary-val: hsl(32, 80%, 45%);
+  --color-bg: transparent;
+  --color-fg: hsl(20, 20%, 20%);
+  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+  --color-card-fg: hsl(20, 20%, 20%);
+  --color-primary-val: hsl(25, 75%, 60%);
   --color-primary-fg: hsl(0, 0%, 100%);
-  --color-secondary-val: hsl(140, 15%, 88%);
-  --color-secondary-fg: hsl(140, 30%, 15%);
-  --color-muted-val: hsl(140, 10%, 90%);
-  --color-muted-fg: hsl(140, 10%, 45%);
-  --color-accent-val: hsl(32, 80%, 45%);
+  --color-secondary-val: hsl(80, 20%, 90%);
+  --color-secondary-fg: hsl(20, 20%, 25%);
+  --color-muted-val: hsl(80, 15%, 85%);
+  --color-muted-fg: hsl(20, 15%, 45%);
+  --color-accent-val: hsl(25, 75%, 60%);
   --color-accent-fg: hsl(0, 0%, 100%);
   --color-destructive-val: hsl(0, 62%, 50%);
   --color-destructive-fg: hsl(0, 0%, 100%);
-  --color-border-val: hsl(140, 15%, 82%);
-  --color-input-val: hsl(140, 15%, 82%);
-  --color-ring-val: hsl(32, 80%, 45%);
-  --color-surface-val: hsl(40, 20%, 97%);
+  --color-border-val: rgba(255, 255, 255, 0.5);
+  --color-input-val: rgba(255, 255, 255, 0.5);
+  --color-ring-val: hsl(25, 75%, 60%);
+  --color-surface-val: rgba(255, 255, 255, 0.3);
 
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-card-bg: rgba(255, 255, 255, 0.65);
-  --glass-panel-bg: rgba(245, 242, 235, 0.6);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
-  --glass-card-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 100%);
+  --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  --glass-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 
-  --body-gradient: linear-gradient(135deg, hsl(40, 30%, 97%) 0%, hsl(140, 20%, 94%) 100%);
-  --hero-overlay-from: rgba(245, 242, 235, 0.1);
-  --hero-overlay-via: rgba(245, 242, 235, 0.7);
-  --hero-overlay-to: hsl(40, 30%, 96%);
+  --body-gradient: 
+    radial-gradient(circle at 15% 20%, #d5dfd6 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, #eac2a5 0%, transparent 45%),
+    radial-gradient(circle at 50% 80%, #f1d9c1 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #db9569 0%, transparent 55%),
+    #eef0ea;
+  --hero-overlay-from: rgba(255, 255, 255, 0.2);
+  --hero-overlay-via: rgba(255, 255, 255, 0.5);
+  --hero-overlay-to: rgba(255, 255, 255, 0.8);
   --text-gradient-from: var(--color-primary-val);
-  --text-gradient-to: hsl(32, 90%, 30%);
+  --text-gradient-to: hsl(25, 85%, 45%);
 }
 
 /* ── DARK THEME ────────────────────────────────────────── */
 [data-theme="dark"] {
-  --color-bg: hsl(140, 30%, 6%);
-  --color-fg: hsl(60, 10%, 90%);
-  --color-card-bg: hsl(140, 25%, 10%);
-  --color-card-fg: hsl(60, 10%, 90%);
-  --color-primary-val: hsl(32, 80%, 50%);
-  --color-primary-fg: hsl(60, 10%, 90%);
-  --color-secondary-val: hsl(140, 20%, 15%);
-  --color-secondary-fg: hsl(60, 10%, 90%);
-  --color-muted-val: hsl(140, 20%, 15%);
-  --color-muted-fg: hsl(140, 10%, 60%);
-  --color-accent-val: hsl(32, 80%, 50%);
-  --color-accent-fg: hsl(60, 10%, 90%);
+  --color-bg: transparent;
+  --color-fg: hsl(40, 30%, 90%);
+  --color-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+  --color-card-fg: hsl(40, 30%, 90%);
+  --color-primary-val: hsl(25, 75%, 60%);
+  --color-primary-fg: hsl(0, 0%, 10%);
+  --color-secondary-val: hsl(30, 20%, 15%);
+  --color-secondary-fg: hsl(40, 30%, 90%);
+  --color-muted-val: hsl(30, 15%, 20%);
+  --color-muted-fg: hsl(30, 15%, 65%);
+  --color-accent-val: hsl(25, 75%, 60%);
+  --color-accent-fg: hsl(0, 0%, 10%);
   --color-destructive-val: hsl(0, 62.8%, 30.6%);
   --color-destructive-fg: hsl(60, 10%, 90%);
-  --color-border-val: hsl(140, 20%, 20%);
-  --color-input-val: hsl(140, 20%, 20%);
-  --color-ring-val: hsl(32, 80%, 50%);
-  --color-surface-val: hsl(140, 25%, 8%);
+  --color-border-val: rgba(255, 255, 255, 0.1);
+  --color-input-val: rgba(255, 255, 255, 0.1);
+  --color-ring-val: hsl(25, 75%, 60%);
+  --color-surface-val: rgba(0, 0, 0, 0.4);
 
-  --glass-bg: rgba(20, 35, 25, 0.40);
-  --glass-card-bg: rgba(20, 35, 25, 0.60);
-  --glass-panel-bg: rgba(12, 22, 16, 0.50);
-  --glass-border: rgba(255, 255, 255, 0.10);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  --glass-card-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+  --glass-panel-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  --glass-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 
-  --body-gradient: linear-gradient(135deg, hsl(140, 30%, 8%) 0%, hsl(140, 30%, 4%) 100%);
-  --hero-overlay-from: rgba(12, 22, 16, 0.1);
-  --hero-overlay-via: rgba(12, 22, 16, 0.6);
-  --hero-overlay-to: hsl(140, 30%, 6%);
+  --body-gradient: 
+    radial-gradient(circle at 15% 20%, #2a332a 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, #3d2b1f 0%, transparent 45%),
+    radial-gradient(circle at 50% 80%, #382516 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #422513 0%, transparent 55%),
+    #171513;
+  --hero-overlay-from: rgba(0, 0, 0, 0.2);
+  --hero-overlay-via: rgba(0, 0, 0, 0.6);
+  --hero-overlay-to: rgba(0, 0, 0, 0.8);
   --text-gradient-from: var(--color-primary-val);
-  --text-gradient-to: hsl(45, 100%, 80%);
+  --text-gradient-to: hsl(25, 85%, 45%);
 }
 
 /* ── Base styles ───────────────────────────────────────── */
@@ -121,7 +131,7 @@
 /* ── Glassmorphism utility classes ─────────────────────── */
 @layer utilities {
   .glass {
-    background-color: var(--glass-bg);
+    background: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
@@ -129,21 +139,21 @@
   }
 
   .glass-card {
-    background-color: var(--glass-card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-card-shadow);
-    border-radius: 1rem;
-    transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    border-radius: 1.5rem;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
   }
 
   .glass-panel {
-    background-color: var(--glass-panel-bg);
+    background: var(--glass-panel-bg);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-color: var(--glass-border);
-    transition: background-color 0.35s ease;
+    transition: background 0.35s ease;
   }
 
   .text-gradient {

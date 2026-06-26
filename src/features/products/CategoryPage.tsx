@@ -13,6 +13,15 @@ export const CategoryPage = () => {
   const { addItem } = useCartStore();
 
   useEffect(() => {
+    // Scroll to top when page is loaded, wrap in setTimeout to ensure DOM is ready
+    setTimeout(() => {
+      const list = document.getElementById('scrollableProductList');
+      if (list) {
+        list.scrollTo({ top: 0 });
+      }
+      window.scrollTo(0, 0);
+    }, 10);
+
     api.getProducts().then(setProducts);
     api.getCategories().then((cats) => {
       setCategories(cats);
@@ -29,11 +38,19 @@ export const CategoryPage = () => {
     return matchesSearch && matchesCategory;
   });
 
+  const handleCategorySelect = (id: string) => {
+    setSelectedCategory(id);
+    const list = document.getElementById('scrollableProductList');
+    if (list) {
+      list.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen pt-16 md:pt-20 bg-background overflow-hidden">
       
       {/* Search Bar - Top Area */}
-      <div className="px-4 py-3 bg-[var(--color-surface)] shadow-sm z-20 relative">
+      <div className="hidden md:block px-4 py-3 bg-[var(--color-surface)] shadow-sm z-20 relative">
         <div className="max-w-7xl mx-auto flex items-center bg-[var(--color-background)] rounded-full px-4 py-2 border border-[var(--color-border)] focus-within:border-primary transition-colors">
           <Search className="w-5 h-5 text-foreground/50 mr-3" />
           <input
@@ -56,7 +73,7 @@ export const CategoryPage = () => {
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
+                  onClick={() => handleCategorySelect(cat.id)}
                   className={`relative flex flex-col items-center justify-center p-3 md:p-4 rounded-2xl transition-all duration-300 w-full group ${
                     isSelected 
                       ? 'bg-primary/10 border-primary' 
