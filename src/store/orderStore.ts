@@ -1,39 +1,45 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { CartItem } from './cartStore';
-
-export interface Order {
-  id: string;
-  items: CartItem[];
-  total: number;
-  date: string;
-  status: 'Processing' | 'Delivered' | 'Cancelled';
-  customerName: string;
-  address: string;
-  location?: { lat: number; lng: number };
-}
+import type { Order } from '../models/Order';
+import { OrderService } from '../services/order.service';
 
 interface OrderState {
   orders: Order[];
-  addOrder: (order: Omit<Order, 'id' | 'date' | 'status'>) => void;
+  isLoading: boolean;
+  addOrder: (order: Order) => Promise<void>;
+  fetchOrders: (userId: string) => Promise<void>;
   clearOrders: () => void;
 }
 
 export const useOrderStore = create<OrderState>()(
-  persist(
-    (set) => ({
-      orders: [],
-      addOrder: (orderData) => {
-        const newOrder: Order = {
-          ...orderData,
-          id: Math.random().toString(36).substr(2, 9),
-          date: new Date().toISOString(),
-          status: 'Processing',
-        };
-        set((state) => ({ orders: [newOrder, ...state.orders] }));
-      },
-      clearOrders: () => set({ orders: [] }),
-    }),
-    { name: 'order-storage' }
-  )
+  (set) => ({
+    orders: [],
+    isLoading: false,
+    addOrder: async (orderData) => {
+      set({ isLoading: true });
+      try {
+        await OrderService.createOrder(orderData);
+        set((state) => ({ 
+          orders: [orderData, ...state.orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        }));
+      } catch (err) {
+        console.error("Failed to add order", err);
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    fetchOrders: async (userId: string) => {
+      set({ isLoading: true });
+      try {
+        const fetchedOrders = await OrderService.getUserOrders(userId);
+        // Sort descending by date
+        fetchedOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        set({ orders: fetchedOrders });
+      } catch (err) {
+        console.error("Failed to fetch orders", err);
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+    clearOrders: () => set({ orders: [] }),
+  })
 );

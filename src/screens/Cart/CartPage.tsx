@@ -166,12 +166,16 @@ export const CartPage = () => {
       const order = await api.placeOrder({ items, total });
       notificationService.notify('ORDER_PLACED', order);
 
-      addOrder({
+      await addOrder({
+        orderId: Math.random().toString(36).substring(2, 11),
+        userId: user.uid,
         items,
         total,
-        customerName,
-        address: customerAddress,
-        location,
+        deliveryAddress: customerAddress,
+        paymentMethod: 'Cash on Delivery',
+        orderStatus: 'Pending',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
 
       clearCart();
