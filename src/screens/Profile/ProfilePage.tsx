@@ -51,7 +51,7 @@ const MenuItem = ({
 const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
   const { orders } = useOrderStore();
 
-  const statusColor = (s: Order['orderStatus']) =>
+  const statusColor = (s: Order['status']) =>
     s === 'Delivered' ? '#16a34a' : s === 'Cancelled' ? '#dc2626' : '#f97316';
 
   return (
@@ -100,10 +100,10 @@ const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
                   </div>
                   <span className="text-xs font-bold px-3 py-1 rounded-full"
                     style={{
-                      background: `${statusColor(order.orderStatus)}18`,
-                      color: statusColor(order.orderStatus),
+                      background: `${statusColor(order.status)}18`,
+                      color: statusColor(order.status),
                     }}>
-                    {order.orderStatus}
+                    {order.status}
                   </span>
                 </div>
 
@@ -139,7 +139,7 @@ const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
                   style={{ borderColor: 'var(--glass-border)' }}>
                   <span className="text-sm font-semibold" style={{ color: 'var(--color-muted-fg)' }}>Total Paid</span>
                   <span className="text-base font-black" style={{ color: 'var(--color-primary-val)' }}>
-                    {fmtCur(order.total)}
+                    {fmtCur(order.totalAmount)}
                   </span>
                 </div>
               </div>
@@ -377,7 +377,7 @@ export const ProfilePage = () => {
               <div className="w-px h-10" style={{ background: 'var(--glass-border)' }} />
               <div className="flex-1 text-center">
                 <p className="text-base font-black" style={{ color: 'var(--color-fg)' }}>
-                  ₹{orders.reduce((a, o) => a + o.total, 0).toFixed(0)}
+                  ₹{orders.reduce((a, o) => a + o.totalAmount, 0).toFixed(0)}
                 </p>
                 <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>Spent</p>
               </div>

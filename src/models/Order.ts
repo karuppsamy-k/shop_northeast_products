@@ -13,10 +13,10 @@ export interface Order {
   orderId: string;
   userId: string;
   items: OrderItem[];
-  total: number;
+  totalAmount: number;
   deliveryAddress: string;
   paymentMethod: string;
-  orderStatus: OrderStatus;
+  status: OrderStatus;
   createdAt: string;
   updatedAt: string;
   deliveryPartner?: string;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Loader2, ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2, ArrowLeft, Shield, User } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { AuthInput } from '@/components/ui/AuthInput';
 
@@ -22,7 +22,11 @@ export const SignInPage = () => {
     setLoading(true);
     try {
       await login(email, password);
-      navigate(redirectUrl);
+      if (email === 'karuppasamy.k.dev@gmail.com') {
+        navigate('/admin');
+      } else {
+        navigate(redirectUrl);
+      }
     } catch (err: any) {
       setError(err.message || 'Invalid email or password.');
     } finally {
@@ -47,21 +51,32 @@ export const SignInPage = () => {
 
         <div className="glass-card p-8 md:p-10">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold"
-              style={{
-                background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163,94%,18%))',
-                boxShadow: '0 6px 24px var(--glow-primary), 0 1px 0 rgba(255,255,255,0.2) inset',
-                border: '2px solid rgba(255,255,255,0.18)',
-              }}>
-              S
-            </div>
-            <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--color-fg)' }}>Welcome Back</h1>
-            <p className="text-sm" style={{ color: 'var(--color-muted-fg)' }}>Sign in to your account</p>
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.2 }}
+              className="text-center mb-8"
+            >
+              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold"
+                style={{
+                  background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163,94%,18%))',
+                  boxShadow: '0 6px 24px var(--glow-primary)',
+                  border: '2px solid rgba(255,255,255,0.18)',
+                }}>
+                S
+              </div>
+              <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--color-fg)' }}>
+                Welcome Back
+              </h1>
+              <p className="text-sm" style={{ color: 'var(--color-muted-fg)' }}>
+                Sign in to your account
+              </p>
+            </motion.div>
+          </AnimatePresence>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
             <AuthInput
               label="Email Address"
               type="email"
@@ -70,8 +85,6 @@ export const SignInPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
             />
-
-            {/* Password */}
             <AuthInput
               label="Password"
               type="password"
@@ -91,11 +104,13 @@ export const SignInPage = () => {
               className="w-full py-3.5 rounded-full text-white font-bold text-sm transition-all hover:opacity-90 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
               style={{
                 background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163,94%,18%))',
-                boxShadow: '0 4px 20px var(--glow-primary), 0 1px 0 rgba(255,255,255,0.18) inset',
+                boxShadow: '0 4px 20px var(--glow-primary)',
                 border: '1px solid rgba(255,255,255,0.12)',
               }}
             >
-              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Signing In...</> : 'Sign In'}
+              {loading
+                ? <><Loader2 className="w-4 h-4 animate-spin" /> Signing In...</>
+                : 'Sign In'}
             </button>
           </form>
 
@@ -111,3 +126,4 @@ export const SignInPage = () => {
     </div>
   );
 };
+

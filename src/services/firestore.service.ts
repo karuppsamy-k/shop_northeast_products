@@ -1,7 +1,7 @@
 import { db } from '../firebase/config';
 import { 
   collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, 
-  query, QueryConstraint 
+  query, QueryConstraint, limit, startAfter 
 } from 'firebase/firestore';
 
 export const FirestoreService = {
@@ -48,5 +48,39 @@ export const FirestoreService = {
       results.push({ id: doc.id, ...doc.data() } as T);
     });
     return results;
+  },
+
+  // Paginated Query
+  async queryDocumentsWithCursor<T>(
+    collectionName: string, 
+    constraints: QueryConstraint[], 
+    pageSize: number, 
+    lastDocId?: string
+  ): Promise<{ data: T[], lastDocId: string | null }> {
+    let q;
+    if (lastDocId) {
+      // We need to fetch the last document to use it as a cursor
+      const lastDocRef = doc(db, collectionName, lastDocId);
+      const lastDocSnap = await getDoc(lastDocRef);
+      if (lastDocSnap.exists()) {
+        q = query(collection(db, collectionName), ...constraints, startAfter(lastDocSnap), limit(pageSize));
+      } else {
+        q = query(collection(db, collectionName), ...constraints, limit(pageSize));
+      }
+    } else {
+      q = query(collection(db, collectionName), ...constraints, limit(pageSize));
+    }
+
+    const querySnapshot = await getDocs(q);
+    const results: T[] = [];
+    querySnapshot.forEach((document) => {
+      results.push({ id: document.id, ...document.data() } as T);
+    });
+
+    const newLastDocId = querySnapshot.docs.length > 0 
+      ? querySnapshot.docs[querySnapshot.docs.length - 1].id 
+      : null;
+
+    return { data: results, lastDocId: newLastDocId };
   }
 };

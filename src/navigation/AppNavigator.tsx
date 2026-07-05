@@ -117,6 +117,8 @@ const MainLayout = () => {
   );
 };
 
+import { AdminRoute } from '../components/AdminRoute';
+
 // ─── Router ──────────────────────────────────────────────────────────────────
 export const AppNavigator = () => {
   return (
@@ -134,7 +136,14 @@ export const AppNavigator = () => {
           <Route path="signup" element={<SignUpPage />} />
         </Route>
 
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route 
+          path="/admin/*" 
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          } 
+        />
       </Routes>
     </Router>
   );
