@@ -185,10 +185,10 @@ export const CartPage = () => {
         orderId: Math.random().toString(36).substring(2, 11),
         userId: user.uid,
         items,
-        total,
+        totalAmount: total,
         deliveryAddress: customerAddress,
         paymentMethod: 'Cash on Delivery',
-        orderStatus: 'Pending',
+        status: 'Pending',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });

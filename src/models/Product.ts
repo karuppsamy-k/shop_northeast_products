@@ -1,14 +1,12 @@
 export interface Product {
   id: string;
   name: string;
-  description: string;
   price: number;
-  discountPrice?: number;
-  categoryId: string;
-  storeId: string;
-  image: string;
-  inStock: boolean;
-  stockQuantity: number;
-  createdAt: string;
-  updatedAt: string;
+  offer: number | null; // discount %
+  finalPrice: number; // computed: price - (price * (offer / 100))
+  category: string;
+  imageUrl: string;
+  isActive: boolean;
+  createdAt: string; // ISO timestamp
+  updatedAt: string; // ISO timestamp
 }

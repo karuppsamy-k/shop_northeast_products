@@ -5,6 +5,7 @@ export interface User {
   phone?: string;
   address?: string;
   avatar?: string;
+  role?: "admin" | "user";
   orders?: string[]; // Order IDs
   cart?: any[];
   currentLocation?: {
