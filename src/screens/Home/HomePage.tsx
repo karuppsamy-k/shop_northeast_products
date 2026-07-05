@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Truck, ShieldCheck, RefreshCw, Headphones, ChevronRight, Tag } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, RefreshCw, ChevronRight, Tag } from 'lucide-react';
 import { ProductCard } from '@/components/ProductCard';
 import { useCartStore } from '@/store/cartStore';
 import { useProductStore } from '@/store/productStore';
@@ -12,7 +12,6 @@ import northeastOrganicImg from '@/assets/Northeast_Organic_A3_VeryHighRes.webp'
 import cultivatingImg from '@/assets/Cultivating_Goodness_A3_HighRes.webp';
 import shopImg from '@/assets/Shop.jpg.webp';
 
-import saleBannerImg from '@/assets/sale_banner.png';
 
 const bannerSlides = [
   {

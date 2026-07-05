@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, ArrowLeft, Shield, User } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { AuthInput } from '@/components/ui/AuthInput';
 
