@@ -10,8 +10,15 @@ export default function TopBar({
   subtitle, 
   onMenuClick, 
   isSidebarOpen,
-  actions,
+  actions = undefined,
   profileLabel = "Profile"
+}: {
+  title?: any;
+  subtitle?: any;
+  onMenuClick?: any;
+  isSidebarOpen?: any;
+  actions?: any;
+  profileLabel?: string;
 }) {
   const { theme, toggleTheme } = useThemeStore();
   const unreadCount = 0; // Mocked for now
