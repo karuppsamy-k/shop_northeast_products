@@ -1,5 +1,5 @@
 import { storage } from '../firebase/config';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 export const DEFAULT_CATEGORY_IMAGES: Record<string, string> = {
   "handicrafts": "/defaults/handicrafts.webp",
@@ -11,8 +11,7 @@ export const DEFAULT_CATEGORY_IMAGES: Record<string, string> = {
 };
 
 /**
- * Returns the provided image URL if valid, otherwise falls back to the category default
- * or the generic default image.
+ * Returns the provided image URL if valid, otherwise falls back to the category default.
  */
 export const getProductImageUrl = (imageUrl?: string, category?: string): string => {
   if (imageUrl && imageUrl.trim() !== '') {
@@ -23,56 +22,43 @@ export const getProductImageUrl = (imageUrl?: string, category?: string): string
 };
 
 /**
- * Compresses an image file to WebP format using an HTML Canvas.
+ * Compresses an image file to a small base64 WebP string using canvas.
+ * Targets ~400x400px at quality 0.5 — output is ~30-60KB.
+ * Returns a base64 data URL that can be stored directly in Firestore.
+ * This avoids Firebase Storage entirely and makes saves near-instant.
  */
-export const compressToWebP = (file: File, quality = 0.8): Promise<Blob> => {
+export const compressToBase64 = (file: File, maxSize = 400, quality = 0.55): Promise<string> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
-    
+
     img.onload = () => {
       URL.revokeObjectURL(url);
-      const canvas = document.createElement('canvas');
-      
-      // Calculate new dimensions (optional: max width/height limits can be added here)
-      const MAX_WIDTH = 1200;
-      const MAX_HEIGHT = 1200;
-      let width = img.width;
-      let height = img.height;
 
+      let { width, height } = img;
+
+      // Scale down to fit within maxSize x maxSize
       if (width > height) {
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
+        if (width > maxSize) { height = Math.round(height * maxSize / width); width = maxSize; }
       } else {
-        if (height > MAX_HEIGHT) {
-          width *= MAX_HEIGHT / height;
-          height = MAX_HEIGHT;
-        }
+        if (height > maxSize) { width = Math.round(width * maxSize / height); height = maxSize; }
       }
 
+      const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
-
       const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        return reject(new Error('Failed to get canvas context'));
-      }
+      if (!ctx) return reject(new Error('Canvas context error'));
 
       ctx.drawImage(img, 0, 0, width, height);
 
-      canvas.toBlob(
-        (blob) => {
-          if (blob) {
-            resolve(blob);
-          } else {
-            reject(new Error('Canvas to Blob failed'));
-          }
-        },
-        'image/webp',
-        quality
-      );
+      // Try WebP first, fallback to JPEG
+      const dataUrl = canvas.toDataURL('image/webp', quality);
+      if (dataUrl && dataUrl !== 'data:,') {
+        resolve(dataUrl);
+      } else {
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      }
     };
 
     img.onerror = () => {
@@ -85,14 +71,31 @@ export const compressToWebP = (file: File, quality = 0.8): Promise<Blob> => {
 };
 
 /**
- * Uploads an image (File or Blob) to Firebase Storage and returns the download URL.
+ * @deprecated Use compressToBase64 instead for instant saves.
+ * Legacy WebP blob compression kept for backward compatibility.
  */
-export const uploadProductImage = async (file: File | Blob, category: string, productId: string): Promise<string> => {
-  const fileExtension = 'webp'; // Since we compress to webp
-  const path = `products/${category.toLowerCase()}/${productId}.${fileExtension}`;
-  const storageRef = ref(storage, path);
-  
-  await uploadBytes(storageRef, file, { contentType: 'image/webp' });
-  const downloadUrl = await getDownloadURL(storageRef);
-  return downloadUrl;
+export const compressToWebP = async (file: File): Promise<File> => file;
+
+/**
+ * @deprecated Use compressToBase64 instead.
+ * Legacy Firebase Storage uploader — slow due to network round-trip.
+ */
+export const uploadProductImage = (
+  file: File | Blob,
+  category: string,
+  productId: string,
+  onProgress?: (percent: number) => void
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const path = `products/${category.toLowerCase()}/${productId}.webp`;
+    const storageRef = ref(storage, path);
+    const uploadTask = uploadBytesResumable(storageRef, file, { contentType: 'image/webp' });
+
+    uploadTask.on(
+      'state_changed',
+      (snap) => onProgress?.(Math.round((snap.bytesTransferred / snap.totalBytes) * 100)),
+      reject,
+      async () => resolve(await getDownloadURL(uploadTask.snapshot.ref))
+    );
+  });
 };

@@ -1,0 +1,401 @@
+S.No	Product Name	Category	Weight	Price (₹)	Description	Status
+1	Salty Fish	Canned Fish & Dry Fish	150gm	100	Salty fish is rich in Omega-3 fatty acids, protein, vitamins, minerals, and dietary fiber.	Available
+2	Sardines in Tomato	Canned Fish & Dry Fish	400gm	120	Healthy sardines in tomato sauce packed with Omega-3, protein, vitamins, and minerals.	Available
+3	Mackerel in Brine & Oil	Canned Fish & Dry Fish	400gm	150	Premium mackerel preserved in brine and oil for fresh taste and quality.	Available
+4	Sardine in Tomato	Canned Fish & Dry Fish	155gm	60	Delicious sardines in tomato sauce.	Available
+5	Tuna Sea Crown	Canned Fish & Dry Fish	400gm	150	Premium canned tuna suitable for meals and salads.	Available
+6	Dry Prawns	Canned Fish & Dry Fish	30gm	100	Premium quality dried prawns for traditional recipes.	Available
+7	Phabou Nga	Canned Fish & Dry Fish	50gm	100	Traditional dried fish product.	Available
+8	Dry Bombay Duck	Canned Fish & Dry Fish	80gm	100	Authentic dried Bombay Duck with rich flavor.	Available
+9	Muka Fish Dry	Canned Fish & Dry Fish	30gm	100	Premium dried Muka fish.	Available
+10	Dry Fish Nagaland	Canned Fish & Dry Fish	40gm	100	Traditional Nagaland-style dried fish.	Available
+11	Fresh Bamboo Shoot in Can	Canned Fish & Dry Fish	560gm	200	Crisp bamboo shoots with mild flavor, perfect for stir-fries, soups, and Asian dishes.	Available
+12	Sardines in Brine & Oil	Canned Fish & Dry Fish	400gm	120	Rich source of protein, Omega-3, Vitamin B12, and Vitamin D.	Currently Unavailable
+13	Suri Fish Dry	Canned Fish & Dry Fish	150gm	100	Premium dried Suri fish.	Currently Unavailable
+14	Sardine in Tomato	Canned Fish & Dry Fish	200gm	80	Sardines in tomato sauce.	Currently Unavailable
+15	Sardines in Tomato Sauce A1 Star	Canned Fish & Dry Fish	N/A	60	Premium sardines in tomato sauce.	Currently Unavailable
+S.No	Product Name	Category	Weight/Volume	Price (₹)	Description	Status
+1	Shark Energy Drink	Cold Drinks	N/A	120	Refreshing energy drink formulated to provide an instant energy boost and improved alertness.	Available
+2	Veve Lychee	Cold Drinks	260ml	80	Lychee juice drink with pulp. Contains Vitamin C, sucrose, citric acid, sodium benzoate, and natural lychee flavor. Refreshing and fruity.	Available
+3	Veve Tamarind	Cold Drinks	N/A	80	Refreshing tamarind-flavored beverage with a sweet and tangy taste.	Available
+4	Red Bull Myanmar	Cold Drinks	N/A	120	Popular energy drink designed to increase energy, focus, and endurance.	Available
+S.No	Product Name	Category	Size/Specification	Price (₹)	Description	Status
+1	Wooden Mortar and Pestle (Nagaland Craft)	Cookware & Handicrafts	N/A	700	Handmade wooden mortar and pestle from Northeast India, ideal for making traditional chutneys and spice pastes.	Available
+2	Chopsticks (Printed)	Cookware & Handicrafts	N/A	40	Reusable printed chopsticks suitable for daily dining and Asian cuisine.	Available
+3	Mizoram Aluminium Handmade Mortar and Pestle	Cookware & Handicrafts	N/A	600	Handmade aluminium mortar and pestle, perfect for grinding chutneys, herbs, and spices.	Available
+4	Mizoram Standing Plate (Flat)	Cookware & Handicrafts	N/A	700	Traditional handcrafted standing plate from Mizoram for serving or decoration.	Available
+5	Mizo Cooker	Cookware & Handicrafts	3 Liter	1500	Traditional Mizo cooking pot with 3-liter capacity for everyday cooking.	Available
+6	Mizo Cooker	Cookware & Handicrafts	5 Liter	1800	Traditional Mizo cooking pot with 5-liter capacity.	Available
+7	Mizo Cooker	Cookware & Handicrafts	6 Liter	2200	Traditional Mizo cooking pot with 6-liter capacity.	Available
+8	Mizo Cooker	Cookware & Handicrafts	8 Liter	2500	Traditional Mizo cooking pot with 8-liter capacity.	Available
+9	Naga Wooden Bowl (Small)	Cookware & Handicrafts	Small	300	Authentic handcrafted wooden bowl inspired by traditional Nagaland craftsmanship. Suitable for serving or decoration.	Available
+10	Khukri Nepali Special Knife	Cookware & Handicrafts	Length: 34cm, Width: 5cm, Thickness: 0.5cm	1500	Traditional Nepali Khukri utility knife crafted for durability and multipurpose use.	Available
+11	Wooden Wine Cup	Cookware & Handicrafts	N/A	350	Handcrafted wooden cup suitable for serving beverages or decorative purposes.	Available
+12	Bamboo Cup	Cookware & Handicrafts	N/A	350	Eco-friendly handcrafted bamboo cup for serving beverages.	Available
+13	Yongchak Peeler	Cookware & Handicrafts	N/A	30	Handy peeler designed for Yongchak and vegetables.	Currently Unavailable
+14	Wooden Plate (Gamari)	Cookware & Handicrafts	N/A	700	Handmade wooden plate crafted from teak and Gamari wood, ideal for serving fruits, snacks, and traditional meals.	Currently Unavailable
+15	Mizo Cooker	Cookware & Handicrafts	4 Liter	1650	Traditional Mizo cooking pot with 4-liter capacity.	Currently Unavailable
+16	Premium Big Knife	Cookware & Handicrafts	48cm	1000	Heavy-duty handcrafted multipurpose kitchen knife.	Currently Unavailable
+17	Naga Wooden Stand Plate	Cookware & Handicrafts	N/A	1800	Handmade wooden serving plate with stand made from teak and Gamari wood, suitable for serving and display.	Currently Unavailable
+18	Khasi Knife	Cookware & Handicrafts	N/A	100	Traditional Khasi vegetable knife designed for everyday kitchen use.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Mama Punte	Edible	N/A	10	Instant snack product.	Available
+2	Mama Bhujia	Edible	N/A	10	Crispy bhujia snack.	Available
+3	Kishan Matar	Edible	N/A	10	Roasted green peas snack.	Available
+4	Suka Matar	Edible	100gm	50	Dried green peas snack.	Available
+5	Pappad (Manipur)	Edible	N/A	25	Traditional Manipuri papad.	Available
+6	Mama Big	Edible	N/A	10	Instant snack product.	Available
+7	Churpi	Edible	35gm	50	Traditional Himalayan hard cheese snack.	Available
+8	Kakwa Watin	Edible	N/A	20	Traditional snack item.	Available
+9	Vetrue Rice Cracker Cheese	Edible	N/A	550	Rice crackers with cheese flavor made from rice, vegetable oil, wheat flour, corn flour, starch, cheese, whey powder, milk powder, and sugar.	Available
+10	Vetrue Japanese Rice Cracker Egg	Edible	N/A	15	Japanese-style rice crackers with egg yolk flavor.	Available
+11	Laphetou (Readymade Salad)	Edible	N/A	170	Traditional Myanmar fermented tea leaf salad.	Available
+12	Kangla Bhujia	Edible	Per Pack	10	Crispy snack pack.	Available
+13	Golden Sunflower Seeds	Edible	N/A	60	Ready-to-eat roasted sunflower seeds.	Available
+14	Myanmar Prunes	Edible	N/A	15	Premium dried prunes.	Available
+15	Laphetto	Edible	150gm	150	Burmese fermented tea leaf product.	Available
+16	Chicken Sausage	Edible	Per Piece	30	Ready-to-cook chicken sausage.	Available
+17	Titora	Edible	1 Piece	60	Traditional preserved fruit snack.	Available
+18	Khattu	Edible	100gm	100	Traditional edible product.	Available
+19	Sesame Seeds & Perilla Seeds	Edible	Per Pack	30	Mixed sesame and perilla seeds.	Available
+20	Sour Plum	Edible	N/A	10	Sweet and sour preserved plum snack.	Available
+21	Burma Peanuts	Edible	100gm	50	Premium roasted Burmese peanuts.	Available
+22	Cartoon Sunflower Seeds	Edible	N/A	50	Roasted sunflower seed snack.	Available
+23	Korean Classic Rice Wafer Snacks	Edible	N/A	500	Traditional Korean crispy rice wafer snack.	Available
+24	Potato Spicy Biscuit	Edible	N/A	40	Spicy potato-flavored biscuits.	Available
+25	Tiger Sunflower Seeds	Edible	Walnut Flavour	60	Walnut-flavored roasted sunflower seeds.	Currently Unavailable
+26	Roasted Seaweed	Edible	10 Sheets	250	Crispy roasted seaweed sheets.	Currently Unavailable
+27	Top Sunflower Seeds	Edible	N/A	50	Premium roasted sunflower seeds.	Currently Unavailable
+28	Mimki	Edible	N/A	50	Traditional snack product.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Citric Acid	Preserved Fruits (Dry)	N/A	20	Naturally occurring food-grade citric acid used in cooking and preserving foods.	Available
+2	Tamarind (Green)	Preserved Fruits (Dry)	N/A	10	Preserved green tamarind.	Available
+3	Plum	Preserved Fruits (Dry)	1 Packet	10	Preserved plum snack.	Available
+4	Happy Tamarind	Preserved Fruits (Dry)	N/A	10	Sweet preserved tamarind snack.	Available
+5	Red Tamarind	Preserved Fruits (Dry)	N/A	10	Red preserved tamarind snack.	Available
+6	Mango Stick	Preserved Fruits (Dry)	N/A	20	Preserved dried mango sticks.	Available
+7	Prunes	Preserved Fruits (Dry)	N/A	15	Naturally preserved dried prunes.	Available
+8	Rhus Chinensis (Sumac Powder)	Preserved Fruits (Dry)	N/A	50	Tangy sumac powder used as a seasoning.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Mikko	Tea & Coffee	N/A	20	Instant tea mix made with sugar, corn, and milk.	Available
+2	Thai Coffee	Tea & Coffee	N/A	25	Premium Thai coffee blend.	Available
+3	Sunday Instant Tea Mix	Tea & Coffee	Per Sachet	25	Traditional Myanmar instant tea mix. Simply add 230ml hot water and stir well.	Available
+4	Maaza Gold Assam Tea	Tea & Coffee	250gm	180	Premium Assam tea leaves.	Available
+5	Melosa Salt Tea	Tea & Coffee	Per Sachet	30	Traditional salt tea mix.	Available
+6	Burmese Green Tea	Tea & Coffee	N/A	60	Authentic Burmese green tea.	Currently Unavailable
+7	Sunday Instant Coffee Mix	Tea & Coffee	Per Sachet	25	Myanmar 3-in-1 instant coffee mix with sugar, non-dairy creamer, and coffee.	Currently Unavailable
+8	Assam Green Tea	Tea & Coffee	100gm	500	100% organic hand-grown Assam green tea.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Axone Dry	Fermented Items	100gm	100	Fermented dried soybean, a traditional Northeast Indian delicacy.	Available
+2	Telesh Sidol Fermented Fish	Fermented Items	100gm	100	Fermented Telesh (Hilsa/Elish) fish with a milder taste and less bitterness than traditional Ngari.	Available
+3	Segmai Ngari Fermented Dry Fish	Fermented Items	N/A	200	Traditional Manipuri fermented freshwater fish prepared with mustard oil and salt. Commonly used in Eromba and other regional dishes.	Available
+4	Distilled Fermented Mustard Leaf Liquid	Fermented Items	N/A	300	Fermented mustard leaf juice used for making traditional chutneys and flavoring dishes.	Available
+5	Sathu / Saumm	Fermented Items	N/A	70	Traditional fermented pork lard or beef fat used in Northeast Indian cuisine.	Available
+6	Mashed Axone (Nagaland)	Fermented Items	N/A	70	Smoked and re-fermented mashed soybean, a key ingredient in Nagaland curries and chutneys.	Available
+7	Ngari (Medium Size)	Fermented Items	125gm	100	Traditional fermented fish from Manipur. Original Price: ₹120 (17% OFF).	Available
+8	Fermented Bamboo Shoot	Fermented Items	N/A	100	Traditional fermented bamboo shoots widely used in Naga cuisine for curries and chutneys.	Available
+9	Naga Ngari	Fermented Items	200gm	200	Traditional fermented fish, an indigenous delicacy of Northeast Indian tribal cuisine.	Available
+10	Fermented Soya Beans (Axone Manipur)	Fermented Items	N/A	50	Authentic fermented soybean from Manipur.	Currently Unavailable
+11	Sidol / Ngari Paste	Fermented Items	120gm	100	Ready-to-use fermented fish paste for traditional recipes.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Passion Fruit Leaf	Fresh Vegetables	N/A	50	Bitter leafy vegetable, traditionally consumed to support healthy blood pressure.	Available
+2	Mustard Leaf	Fresh Vegetables	Per Bunch	50	Fresh mustard leaves for boiling, curries, and meat dishes.	Available
+3	Bitter Eggplant	Fresh Vegetables	N/A	50	Bitter variety of eggplant used in chutneys, curries, and traditional medicine.	Available
+4	Eggplant	Fresh Vegetables	170gm	50	Fresh eggplant suitable for frying, boiling, or cooking with meat and potatoes.	Available
+5	Culantro	Fresh Vegetables	Per Bunch	30	Northeast Indian coriander with a strong aromatic flavor.	Available
+6	King Chili Fresh	Fresh Vegetables	8–10 Pieces	100	One of the world's hottest chilies, widely used in Northeast Indian cuisine.	Available
+7	Chives	Fresh Vegetables	Per Packet	50	Fresh chives used for pakoda, chutney, and Manipuri dishes.	Available
+8	Northeast Onion	Fresh Vegetables	Per Bunch	50	Organic local onions mainly used for making chutney.	Available
+9	Houttuynia Cordata Roots	Fresh Vegetables	N/A	30	Fresh roots used in salads and chutneys.	Available
+10	Jack/Sword Beans	Fresh Vegetables	Per Bunch	50	Nutritious beans rich in vitamins and minerals.	Available
+11	BP Control Leaf (Anphui)	Fresh Vegetables	N/A	50	Traditional leafy vegetable commonly consumed with boiled vegetables and meat.	Available
+12	Red Small Potato	Fresh Vegetables	N/A	130	Small red fingerling potatoes ideal for roasting and curries.	Available
+13	Nepali Mirchi (Dalle Khorsani)	Fresh Vegetables	120gm	100	Highly spicy Nepali chili variety.	Available
+14	Assam Nimbu	Fresh Vegetables	2 Pieces	60	Large juicy Assam lemons with a sour flavor.	Available
+15	Alocasia Odora (Yendem)	Fresh Vegetables	N/A	50	Traditional edible taro plant used in Northeast cuisine.	Available
+16	Beans Leaf	Fresh Vegetables	N/A	50	Nutritious leafy vegetable rich in vitamins and minerals.	Available
+17	Lingnamse (Mukthrubi) Timbur Leaf	Fresh Vegetables	N/A	30	Traditional aromatic leaf. Original Price ₹50 (40% OFF).	Available
+18	Allium Hookeri Roots & Stem	Fresh Vegetables	N/A	50	Aromatic herb used in fermented foods and seasonings.	Available
+19	Hometown Cabbage (Kopisoi)	Fresh Vegetables	N/A	50	Fresh local cabbage variety.	Available
+20	Fresh Bamboo Shoot	Fresh Vegetables	500gm	200	Fresh bamboo shoots rich in nutrients and commonly used in Asian cuisine.	Available
+21	Sour Leaf (Toiki)	Fresh Vegetables	N/A	50	Sour leafy vegetable for curries and chutneys.	Available
+22	Sijou Fresh	Fresh Vegetables	N/A	50	Traditional Kuki vegetable used in rice porridge and meat curry.	Available
+23	Brinjal Leaf	Fresh Vegetables	N/A	50	Leafy vegetable that pairs well with meat dishes.	Available
+24	Village Bay Leaf (Fresh)	Fresh Vegetables	Per Packet	50	Fresh aromatic bay leaves for cooking and tea.	Available
+25	Loklei (Thai Ginger)	Fresh Vegetables	N/A	50	Fresh Thai ginger with aromatic flavor.	Available
+26	Galangal Stem (Aidon/Sarei/Tara)	Fresh Vegetables	N/A	50	Tender galangal stems for curries and stir-fries.	Available
+27	Mountain Pepper Fresh	Fresh Vegetables	Per Packet	50	Fresh mountain pepper for seasoning.	Available
+28	Water Mimosa (Ekai Thabi)	Fresh Vegetables	N/A	50	Aquatic vegetable commonly used in Northeast cooking.	Available
+29	Roselle Leaf (Sougri/Gongura)	Fresh Vegetables	Per Bunch	50	Sour leaves ideal for fish and meat dishes.	Available
+30	Fresh Turmeric	Fresh Vegetables	150gm	50	Fresh Northeast turmeric.	Available
+31	Small Village Chili	Fresh Vegetables	40gm	50	Local spicy chili variety.	Available
+32	Fresh Spicy Roots	Fresh Vegetables	5 Pieces	50	Aromatic roots used as spice in meat dishes.	Available
+33	Ansa	Fresh Vegetables	N/A	50	Traditional Northeast vegetable.	Available
+34	Komprek	Fresh Vegetables	N/A	50	Traditional fresh vegetable.	Available
+35	Hometown Mustard	Fresh Vegetables	N/A	50	Fresh local mustard greens.	Available
+36	Cranberry Bean (Kolar)	Fresh Vegetables	200gm	50	Fresh cranberry beans from Nagaland.	Available
+37	Raw Bamboo Shoot	Fresh Vegetables	Per Kg	250	Fresh raw bamboo shoots.	Available
+38	Bekungbul Beans	Fresh Vegetables	N/A	50	Traditional Northeast beans.	Available
+39	Pumpkin	Fresh Vegetables	3 Pieces	150	Fresh pumpkins.	Available
+40	Wild Basil Leaf	Fresh Vegetables	N/A	30	Aromatic wild basil leaves.	Available
+41	Sougri Red	Fresh Vegetables	N/A	50	Traditional sour leafy vegetable.	Available
+42	Fresh Mint Leaf / Lomba Leaf / Lengmasel Leaf	Fresh Vegetables	N/A	50	Fresh aromatic herbs used for cooking and chutneys.	Available
+43	Banana Flower	Fresh Vegetables	N/A	150	Fresh Banana Flower	Currently Unavailable
+44	Water Fox Nuts (Euryale ferox)	Fresh Vegetables	N/A	70	Fresh Water Fox Nuts	Currently Unavailable
+45	Centella Asiatica (Pennywort)	Fresh Vegetables	100gm	50	Fresh Centella Asiatica	Currently Unavailable
+46	Winged Beans	Fresh Vegetables	Per Bunch	50	Fresh Winged Beans	Currently Unavailable
+47	Turkey Berry	Fresh Vegetables	Per Packet	50	Fresh Turkey Berry	Currently Unavailable
+48	Dimapur Yam / Kochu / Arvi	Fresh Vegetables	N/A	100	Fresh Yam	Currently Unavailable
+49	Pigeon Pea	Fresh Vegetables	100gm	50	Fresh Pigeon Pea	Currently Unavailable
+50	Mongche Tender Banyan Leaf	Fresh Vegetables	N/A	10	Fresh Banyan Leaf	Currently Unavailable
+51	Green Pea Leaf	Fresh Vegetables	Per Packet	50	Fresh Green Pea Leaf	Currently Unavailable
+52	Broad Beans (Hawai Mubi)	Fresh Vegetables	150gm	50	Fresh Broad Beans	Currently Unavailable
+53	Senegalia Pennata (Khangkho)	Fresh Vegetables	N/A	60	Fresh Khangkho	Currently Unavailable
+54	Fern Fiddle (Dhekia Saag)	Fresh Vegetables	2 Bunches	100	Fresh Fern Fiddle	Currently Unavailable
+55	Dysoxylum (Thingthupi)	Fresh Vegetables	N/A	70	Fresh Thingthupi	Currently Unavailable
+56	Tamarillo (Tree Tomato)	Fresh Vegetables	5 Pieces	100	Fresh Tamarillo	Currently Unavailable
+57	Pumpkin Leaf	Fresh Vegetables	Per Bunch	50	Fresh Pumpkin Leaf	Currently Unavailable
+58	Fish Mint Leaf	Fresh Vegetables	N/A	50	Fresh Fish Mint Leaf	Currently Unavailable
+59	Chayote/Squash Leaf	Fresh Vegetables	N/A	50	Fresh Squash Leaf	Currently Unavailable
+60	Sichuan (Michinga Patta)	Fresh Vegetables	N/A	50	Fresh Sichuan	Currently Unavailable
+61	Ginger Flower	Fresh Vegetables	N/A	50	Fresh Ginger Flower	Currently Unavailable
+62	Oyster Mushroom Fresh	Fresh Vegetables	200gm	100	Fresh Oyster Mushroom	Currently Unavailable
+63	Banana Stem	Fresh Vegetables	Per Piece	50	Fresh Banana Stem	Currently Unavailable
+64	Mustard Leaf with Flowers	Fresh Vegetables	N/A	50	Fresh Mustard Leaf	Currently Unavailable
+65	Bok Choy	Fresh Vegetables	N/A	60	Fresh Bok Choy	Currently Unavailable
+66	Sticky Corn	Fresh Vegetables	3 Pieces	100	Fresh Sticky Corn	Currently Unavailable
+67	Lettuce	Fresh Vegetables	200gm	50	Fresh Lettuce	Currently Unavailable
+68	Village Beans	Fresh Vegetables	Per Bunch	50	Fresh Village Beans	Currently Unavailable
+69	Sponge Gourd	Fresh Vegetables	3 Pieces	50	Fresh Sponge Gourd	Currently Unavailable
+70	Ann Nel	Fresh Vegetables	N/A	50	Fresh Ann Nel	Currently Unavailable
+71	Baibing Yam Flower	Fresh Vegetables	9 Pieces	50	Fresh Yam Flower	Currently Unavailable
+72	Nongmangkha Bitter Vegetables	Fresh Vegetables	Per Packet	50	Fresh Nongmangkha	Currently Unavailable
+73	Elephant Apple	Fresh Vegetables	Per Piece	50	Fresh Elephant Apple	Currently Unavailable
+74	Radish Seeds	Fresh Vegetables	150gm	50	Fresh Radish Seeds	Currently Unavailable
+75	Ankhapi Bitter Leaf	Fresh Vegetables	N/A	50	Fresh Bitter Leaf	Currently Unavailable
+76	Kumhoi Pardi (Hill Coriander)	Fresh Vegetables	N/A	50	Fresh Hill Coriander	Currently Unavailable
+77	Aidu	Fresh Vegetables	150gm	20	Fresh Aidu	Currently Unavailable
+78	Yenbum (Chehlep)	Fresh Vegetables	N/A	50	Fresh Yenbum	Currently Unavailable
+79	Turmeric Flower	Fresh Vegetables	N/A	50	Fresh Turmeric Flower	Currently Unavailable
+80	Jhum Brinjal	Fresh Vegetables	N/A	50	Fresh Brinjal	Currently Unavailable
+81	Ginger with Leaf	Fresh Vegetables	N/A	50	Fresh Ginger	Currently Unavailable
+82	Tender Baby Pumpkin	Fresh Vegetables	Per Packet	150	Fresh Baby Pumpkin	Currently Unavailable
+83	Kochu Lotti	Fresh Vegetables	Per Bunch	30	Fresh Kochu Lotti	Currently Unavailable
+84	Northeast Ash Gourd	Fresh Vegetables	1 Kg	200	Fresh Ash Gourd	Currently Unavailable
+85	Red Strong Ginger	Fresh Vegetables	100gm	50	Fresh Red Ginger	Currently Unavailable
+86	Water Cress (Sim Rayo Saag)	Fresh Vegetables	N/A	50	Fresh Water Cress	Currently Unavailable
+87	Sticky Green Pumpkin	Fresh Vegetables	Per Kg	200	Fresh Green Pumpkin	Currently Unavailable
+88	Ahthipah Feija	Fresh Vegetables	N/A	20	Fresh Ahthipah Feija	Currently Unavailable
+89	Kawthbel (Chonbeh)	Fresh Vegetables	N/A	50	Fresh Kawthbel	Currently Unavailable
+90	Big Chives	Fresh Vegetables	N/A	10	Fresh Big Chives	Currently Unavailable
+91	Small Chili with Leaf	Fresh Vegetables	N/A	50	Fresh Chili	Currently Unavailable
+92	Wild Mushrooms	Fresh Vegetables	2 Pieces	80	Fresh Wild Mushrooms	Currently Unavailable
+93	Village Cucumber	Fresh Vegetables	Per Piece	50	Fresh Cucumber	Currently Unavailable
+94	Tender Small Drumstick	Fresh Vegetables	N/A	60	Fresh Drumstick	Currently Unavailable
+95	Big Pumpkin	Fresh Vegetables	Per Piece	100	Fresh Big Pumpkin	Currently Unavailable
+96	Indian Trumpet Flower	Fresh Vegetables	Per Piece	100	Fresh Indian Trumpet Flower	Currently Unavailable
+97	White Gourd	Fresh Vegetables	3 Pieces	30	Fresh White Gourd	Currently Unavailable
+98	Lengmasel Lomba Fresh	Fresh Vegetables	N/A	50	Fresh Lengmasel	Currently Unavailable
+99	Roselle Flower Fresh	Fresh Vegetables	N/A	50	Fresh Roselle Flower	Currently Unavailable
+100	Cherry Tomato	Fresh Vegetables	N/A	60	Fresh Cherry Tomato	Currently Unavailable
+101	Allium Hookeri Roots & Leaf	Fresh Vegetables	N/A	50	Fresh Allium Hookeri	Currently Unavailable
+102	Yongchak Ready to Cook	Fresh Vegetables	N/A	100	Fresh Yongchak	Currently Unavailable
+103	Vohbilche / Yempat	Fresh Vegetables	N/A	50	Fresh Vohbilche	Currently Unavailable
+104	Small Bamboo Shoot	Fresh Vegetables	200gm	140	Fresh Bamboo Shoot	Currently Unavailable
+105	Taro Leaf with Stem	Fresh Vegetables	N/A	50	Fresh Taro Leaf	Currently Unavailable
+106	Passion Fruit	Fresh Vegetables	6 Pieces	100	Fresh Passion Fruit	Currently Unavailable
+107	Wild Bamboo	Fresh Vegetables	Per Kg	250	Fresh Wild Bamboo	Currently Unavailable
+108	Laiva Bamboo	Fresh Vegetables	3 Pieces	120	Fresh Laiva Bamboo	Currently Unavailable
+109	Timbur Fresh Seeds	Fresh Vegetables	N/A	50	Fresh Timbur Seeds	Currently Unavailable
+110	Taro Leaf	Fresh Vegetables	N/A	50	Fresh Taro Leaf	Currently Unavailable
+111	Hometown Mustard (Manipur)	Fresh Vegetables	N/A	50	Fresh Mustard	Currently Unavailable
+112	Jhum Ansa	Fresh Vegetables	N/A	50	Fresh Jhum Ansa	Currently Unavailable
+113	Red Tiny Potato	Fresh Vegetables	Per Kg	250	Fresh Potato	Currently Unavailable
+114	Nimbu Pata	Fresh Vegetables	N/A	40	Fresh Nimbu Pata	Currently Unavailable
+115	Nagaland Yongchak	Fresh Vegetables	3-4 Pieces	100	Fresh Yongchak	Currently Unavailable
+116	Long Brinjal	Fresh Vegetables	5 Pieces	50	Fresh Brinjal	Currently Unavailable
+117	Phakpai (Vietnamese Coriander)	Fresh Vegetables	N/A	10	Fresh Phakpai	Currently Unavailable
+118	Yam Long Stem	Fresh Vegetables	5 Pieces	50	Fresh Yam Stem	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Paddyfield Snail	Meat Collection	400gm	150	Fresh rice field snails, naturally rich in protein and calcium with low fat content.	Available
+2	Village Smoked Buff	Meat Collection	250gm	500	Boneless buffalo meat traditionally smoked over firewood until completely dried.	Available
+3	Pork	Meat Collection	N/A	400	Fresh pork suitable for curries, grilling, and traditional recipes.	Available
+4	Rocky Snail	Meat Collection	400gm (Per Pack)	150	Fresh rocky snails ideal for traditional Northeast dishes.	Available
+5	Buffalo with Bone	Meat Collection	N/A	350	Fresh buffalo meat with bone. Pre-order required at least 1 day in advance.	Available
+6	Chicken Tin	Meat Collection	N/A	180	Ready-to-eat canned chicken.	Available
+7	Smoked Pork (Regular)	Meat Collection	500gm	400	Pork smoked over firewood/charcoal to achieve an authentic smoky flavor.	Available
+8	Crispy Pork Rinds	Meat Collection	60gm	100	Crispy fried pork skin with a rich savory flavor, perfect as a snack.	Available
+9	Crispy Buff Rinds	Meat Collection	80gm	200	Crispy buffalo skin snack with a crunchy texture.	Available
+10	Dry Frog	Meat Collection	40gm	200	Traditional dried frog used in Northeast India for medicinal purposes and regional dishes.	Currently Unavailable
+11	Buff Tin	Meat Collection	N/A	200	Ready-to-eat canned buffalo meat.	Currently Unavailable
+12	Fresh Buff Skin	Meat Collection	Per Piece	100	Fresh buffalo skin commonly used for curries and chutneys in Northeast cuisine.	Currently Unavailable
+13	Dry Frog	Meat Collection	1 Piece	100	Traditional dried frog for medicinal and culinary use.	Currently Unavailable
+14	Crab	Meat Collection	4 Pieces	100	Fresh crabs suitable for curries and seafood dishes.	Currently Unavailable
+15	Village Smoked Pork	Meat Collection	Per Kg	1500	Authentic village-style pork smoked over firewood for several days, offering a rich traditional smoky taste.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Shredded Beef Pickle	Pickle Items	N/A	150	Traditional shredded beef pickle with authentic Northeast flavors.	Available
+1	Chestnut	Edible	100gm	50	Premium chestnuts suitable for roasting and snacking.	Currently Unavailable
+1	Tuibuh	Mix Collection	N/A	300	Traditional Northeast product.	Available
+2	Gul Tooth Cleaner	Mix Collection	N/A	30	Traditional tooth cleaning powder.	Available
+3	Local Sada Leaf	Mix Collection	Per Pack (5 Pieces)	50	Traditional betel leaf from Assam.	Available
+4	Betel Nuts (Tamul)	Mix Collection	6 Pieces	50	Fresh betel nuts commonly consumed with betel leaves.	Available
+5	Titli Hink	Mix Collection	N/A	100	Traditional hing (asafoetida) seasoning.	Available
+6	Prawn Cracker	Mix Collection	N/A	100	Artisanal Sikkim prawn crackers. No MSG and gluten-free.	Available
+7	Limestone Chuna	Mix Collection	90gm	50	Food-grade lime commonly used with betel leaves.	Available
+8	Mizo Sada	Mix Collection	N/A	30	Traditional Mizo chewing product. For adults (18+) only. Consumption of tobacco products is injurious to health.	Available
+9	Sajan	Mix Collection	N/A	50	Traditional chewing product. For adults (18+) only. Consumption of tobacco products is injurious to health.	Available
+10	Rally	Mix Collection	N/A	40	Tobacco chewing product. For adults (18+) only. Consumption of tobacco products is injurious to health.	Available
+11	Sada Daba Box	Mix Collection	N/A	30	Storage box for traditional sada products.	Available
+12	Janata Biri	Mix Collection	Per Piece	30	Traditional biri. For adults (18+) only. Smoking is injurious to health.	Available
+13	Sankha Biri	Mix Collection	N/A	30	Traditional biri. For adults (18+) only. Smoking is injurious to health.	Available
+14	Talab	Mix Collection	N/A	500	Traditional adult-use tobacco product. For adults (18+) only.	Available
+15	Nevla	Mix Collection	N/A	30	Traditional chewing product. For adults (18+) only.	Available
+16	Kaka	Mix Collection	N/A	20	Traditional chewing product. For adults (18+) only.	Available
+17	Zouziel Mizoram Local Biri	Mix Collection	N/A	30	Traditional Mizo biri. For adults (18+) only. Smoking is injurious to health.	Available
+18	Nepali Yeast	Mix Collection	50gm	50	Traditional yeast used for preparing fermented rice beverages.	Available
+19	Valiant	Mix Collection	N/A	230	Adult-use tobacco product. For adults (18+) only.	Available
+20	Golden	Mix Collection	N/A	40	Adult-use tobacco product. For adults (18+) only.	Available
+21	Win	Mix Collection	N/A	200	Adult-use tobacco product. For adults (18+) only.	Available
+22	FarStar KingSize	Mix Collection	N/A	230	King-size tobacco product. For adults (18+) only.	Available
+23	Manipur Yeast	Mix Collection	50gm	50	Traditional yeast used to prepare Northeast rice beer.	Currently Unavailable
+24	Olive / Jolpai / Jonmot / Chorphon Sour Fruit	Mix Collection	200gm	50	Fresh sour fruit commonly used in pickles and traditional dishes.	Currently Unavailable
+25	Prunes / Boroi Dry Fruit	Mix Collection	100gm	50	Premium dried prunes (Boroi).	Currently Unavailable
+26	Fresh Sweet Plum	Mix Collection	200gm	50	Fresh sweet plums.	Currently Unavailable
+27	Godzilla Mosquito Coil	Mix Collection	Up to 8 Hours	120	Mosquito coil providing protection for up to 8 hours.	Currently Unavailable
+28	Sticky Rice Steam	Mix Collection	N/A	50	Traditional steamed snack made from sticky rice flour.	Currently Unavailable
+29	Harra	Mix Collection	100gm	50	Traditional herbal product.	Currently Unavailable
+30	Sinju	Mix Collection	N/A	50	Traditional Northeast salad mix.	Currently Unavailable
+31	Village Brush	Mix Collection	N/A	50	Traditional natural toothbrush.	Currently Unavailable
+32	Big Leaf	Mix Collection	5 Pieces	50	Fresh large leaves used traditionally with betel nut.	Currently Unavailable
+33	Pomelo	Mix Collection	N/A	150	Fresh pomelo fruit.	Currently Unavailable
+34	Silver Berry	Mix Collection	Per Packet	50	Fresh silver berries.	Currently Unavailable
+35	Burmese Grapes	Mix Collection	200gm	50	Fresh Burmese grapes.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Mimi (Instant Noodles)	Noodle Items	N/A	10	Classic instant noodles for a quick and easy meal.	Available
+2	Wai Wai	Noodle Items	N/A	15	Popular instant noodles that can be eaten cooked or straight from the pack.	Available
+3	Spicy Noodles 2X	Noodle Items	N/A	150	Extra spicy instant noodles for spicy food lovers.	Available
+4	Spicy Noodles 3X	Noodle Items	N/A	150	Extremely spicy noodles (13,200 Scoville).	Available
+5	Current Noodle	Noodle Items	60gm	40	Instant noodles made with natural ingredients and rich flavor.	Available
+6	Buldak Fire	Noodle Items	N/A	150	Korean spicy fire noodles.	Available
+7	Rumpum Chicken Flavor	Noodle Items	N/A	10	Chicken-flavored instant noodles.	Available
+8	Shin Ramyun Veg Noodle	Noodle Items	N/A	140	Premium Korean-style vegetarian ramen noodles.	Available
+9	Buldak Cream Carbonara	Noodle Items	N/A	150	Creamy carbonara-flavored Korean spicy noodles.	Available
+10	Rumpum Veg	Noodle Items	N/A	10	Vegetarian instant noodles.	Available
+11	Thukpa Noodles	Noodle Items	400gm	150	Traditional noodles suitable for Thukpa and soups.	Available
+12	Samyang 2X Sauce	Noodle Items	N/A	500	Original Samyang 2X spicy sauce.	Available
+13	Mamee Tom Yum Shrimp Flavor Soupy Noodle	Noodle Items	N/A	50	Tom Yum shrimp-flavored instant soup noodles.	Currently Unavailable
+14	Korean Kimchi	Noodle Items	N/A	150	Authentic Korean kimchi.	Currently Unavailable
+15	Shin Shin Instant Vermicelli Noodles	Noodle Items	N/A	50	Instant vermicelli noodles.	Currently Unavailable
+16	Super Spicy	Noodle Items	N/A	140	Super spicy instant noodles.	Currently Unavailable
+17	Daw Shan	Noodle Items	N/A	120	Rice vermicelli noodles with masala and seasoning sauce.	Currently Unavailable
+18	Buldak Cheese	Noodle Items	N/A	150	Korean cheese-flavored spicy noodles.	Currently Unavailable
+19	Sutah	Noodle Items	Per Packet	150	Premium instant noodle packet.	Currently Unavailable
+20	Buldak Sauce	Noodle Items	N/A	500	Original Buldak spicy sauce.	Currently Unavailable
+21	Cream Carbonara Sauce	Noodle Items	N/A	500	Creamy carbonara sauce for noodles and pasta.	Currently Unavailable
+22	Ramen Kimchi	Noodle Items	N/A	150	Kimchi-flavored ramen noodles.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Rice Cake (Shwe Nan Taw)	Biscuit Items	N/A	140	Traditional Myanmar rice cake.	Available
+2	Joker Super Butter Crispy Biscuit	Biscuit Items	N/A	120	Crispy butter biscuits made with wheat flour, sugar, egg, milk powder, and vegetable oil.	Available
+3	Pran Dry Cake	Biscuit Items	N/A	70	Soft dry cake suitable for tea-time snacks.	Available
+4	Pran Sweet Toast	Biscuit Items	250gm	100	Sweet cream-filled toast biscuits, perfect with tea.	Available
+5	Dingwang Snow Cookie	Biscuit Items	N/A	10	Sweet and salty snow cookie.	Available
+6	New Rice Cake	Biscuit Items	N/A	250	Traditional rice cake snack.	Available
+7	Ruskit Dry Cake	Biscuit Items	N/A	70	Soft and delicious dry cake.	Available
+S.No	Product Name	Category	Subcategory	Weight/Specification	Price (₹)	Description	Status
+1	Slice Big Bamboo Shoot	Other Collections	Fermented Items	500gm	200	Fresh sliced bamboo shoots, ideal for traditional Northeast curries and fermented recipes.	Available
+1	Dalle Dip	Other Collections	Pickle Items	N/A	250	Traditional spicy Dalle chili dip from the Himalayan region.	Available
+2	Yonchak Pickle	Other Collections	Pickle Items	N/A	100	Traditional Yonchak (Tree Bean) pickle with authentic Northeast flavors.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Spicy Buff Pickle	Pickle Collection	N/A	150	Homemade spicy buffalo pickle.	Available
+2	Shrimp Paste	Pickle Collection	N/A	10	Traditional shrimp paste used as a condiment.	Available
+3	Model Fish (Sulay)	Pickle Collection	N/A	10	Traditional preserved fish product.	Available
+4	Chicken Pickle (Homemade)	Pickle Collection	N/A	200	Homemade chicken pickle prepared with Sichuan pepper, King Chili, salt, and oil.	Available
+5	Fried Fish Sauce & Chili	Pickle Collection	N/A	15	Ready-to-eat fried fish sauce with chili.	Available
+6	Poirei Yongchak Pickle	Pickle Collection	N/A	250	Authentic Manipuri Yongchak (Tree Bean) pickle.	Available
+7	Poirei Ngari with King Chili	Pickle Collection	N/A	250	Homemade fermented fish (Ngari) pickle with King Chili.	Available
+8	Naga King Chili Pickle	Pickle Collection	180gm	200	Authentic hot and spicy King Chili pickle from Dimapur.	Available
+9	Axone Pickle with King Chili	Pickle Collection	N/A	200	Fermented soybean pickle blended with King Chili and spices.	Available
+10	King Chili with Salt (Homemade)	Pickle Collection	N/A	200	Homemade salted King Chili pickle.	Available
+11	Poirei Bamboo Shoots	Pickle Collection	N/A	250	Fresh bamboo shoot pickle with traditional Manipuri spices.	Available
+12	Poirei King Chili	Pickle Collection	N/A	250	Traditional King Chili pickle made with herbs and spices.	Available
+13	Big Jola Assam King Chili Pickle	Pickle Collection	N/A	30	Assam-style King Chili pickle.	Available
+14	Poirei Thumyakpi (Salty Fish) Pickle	Pickle Collection	N/A	280	Traditional salty fish pickle from Manipur.	Available
+15	Dimapur Pork Pickle with Bamboo Shoot	Pickle Collection	N/A	200	Pork pickle with bamboo shoot from Dimapur.	Available
+16	Shrimp Pickle (Dimapur)	Pickle Collection	N/A	150	Traditional shrimp pickle.	Available
+17	Pork with Axone Pickle (Dimapur)	Pickle Collection	N/A	200	Pork pickle blended with fermented Axone.	Available
+18	Fish Pickle (Dimapur)	Pickle Collection	N/A	150	Homemade fish pickle.	Available
+19	King Chili Pickle (Dimapur)	Pickle Collection	N/A	170	Spicy King Chili pickle.	Available
+20	Chicken Pickle (Dimapur)	Pickle Collection	N/A	150	Traditional chicken pickle.	Available
+21	Fried Smash Axone Pickle (Dimapur)	Pickle Collection	N/A	150	Fried fermented soybean pickle.	Available
+22	Bamboo Shoot Pickle (Dimapur)	Pickle Collection	N/A	150	Bamboo shoot pickle with local spices.	Available
+23	Silkworm Pickle (Dimapur)	Pickle Collection	N/A	200	Traditional silkworm pickle.	Available
+24	Yongchak Pickle (Dimapur)	Pickle Collection	N/A	150	Tree bean pickle from Dimapur.	Available
+25	Dry King Chili Pickle	Pickle Collection	N/A	200	Dry King Chili pickle.	Available
+26	Bamboo Shoot Pickles	Pickle Collection	N/A	210	Traditional bamboo shoot pickle.	Available
+27	Shrimp Paste Container (Small)	Pickle Collection	Small	20	Small container of shrimp paste.	Available
+28	Dimapur Pork Intestine Pickle	Pickle Collection	N/A	200	Traditional pork intestine pickle.	Available
+29	Dimapur Buff Pickle in Container	Pickle Collection	N/A	250	Homemade shredded buffalo pickle.	Available
+30	Poirei Buff Pickle	Pickle Collection	250gm	280	Ready-to-eat buffalo pickle.	Available
+31	Poirei Fish Pickle	Pickle Collection	250gm	280	Fish pickle prepared from fresh Rohu fish.	Available
+32	Poirei Fermented Soya Beans	Pickle Collection	N/A	250	Fermented soybean pickle with King Chili.	Available
+33	Roasted King Chili Chutney	Pickle Collection	N/A	20	Roasted King Chili chutney by Oyan Foods.	Available
+34	Poirei Chicken Pickle	Pickle Collection	N/A	280	Homemade boneless chicken pickle with a 12-month shelf life.	Available
+35	Yongchak Pickle (Dimapur)	Pickle Collection	180gm	210	Premium Yongchak pickle from Nagaland.	Available
+36	Buff Bitter Innards Pickle	Pickle Collection	N/A	250	Traditional buffalo innards pickle.	Available
+37	Stir Fry Axone Pickle	Pickle Collection	80gm	150	Stir-fried fermented soybean pickle from Dimapur.	Available
+38	Anishi Ready to Eat	Pickle Collection	N/A	170	Ready-to-eat fermented yam leaf delicacy.	Available
+39	Smoked Pork Pickle	Pickle Collection	N/A	300	Smoked pork pickle by Roots of Northeast.	Available
+40	Wild Apple Candy	Pickle Collection	N/A	150	Traditional wild apple candy from Nagaland.	Available
+41	Dalle with Mango	Pickle Collection	N/A	250	Dalle chili blended with mango.	Available
+42	Dalle Paste High Voltage	Pickle Collection	N/A	280	Extra spicy Dalle chili paste.	Available
+43	Jhal Chana	Pickle Collection	N/A	100	Traditional spicy chickpea snack.	Available
+44	Bird Eye Chili Pickle	Pickle Collection	N/A	150	Pickle made with Bird Eye chilies.	Available
+45	Shrimp Paste (Medium)	Pickle Collection	Medium	100	Medium-sized shrimp paste container.	Available
+46	Dalle Fireball Pickle	Pickle Collection	N/A	250	Extra hot Dalle chili pickle.	Available
+47	Fermented Dry Fish Pickle	Pickle Collection	N/A	170	Traditional fermented dry fish pickle.	Available
+48	Sesame Chili Crisp	Pickle Collection	N/A	150	Crispy sesame and chili condiment.	Available
+49	Dalle Chili Ketchup	Pickle Collection	N/A	250	Spicy ketchup made with Dalle chili.	Available
+50	Dalle Bamboo	Pickle Collection	N/A	250	Dalle chili and bamboo shoot pickle.	Available
+51	Shredded Smoke Buff Pickle	Pickle Collection	N/A	220	Smoked shredded buffalo pickle.	Available
+52	Prawn Pickle (Nagaland)	Pickle Collection	N/A	170	Naga-style prawn pickle with King Chili, garlic, mustard oil, and spices.	Available
+53	Chicken Anishi	Pickle Collection	N/A	250	Chicken pickle with fermented Anishi.	Available
+54	Buff Anishi	Pickle Collection	N/A	250	Buffalo pickle with fermented Anishi.	Available
+55	Gooseberry Candy	Pickle Collection	N/A	100	Sweet and tangy gooseberry candy.	Available
+56	Buff Chunks	Pickle Collection	N/A	150	Buffalo meat chunks.	Available
+57	Poirei Pork Pickle	Pickle Collection	N/A	300	Traditional Manipuri pork pickle.	Available
+58	Chicken Jhal Chana	Pickle Collection	N/A	120	Chicken and spicy chickpea mix.	Available
+59	Buff Chunk with Axone	Pickle Collection	N/A	260	Buffalo chunks with fermented Axone.	Available
+60	Mango Pickle (Homemade)	Pickle Collection	N/A	200	Homemade mango pickle.	Currently Unavailable
+61	Shrimp Paste (Big)	Pickle Collection	Large	150	Large container of shrimp paste.	Currently Unavailable
+62	Dimapur Fresh King Chili with Salt	Pickle Collection	N/A	250	Fresh King Chili preserved with salt.	Currently Unavailable
+63	Dalle with Radish	Pickle Collection	N/A	250	Dalle chili and radish pickle.	Currently Unavailable
+64	Chicken Pickle (Homemade)	Pickle Collection	100gm	250	Homemade chicken pickle.	Currently Unavailable
+65	Grasshopper Pickle	Pickle Collection	N/A	200	Traditional paddy field grasshopper pickle.	Currently Unavailable
+66	Bitter Gourd Fry (Homemade)	Pickle Collection	N/A	150	Homemade fried bitter gourd.	Currently Unavailable
+67	Kashmiri Mirch Fry (Homemade)	Pickle Collection	N/A	150	Homemade fried Kashmiri chili.	Currently Unavailable
+68	Timbur with Garlic	Pickle Collection	N/A	250	Timbur spice blended with garlic.	Currently Unavailable
+69	Dalle Vinegar	Pickle Collection	N/A	250	Vinegar infused with Dalle chili.	Currently Unavailable
+70	Pork Pickle (Homemade)	Pickle Collection	100gm	150	Homemade pork pickle.	Currently Unavailable
+71	Smoked Pork Pickle (Homemade)	Pickle Collection	N/A	150	Homemade smoked pork pickle.	Currently Unavailable
+72	Radish Pickle	Pickle Collection	N/A	250	Traditional radish pickle.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Sticky Rice (Black)	Rice Items	500gm	150	Premium black sticky rice, ideal for traditional Northeast and Asian dishes.	Available
+2	Sticky Rice (Red)	Rice Items	500gm	150	Nutritious red sticky rice with a rich texture and flavor.	Available
+3	Sticky Rice (White)	Rice Items	500gm	150	Premium white sticky rice suitable for desserts and traditional meals.	Available
+4	Dharam Special Rice of Manipur	Rice Items	500gm	100	Soft, aromatic, and premium-quality rice from Manipur.	Available
+5	Sticky Rice Flour	Rice Items	300gm	150	Finely ground sticky rice flour for traditional recipes and desserts.	Currently Unavailable
+6	Joha Rice of Assam	Rice Items	N/A	130	Aromatic Assam rice known for its delicate taste and fragrance.	Currently Unavailable
+7	Sticky Rice (Purple)	Rice Items	500gm	150	Premium purple sticky rice with rich flavor and texture.	Currently Unavailable
+S.No	Product Name	Category	Weight/Specification	Price (₹)	Description	Status
+1	Machal	Spices	N/A	10	Traditional spice blend containing coriander, black pepper, cumin, cardamom, cinnamon, cloves, ginger, garlic powder, and more.	Available
+2	BMC Meat Masala	Spices	N/A	10	Premium all-in-one meat masala with coriander, chilies, fenugreek, turmeric, cumin, garlic, cardamom, saffron, nutmeg, and other spices.	Available
+3	Pork Masala	Spices	N/A	10	Special spice blend for pork preparations.	Available
+4	Machal Chili Flakes	Spices	100gm	120	Premium chili flakes.	Available
+5	Machal Chili Flakes	Spices	N/A	10	Single-use pack of Machal chili flakes.	Available
+6	Machal Container	Spices	N/A	150	Large container of Machal spice blend.	Available
+7	BMC Meat Masala	Spices	50gm	100	Premium meat masala in a 50gm pack with authentic blended spices.	Available
+8	BMC Garam Masala	Spices	N/A	10	Traditional garam masala spice mix.	Available
+9	Turmeric Powder (Siliguri)	Spices	100gm	50	Premium turmeric powder sourced from Siliguri.	Available
+10	Ajino	Spices	N/A	20	Flavor enhancer (Ajinomoto/MSG) for cooking.	Available
+11	Machang	Spices	N/A	10	Traditional spice seasoning.	Currently Unavailable
+12	Machal Veg	Spices	N/A	150	Vegetarian seasoning mix from the Machal range.	Currently Unavailable

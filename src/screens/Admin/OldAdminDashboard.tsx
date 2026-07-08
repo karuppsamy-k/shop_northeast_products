@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { useOutletContext } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
-import { Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, X } from 'lucide-react';
+import { Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, X, Check } from 'lucide-react';
 import { FirestoreService } from '@/services/firestore.service';
 import type { Product } from '@/models/Product';
 import type { Order } from '@/models/Order';
-import { compressToWebP, uploadProductImage, getProductImageUrl } from '@/utils/imageHandling';
+import { compressToBase64, getProductImageUrl } from '@/utils/imageHandling';
 import TopBar from './components/TopBar';
 
 type Tab = 'dashboard' | 'orders' | 'products' | 'users';
@@ -376,6 +376,17 @@ export const ProductsManager = () => {
     }
   };
 
+  const handleHardDelete = async (product: Product) => {
+    if (!confirm(`WARNING: This will permanently delete "${product.name}" from the database. This action cannot be undone. Are you sure?`)) return;
+    try {
+      await FirestoreService.deleteDocument('products', product.id);
+      setProducts(products.filter(p => p.id !== product.id));
+    } catch (err) {
+      console.error(err);
+      alert('Failed to permanently delete product');
+    }
+  };
+
   return (
     <>
       <TopBar
@@ -425,10 +436,13 @@ export const ProductsManager = () => {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <button onClick={() => { setEditingProduct(p); setShowModal(true); }} className="p-2 bg-white/10 rounded hover:bg-white/20 transition">
+                    <button onClick={() => { setEditingProduct(p); setShowModal(true); }} className="p-2 bg-white/10 rounded hover:bg-white/20 transition" title="Edit">
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button onClick={() => handleSoftDelete(p)} className="p-2 bg-red-500/10 text-red-400 rounded hover:bg-red-500/20 transition">
+                    <button onClick={() => handleSoftDelete(p)} className={`p-2 rounded transition ${p.isActive ? 'bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20' : 'bg-green-500/10 text-green-400 hover:bg-green-500/20'}`} title={p.isActive ? 'Deactivate' : 'Activate'}>
+                      {p.isActive ? <X className="w-4 h-4" /> : <Check className="w-4 h-4" />}
+                    </button>
+                    <button onClick={() => handleHardDelete(p)} className="p-2 bg-red-500/10 text-red-500 rounded hover:bg-red-500/20 transition" title="Delete Permanently">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -466,20 +480,35 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
     isActive: product?.isActive ?? true
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(product?.imageUrl || null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [statusMsg, setStatusMsg] = useState('');
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setImageFile(file);
+    if (file) {
+      const localUrl = URL.createObjectURL(file);
+      setPreviewUrl(localUrl);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploading(true);
+    setUploadProgress(0);
     try {
       let imageUrl = product?.imageUrl || '';
       const docId = product?.id || `prod_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
       if (imageFile) {
-        const webpBlob = await compressToWebP(imageFile);
-        imageUrl = await uploadProductImage(webpBlob, formData.category, docId);
+        setStatusMsg('Compressing image...');
+        // Compress to base64 and store directly in Firestore — no upload step needed
+        imageUrl = await compressToBase64(imageFile);
       }
 
+      setStatusMsg('Saving...');
       const offerVal = formData.offer || null;
       const finalPrice = offerVal ? formData.price - (formData.price * (offerVal / 100)) : formData.price;
 
@@ -503,6 +532,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
       alert('Failed to save product');
     } finally {
       setUploading(false);
+      setStatusMsg('');
     }
   };
 
@@ -543,20 +573,39 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-foreground/60 mb-1">Image (Auto WebP)</label>
-            <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files?.[0] || null)} className="w-full bg-black/50 border border-white/10 rounded-xl p-3 outline-none focus:border-primary text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80" />
-            {product?.imageUrl && !imageFile && (
-              <p className="text-xs text-green-400 mt-2">Current image saved.</p>
+            <label className="block text-xs font-medium text-foreground/60 mb-1">Image</label>
+            <input type="file" accept="image/*" onChange={handleImageChange} className="w-full bg-black/50 border border-white/10 rounded-xl p-3 outline-none focus:border-primary text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80" />
+            {previewUrl && (
+              <div className="mt-2 flex items-center gap-3">
+                <img src={previewUrl} alt="Preview" className="w-16 h-16 object-cover rounded-lg border border-white/10" />
+                <span className="text-xs text-gray-400">{imageFile ? `${(imageFile.size / 1024).toFixed(0)} KB → will be compressed` : 'Current image'}</span>
+              </div>
             )}
           </div>
+
+          {/* Upload Progress Bar */}
+          {uploading && (
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs text-gray-400">
+                <span>{statusMsg}</span>
+                {uploadProgress > 0 && <span>{uploadProgress}%</span>}
+              </div>
+              <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                <div
+                  className="h-2 rounded-full bg-gradient-to-r from-primary to-purple-500 transition-all duration-300"
+                  style={{ width: statusMsg === 'Compressing image...' ? '20%' : `${Math.max(uploadProgress, 5)}%` }}
+                />
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center gap-2 mt-4">
             <input type="checkbox" id="isActive" checked={formData.isActive} onChange={e => setFormData({...formData, isActive: e.target.checked})} className="w-4 h-4 accent-primary" />
             <label htmlFor="isActive" className="text-sm">Active (Visible to users)</label>
           </div>
 
-          <button disabled={uploading} type="submit" className="w-full py-3 bg-primary text-white rounded-xl font-bold mt-6 disabled:opacity-50">
-            {uploading ? 'Saving & Uploading...' : 'Save Product'}
+          <button disabled={uploading} type="submit" className="w-full py-3 bg-primary text-white rounded-xl font-bold mt-6 disabled:opacity-50 transition-opacity">
+            {uploading ? statusMsg || 'Processing...' : 'Save Product'}
           </button>
         </form>
       </motion.div>

@@ -152,21 +152,21 @@ const AutoBanner = () => {
 
 // ─── Delivery Info Data ───────────────────────────────────────────────────────
 const WITHIN_BLR = [
-  { icon: Clock,       text: 'Delivery time: 30 mins to 2 hours' },
+  { icon: Clock, text: 'Delivery time: 30 mins to 2 hours' },
   { icon: ShoppingBag, text: 'No minimum order' },
-  { icon: Bike,        text: 'Delivery charge based on Porter / Rapido actual fare' },
-  { icon: CreditCard,  text: 'Payment: Prepaid only (COD not available)' },
-  { icon: Clock,       text: 'Pre-order items must be ordered 1 day in advance' },
-  { icon: MapPin,      text: 'Store pickup is also available' },
-  { icon: Clock,       text: 'Store timing: 12 PM to 11 PM' },
+  { icon: Bike, text: 'Delivery charge based on Porter / Rapido actual fare' },
+  { icon: CreditCard, text: 'Payment: Prepaid only (COD not available)' },
+  { icon: Clock, text: 'Pre-order items must be ordered 1 day in advance' },
+  { icon: MapPin, text: 'Store pickup is also available' },
+  { icon: Clock, text: 'Store timing: 11 AM to 11 PM' },
 ];
 
 const OUTSIDE_BLR = [
   { icon: ShoppingBag, text: 'Minimum order: \u20b9500' },
   { icon: AlertCircle, text: 'COD not available' },
-  { icon: Clock,       text: 'Delivery time: 3 to 6 working days' },
-  { icon: MapPin,      text: 'Courier charges depend on location & parcel weight' },
-  { icon: Truck,       text: "Fresh items shipped only at customer's own risk" },
+  { icon: Clock, text: 'Delivery time: 3 to 6 working days' },
+  { icon: MapPin, text: 'Courier charges depend on location & parcel weight' },
+  { icon: Truck, text: "Fresh items shipped only at customer's own risk" },
   { icon: AlertCircle, text: 'No cancellation or return after dispatch' },
   { icon: AlertCircle, text: 'Tracking details will be shared after shipment' },
   { icon: AlertCircle, text: 'Failed delivery may attract RTO charges' },
@@ -189,7 +189,7 @@ const DeliveryInfoSection = () => (
     <div className="rounded-2xl mb-4 py-2.5 px-4 flex items-center justify-center"
       style={{ background: 'linear-gradient(135deg,#1a4731 0%,#2d6a4f 100%)' }}>
       <p className="text-white/90 text-xs md:text-sm font-medium text-center italic m-0">
-        🌿 Thank you for choosing <strong className="text-white">The Northeast Shop</strong> 🌿
+        🌿 Thank you for choosing <strong className="text-white">The Northeast Fresh Mart</strong> 🌿
       </p>
     </div>
 
@@ -270,7 +270,7 @@ const DeliveryInfoSection = () => (
           <Clock size={14} style={{ color: '#22c55e' }} />
           <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', color: '#22c55e' }}>Store Hours</span>
         </div>
-        <p style={{ fontSize: '20px', fontWeight: 800, margin: 0, color: 'var(--color-fg)' }}>09 AM – 11 PM</p>
+        <p style={{ fontSize: '20px', fontWeight: 800, margin: 0, color: 'var(--color-fg)' }}>11 AM – 11 PM</p>
         <div className="flex items-center gap-2 mt-auto">
           <Globe size={12} style={{ color: 'var(--color-muted-fg)' }} />
           <span style={{ fontSize: '11px', color: 'var(--color-muted-fg)' }}>www.thenortheastshop.in</span>
@@ -291,7 +291,7 @@ export const HomePage = () => {
   const categories = useMemo(() => {
     const seen = new Set<string>();
     const cats: any[] = [];
-    
+
     // Background colors for categories
     const bgColors = ['bg-blue-100', 'bg-pink-100', 'bg-orange-100', 'bg-purple-100', 'bg-teal-100', 'bg-red-100', 'bg-yellow-100'];
 
@@ -302,7 +302,7 @@ export const HomePage = () => {
           .split('-')
           .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
           .join(' ');
-        
+
         let emoji = '🛍️';
         const n = name.toLowerCase();
         if (n.includes('candy') || n.includes('sweet')) emoji = '🍬';
@@ -322,7 +322,7 @@ export const HomePage = () => {
         cats.push({ id: p.category, name, emoji, bgClass: bgColors[cats.length % bgColors.length] });
       }
     });
-    
+
     if (cats.length === 0) {
       return [
         { id: 'electronics', name: 'Electronics', emoji: '🎧', bgClass: 'bg-blue-100' },
@@ -333,7 +333,7 @@ export const HomePage = () => {
         { id: 'accessories', name: 'Accessories', emoji: '⌚', bgClass: 'bg-red-100' },
       ];
     }
-    
+
     return cats.sort((a, b) => a.name.localeCompare(b.name));
   }, [products]);
 
@@ -343,7 +343,7 @@ export const HomePage = () => {
 
   return (
     <div className="min-h-screen pb-12" style={{ background: 'var(--body-gradient, #fff)' }}>
-      
+
       {/* ── HERO SECTION ── */}
       <div className="pt-2 md:pt-4 px-3 md:px-8 max-w-7xl mx-auto mb-6 md:mb-10 mt-16 md:mt-24">
         <div className="w-full flex items-center justify-center h-[160px] md:h-[350px]">
@@ -353,7 +353,7 @@ export const HomePage = () => {
 
       {/* ── OFFERS STRIP ── */}
       <div className="px-3 md:px-8 max-w-7xl mx-auto mb-8">
-        <div 
+        <div
           onClick={() => navigate('/categories?offers=true')}
           className="cursor-pointer rounded-xl p-3 flex items-center justify-between transition-colors shadow-sm"
           style={{ background: 'var(--glass-card-bg, rgba(255,235,235,0.5))', border: '1px solid var(--glass-border)' }}
@@ -413,14 +413,14 @@ export const HomePage = () => {
           </Link>
         </div>
         <div className="grid grid-cols-4 md:flex md:overflow-x-auto gap-3 md:gap-8 pb-2 hide-scrollbar">
-            {categories.slice(0, 8).map((cat) => (
-              <div key={cat.id} className="flex flex-col items-center shrink-0 cursor-pointer group" onClick={() => navigate('/categories')}>
-                <div className={`w-14 h-14 md:w-20 md:h-20 rounded-full ${cat.bgClass} flex items-center justify-center text-2xl md:text-3xl mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm border border-black/5`}>
-                  {cat.emoji}
-                </div>
-                <span className="text-[10px] md:text-sm font-bold text-center leading-tight" style={{ color: 'var(--color-fg)' }}>{cat.name}</span>
+          {categories.slice(0, 8).map((cat) => (
+            <div key={cat.id} className="flex flex-col items-center shrink-0 cursor-pointer group" onClick={() => navigate('/categories')}>
+              <div className={`w-14 h-14 md:w-20 md:h-20 rounded-full ${cat.bgClass} flex items-center justify-center text-2xl md:text-3xl mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm border border-black/5`}>
+                {cat.emoji}
               </div>
-            ))}
+              <span className="text-[10px] md:text-sm font-bold text-center leading-tight" style={{ color: 'var(--color-fg)' }}>{cat.name}</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -434,7 +434,7 @@ export const HomePage = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
           {products.slice(0, 6).map((product) => (
-              <ProductCard key={product.id} product={product} onAddToCart={(p) => addItem(p)} />
+            <ProductCard key={product.id} product={product} onAddToCart={(p) => addItem(p)} />
           ))}
         </div>
       </div>
