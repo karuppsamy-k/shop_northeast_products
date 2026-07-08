@@ -74,19 +74,27 @@ const MainLayout = () => {
   const { theme } = useThemeStore();
   const toast = useToastStore();
   const { user, isInitializing } = useAuthStore();
-  const { fetchOrders, clearOrders } = useOrderStore();
+  const { subscribeToOrders, clearOrders } = useOrderStore();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    
     if (user?.uid) {
-      fetchOrders(user.uid);
+      unsubscribe = subscribeToOrders(user.uid);
     } else {
       clearOrders();
     }
-  }, [user?.uid, fetchOrders, clearOrders]);
+    
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [user?.uid, subscribeToOrders, clearOrders]);
 
   if (isInitializing) return <AppLoadingScreen />;
 
