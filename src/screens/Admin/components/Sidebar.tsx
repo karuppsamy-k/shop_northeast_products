@@ -21,8 +21,7 @@ export default function Sidebar({
       />
 
       <aside 
-        className={`dashboard-sidebar advocate-sidebar client-sidebar ${isOpen ? 'open' : ''}`} 
-        style={{ transform: isOpen ? 'translateX(0)' : '' }}
+        className={`dashboard-sidebar advocate-sidebar client-sidebar ${isOpen ? 'open' : ''}`}
       >
         <div className="sidebar-brand">
           <span className="brand-mark">L</span>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useOutletContext } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 import { Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, X } from 'lucide-react';
@@ -7,6 +8,7 @@ import { FirestoreService } from '@/services/firestore.service';
 import type { Product } from '@/models/Product';
 import type { Order } from '@/models/Order';
 import { compressToWebP, uploadProductImage, getProductImageUrl } from '@/utils/imageHandling';
+import TopBar from './components/TopBar';
 
 type Tab = 'dashboard' | 'orders' | 'products' | 'users';
 
@@ -87,6 +89,10 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 
 export const OrdersManager = () => {
+  const context = useOutletContext<{ sidebarOpen: boolean, setSidebarOpen: (b: boolean) => void }>();
+  const sidebarOpen = context?.sidebarOpen || false;
+  const setSidebarOpen = context?.setSidebarOpen || (() => {});
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'All' | 'Pending' | 'Delivery' | 'Rejected'>('All');
@@ -147,6 +153,13 @@ export const OrdersManager = () => {
   }
 
   return (
+    <>
+      <TopBar
+        title="Orders"
+        subtitle="Admin Portal"
+        onMenuClick={() => setSidebarOpen(true)}
+        isSidebarOpen={sidebarOpen}
+      />
     <Card className="border border-white/5 overflow-hidden" style={{ background: '#121420', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}>
       <div className="p-6 border-b border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-indigo-900/20 to-purple-900/20">
         <h3 className="text-xl font-bold text-white">Recent Orders</h3>
@@ -316,10 +329,15 @@ export const OrdersManager = () => {
         </div>
       )}
     </Card>
+    </>
   );
 };
 
 export const ProductsManager = () => {
+  const context = useOutletContext<{ sidebarOpen: boolean, setSidebarOpen: (b: boolean) => void }>();
+  const sidebarOpen = context?.sidebarOpen || false;
+  const setSidebarOpen = context?.setSidebarOpen || (() => {});
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastDocId, setLastDocId] = useState<string | null>(null);
@@ -360,15 +378,20 @@ export const ProductsManager = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">Manage Products</h3>
-        <button 
-          onClick={() => { setEditingProduct(null); setShowModal(true); }}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl font-medium"
-        >
-          <Plus className="w-4 h-4" /> Add Product
-        </button>
-      </div>
+      <TopBar
+        title="Products"
+        subtitle="Admin Portal"
+        onMenuClick={() => setSidebarOpen(true)}
+        isSidebarOpen={sidebarOpen}
+        actions={
+          <button
+            onClick={() => { setEditingProduct(null); setShowModal(true); }}
+            className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-xl font-medium text-sm"
+          >
+            <Plus className="w-4 h-4" /> Add Product
+          </button>
+        }
+      />
 
       <Card className="glass-card">
         <Table>
