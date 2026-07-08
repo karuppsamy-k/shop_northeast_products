@@ -21,7 +21,10 @@ import { ProfilePage } from '../screens/Profile/ProfilePage';
 import { AboutPage } from '../screens/Home/AboutPage';
 import { SignInPage } from '../screens/Auth/SignInPage';
 import { SignUpPage } from '../screens/Auth/SignUpPage';
-import { AdminDashboard } from '../screens/Admin/AdminDashboard';
+import AdminDashboard from '../screens/Admin/AdminDashboard';
+import DashboardHome from '../screens/Admin/DashboardHome';
+import { ProductsManager, OrdersManager } from '../screens/Admin/OldAdminDashboard';
+import UsersPage from '../screens/Admin/UsersPage';
 
 // ─── Session Initializer — runs once at app root ──────────────────────────────
 const SessionManager = () => {
@@ -137,13 +140,20 @@ export const AppNavigator = () => {
         </Route>
 
         <Route 
-          path="/admin/*" 
+          path="/admin" 
           element={
             <AdminRoute>
               <AdminDashboard />
             </AdminRoute>
           } 
-        />
+        >
+          <Route index element={<DashboardHome />} />
+          <Route path="products" element={<ProductsManager />} />
+          <Route path="orders" element={<OrdersManager />} />
+          <Route path="users" element={<UsersPage />} />
+          <Route path="analytics" element={<div className="p-8 text-white">Analytics Coming Soon</div>} />
+          <Route path="settings" element={<div className="p-8 text-white">Settings Coming Soon</div>} />
+        </Route>
       </Routes>
     </Router>
   );

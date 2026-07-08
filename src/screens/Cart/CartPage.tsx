@@ -7,8 +7,7 @@ import { notificationService } from '@/services/notification';
 import { Button } from '@/components/ui/Button';
 import { AuthInput } from '@/components/ui/AuthInput';
 import { useAuthStore } from '@/store/authStore';
-import { OrderSummary } from '@/components/OrderSummary';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, MapPin, CheckCircle2, Navigation } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, MapPin, CheckCircle2, Navigation, Ticket, Truck, ChevronRight, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import { getCurrentLocation, reverseGeocode } from '@/helpers/location';
@@ -20,7 +19,6 @@ const EMAILJS_TEMPLATE_ID = 'template_vhwyla5';
 const EMAILJS_PUBLIC_KEY = 'YA_DIO51YaQbc-JAR';
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ─── Guest checkout form fields ───────────────────────────────────────────────
 interface GuestDetails {
   name: string;
   phone: string;
@@ -29,7 +27,6 @@ interface GuestDetails {
   password: string;
 }
 
-// ─── Reusable field row with icon ─────────────────────────────────────────────
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '10px 14px 10px 42px',
@@ -41,8 +38,6 @@ const inputStyle: React.CSSProperties = {
   outline: 'none',
 };
 
-
-// ─── Main Component ───────────────────────────────────────────────────────────
 export const CartPage = () => {
   const { items, updateQuantity, removeItem, getTotals, clearCart } = useCartStore();
   const { subtotal, tax, total } = getTotals();
@@ -56,22 +51,17 @@ export const CartPage = () => {
   const [addressMode, setAddressMode] = useState<'view' | 'options' | 'manual'>('view');
   const [gettingLocation, setGettingLocation] = useState(false);
 
-  // Navigate to login if not logged in
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/signin?redirect=/cart');
     }
   }, [isLoggedIn, navigate]);
 
-  // Guest details state (now just acting as a local state for editing address)
-
-  // Guest-only form state
   const [guest, setGuest] = useState<GuestDetails>({
     name: '', phone: '', email: '', address: '', password: '',
   });
   const [errors, setErrors] = useState<Partial<GuestDetails>>({});
 
-  // Auto-fill guest form from profile when logged in (shouldn't be shown, but safety)
   useEffect(() => {
     if (isLoggedIn && user) {
       setGuest((g) => ({
@@ -128,20 +118,16 @@ export const CartPage = () => {
   };
 
   const handleProceedToCheckout = () => {
-    if (isLoggedIn) {
-      // Already have profile - go straight to checkout, pre-filled
-      setShowCheckout(true);
-    } else {
-      // Guest flow - show the guest details form
-      setShowCheckout(true);
-    }
+    setShowCheckout(true);
   };
 
   const handlePlaceOrder = async () => {
-    // For logged-in users, use the profile data; for guests validate form
     if (!isLoggedIn && !validate()) return;
+    if (isLoggedIn && !guest.address.trim()) {
+      setErrors({ address: 'Delivery address is required' });
+      return;
+    }
 
-    setIsProcessing(true);
     setIsProcessing(true);
 
     try {
@@ -152,7 +138,6 @@ export const CartPage = () => {
       const customerEmail = user.email;
       const customerAddress = guest.address || user.address || '';
 
-      // 3. Send email notification
       const orderLines = items.map(item =>
         `  • ${item.name} (x${item.quantity}) = ₹${((item.discountPrice || item.price) * item.quantity).toFixed(0)}`
       ).join('\n');
@@ -177,7 +162,6 @@ export const CartPage = () => {
         console.warn('EmailJS error:', emailErr);
       }
 
-      // 4. Place order and save to store
       const order = await api.placeOrder({ items, total });
       notificationService.notify('ORDER_PLACED', order);
 
@@ -187,7 +171,7 @@ export const CartPage = () => {
         items,
         totalAmount: total,
         deliveryAddress: customerAddress,
-        paymentMethod: 'Cash on Delivery',
+        paymentMethod: 'WhatsApp QR',
         status: 'Pending',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -202,7 +186,6 @@ export const CartPage = () => {
     }
   };
 
-  // ── Order Success Screen ───────────────────────────────────────────────────
   if (orderPlaced) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 py-16"
@@ -213,22 +196,25 @@ export const CartPage = () => {
           transition={{ type: 'spring', stiffness: 200 }}
           className="w-full max-w-sm"
         >
-          {/* Icon */}
           <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6 mx-auto"
             style={{ background: 'rgba(34,197,94,0.12)', border: '2px solid rgba(34,197,94,0.25)' }}>
             <CheckCircle2 className="w-12 h-12" style={{ color: '#16a34a' }} />
           </div>
 
           <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--color-fg)' }}>Order Placed! 🎉</h1>
-          <p className="text-sm mb-1" style={{ color: 'var(--color-muted-fg)' }}>
+          <p className="text-sm mb-4" style={{ color: 'var(--color-muted-fg)' }}>
             Thank you, <strong>{user?.name}</strong>! Your order has been received.
           </p>
-          <p className="text-xs mb-2" style={{ color: 'var(--color-muted-fg)' }}>
-            A confirmation has been sent to the store.
-          </p>
+          
+          <div className="p-4 rounded-xl mb-6 flex flex-col items-center gap-3"
+            style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
+            <MessageCircle className="w-8 h-8 text-green-500" />
+            <p className="text-sm font-semibold text-green-600">
+              We will connect via WhatsApp to confirm your order and provide the payment QR code.
+            </p>
+          </div>
 
-
-          <div className="flex flex-col gap-3 mt-4">
+          <div className="flex flex-col gap-3">
             <Button onClick={() => navigate('/profile')} className="w-full">View Your Orders</Button>
             <Button onClick={() => navigate('/')} className="w-full" style={{ background: 'transparent', color: 'var(--color-primary-val)', border: '1.5px solid var(--color-primary-val)' }}>
               Continue Shopping
@@ -239,7 +225,6 @@ export const CartPage = () => {
     );
   }
 
-  // ── Empty Cart ────────────────────────────────────────────────────────────
   if (items.length === 0) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 py-20"
@@ -259,27 +244,20 @@ export const CartPage = () => {
 
   return (
     <div className="min-h-screen pt-20 pb-28" style={{ background: 'var(--body-gradient)' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-xl mx-auto px-4 sm:px-6">
 
         {/* Header */}
-        <div className="flex items-center gap-4 py-6 mb-2">
+        <div className="flex items-center gap-4 py-4 mb-2">
           <button
             onClick={() => showCheckout ? setShowCheckout(false) : navigate(-1)}
             className="p-2 rounded-full transition-colors hover:bg-black/5"
             style={{ color: 'var(--color-fg)' }}>
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--color-fg)' }}>
-              {showCheckout ? (isLoggedIn ? 'Confirm & Place Order' : 'Your Details') : 'Your Cart'}
+          <div className="flex-1 text-center pr-9">
+            <h1 className="text-xl font-bold" style={{ color: 'var(--color-fg)' }}>
+              {showCheckout ? 'Checkout' : 'My Cart'}
             </h1>
-            <p className="text-xs" style={{ color: 'var(--color-muted-fg)' }}>
-              {showCheckout
-                ? isLoggedIn
-                  ? 'Review your info and confirm delivery address'
-                  : 'Quick sign up to complete your order'
-                : `${items.length} item${items.length !== 1 ? 's' : ''}`}
-            </p>
           </div>
         </div>
 
@@ -287,294 +265,253 @@ export const CartPage = () => {
           {!showCheckout ? (
             /* ── Cart View ────────────────────────────────────────────── */
             <motion.div key="cart" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-              <div className="flex flex-col lg:flex-row gap-6">
+              
+              {/* Items List */}
+              <div className="space-y-4 mb-6">
+                <AnimatePresence>
+                  {items.map((item, i) => (
+                    <motion.div
+                      key={item.id}
+                      layout
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, x: -40, scale: 0.96 }}
+                      transition={{ delay: i * 0.06 }}
+                      className="relative overflow-hidden rounded-2xl border flex items-center p-3 gap-4"
+                      style={{
+                        background: 'var(--glass-card-bg)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        borderColor: 'var(--glass-border)',
+                      }}
+                    >
+                      <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-black/5"
+                        style={{ border: '1px solid var(--glass-border)' }}>
+                        <img src={item?.images?.[0] || ''} alt={item?.name || 'Item'}
+                          className="object-contain w-full h-full p-2 drop-shadow-md" />
+                      </div>
 
-                {/* Cart Items */}
-                <div className="flex-1 space-y-4">
-                  <AnimatePresence>
-                    {items.map((item, i) => (
-                      <motion.div
-                        key={item.id}
-                        layout
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, x: -40, scale: 0.96 }}
-                        transition={{ delay: i * 0.06 }}
-                        className="relative overflow-hidden rounded-3xl border"
-                        style={{
-                          background: 'var(--glass-card-bg)',
-                          backdropFilter: 'blur(20px)',
-                          WebkitBackdropFilter: 'blur(20px)',
-                          borderColor: 'var(--glass-border)',
-                          boxShadow: 'var(--glass-card-shadow)',
-                        }}
-                      >
-                        <div className="flex items-stretch">
-                          <div className="relative flex-shrink-0 flex items-center justify-center rounded-l-3xl overflow-hidden"
-                            style={{
-                              width: 'clamp(110px, 25%, 160px)',
-                              minHeight: '140px',
-                              background: `linear-gradient(135deg, hsl(${(i * 47) % 360},60%,85%), hsl(${(i * 47 + 40) % 360},55%,80%))`,
-                            }}>
-                            <img src={item?.images?.[0] || ''} alt={item?.name || 'Item'}
-                              loading="lazy" decoding="async"
-                              className="object-contain w-full h-full drop-shadow-lg" style={{ padding: '12px' }} />
+                      <div className="flex-1 flex flex-col justify-center">
+                        <div className="flex justify-between items-start mb-1">
+                          <h3 className="font-bold text-sm leading-tight text-gray-800"
+                            style={{ color: 'var(--color-fg)' }}>{item?.name || 'Unknown Item'}</h3>
+                          <button onClick={() => removeItem(item.id)} className="text-gray-400 hover:text-red-500 p-1 -mr-2 -mt-2">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                        
+                        <p className="text-xs text-gray-500 mb-2">Volume : {item.unit}</p>
+                        
+                        <div className="flex items-center justify-between mt-auto">
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-sm font-bold text-gray-800" style={{ color: 'var(--color-fg)' }}>
+                              ₹{((item?.discountPrice) || (item?.price) || 0).toFixed(0)}
+                            </span>
                             {item.price > item.discountPrice && (
-                              <div className="absolute top-2 left-2 bg-white/90 text-xs font-bold px-2 py-0.5 rounded-full"
-                                style={{ color: 'var(--color-secondary-val)' }}>
-                                {Math.round(((item.price - item.discountPrice) / item.price) * 100)}% OFF
-                              </div>
+                              <span className="text-xs line-through text-gray-400">
+                                ₹{item.price.toFixed(0)}
+                              </span>
                             )}
                           </div>
-
-                          <div className="flex-1 p-4 flex flex-col justify-between">
-                            <div>
-                              <p className="text-[10px] font-bold uppercase tracking-wider mb-0.5"
-                                style={{ color: 'var(--color-primary-val)' }}>{item.categoryId || item.unit}</p>
-                              <h3 className="font-bold text-sm md:text-base leading-snug mb-1"
-                                style={{ color: 'var(--color-fg)' }}>{item?.name || 'Unknown Item'}</h3>
-                              <p className="text-xs mb-3" style={{ color: 'var(--color-muted-fg)' }}>{item.unit}</p>
-                              <div className="flex items-baseline gap-2">
-                                <span className="text-lg font-black" style={{ color: 'var(--color-fg)' }}>
-                                  ₹{((item?.discountPrice) || (item?.price) || 0).toFixed(0)}
-                                </span>
-                                {item.price > item.discountPrice && (
-                                  <span className="text-xs line-through" style={{ color: 'var(--color-muted-fg)' }}>
-                                    ₹{item.price.toFixed(0)}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            <div className="flex items-center justify-between mt-3">
-                              <div className="flex items-center gap-1 rounded-full p-1 border"
-                                style={{ background: 'rgba(255,255,255,0.5)', borderColor: 'var(--glass-border)' }}>
-                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                  className="w-7 h-7 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                                  style={{ background: 'var(--color-primary-val)' }}>
-                                  <Minus className="w-3 h-3" />
-                                </button>
-                                <span className="w-7 text-center text-sm font-bold" style={{ color: 'var(--color-fg)' }}>
-                                  {item.quantity}
-                                </span>
-                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                  className="w-7 h-7 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                                  style={{ background: 'var(--color-primary-val)' }}>
-                                  <Plus className="w-3 h-3" />
-                                </button>
-                              </div>
-                              <span className="text-sm font-bold mr-2" style={{ color: 'var(--color-primary-val)' }}>
-                                ₹{((item.discountPrice || item.price) * item.quantity).toFixed(0)}
-                              </span>
-                              <button onClick={() => removeItem(item.id)}
-                                className="w-8 h-8 flex items-center justify-center rounded-full"
-                                style={{ color: 'var(--color-destructive-val)' }}>
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
+                          
+                          <div className="flex items-center gap-2 rounded-full border px-2 py-1"
+                            style={{ background: 'rgba(255,255,255,0.4)', borderColor: 'var(--glass-border)' }}>
+                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="w-6 h-6 rounded-full flex items-center justify-center text-white"
+                              style={{ background: 'var(--color-primary-val)' }}>
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="w-4 text-center text-xs font-bold" style={{ color: 'var(--color-fg)' }}>
+                              {item.quantity}
+                            </span>
+                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="w-6 h-6 rounded-full flex items-center justify-center text-white"
+                              style={{ background: 'var(--color-primary-val)' }}>
+                              <Plus className="w-3 h-3" />
+                            </button>
                           </div>
                         </div>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
-
-                {/* Order Summary */}
-                <div className="w-full lg:w-80 flex-shrink-0">
-                  <OrderSummary
-                    items={items}
-                    subtotal={subtotal}
-                    tax={tax}
-                    total={total}
-                    subtitle="Secure checkout • Free delivery on orders ₹499+"
-                    renderButton={() => (
-                      <Button className="w-full mt-2" size="lg" onClick={handleProceedToCheckout}>
-                        {isLoggedIn ? 'Confirm Order →' : 'Proceed to Checkout →'}
-                      </Button>
-                    )}
-                  />
-                </div>
-
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
+
+              {/* Vouchers Section */}
+              <div className="rounded-2xl border p-4 mb-6 flex justify-between items-center cursor-pointer"
+                style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
+                <div className="flex items-center gap-3">
+                  <Ticket className="w-5 h-5" style={{ color: 'var(--color-primary-val)' }} />
+                  <span className="font-semibold text-sm" style={{ color: 'var(--color-fg)' }}>See All Vouchers</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              </div>
+
+              {/* Summary Section */}
+              <div className="rounded-2xl border p-5 mb-8"
+                style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
+                <div className="flex justify-between text-sm mb-3" style={{ color: 'var(--color-muted-fg)' }}>
+                  <span>Product</span>
+                  <span>{items.reduce((acc, item) => acc + item.quantity, 0)} items</span>
+                </div>
+                <div className="flex justify-between text-sm mb-3" style={{ color: 'var(--color-muted-fg)' }}>
+                  <span>Subtotal</span>
+                  <span>₹{subtotal.toFixed(0)}</span>
+                </div>
+                <div className="flex justify-between text-base font-bold pt-3 border-t" style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
+                  <span>TOTAL</span>
+                  <span>₹{total.toFixed(0)}</span>
+                </div>
+              </div>
+
+              {/* Checkout Button */}
+              <Button className="w-full py-6 text-lg rounded-2xl shadow-lg" onClick={handleProceedToCheckout} style={{ background: 'var(--color-primary-val)' }}>
+                Checkout
+              </Button>
+
             </motion.div>
 
           ) : (
-            /* ── Checkout / Details Form ──────────────────────────────── */
+            /* ── Checkout Flow ────────────────────────────────────────── */
             <motion.div key="checkout" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
-              <div className="flex flex-col lg:flex-row gap-6">
+              
+              {/* Address Section */}
+              <div className="rounded-2xl border p-5 mb-4"
+                style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
+                <div className="flex justify-between items-center mb-4 border-b pb-3" style={{ borderColor: 'var(--glass-border)' }}>
+                  <div className="flex items-center gap-2 text-red-500 font-semibold text-sm">
+                    <MapPin className="w-4 h-4" />
+                    Address
+                  </div>
+                  {addressMode === 'view' && (
+                    <button onClick={() => setAddressMode('options')} className="text-xs font-semibold" style={{ color: 'var(--color-primary-val)' }}>
+                      ✎ Edit
+                    </button>
+                  )}
+                </div>
 
-                {/* Form / Info Panel */}
-                <div className="flex-1">
-                  <div className="rounded-3xl border overflow-hidden"
-                    style={{
-                      background: 'var(--glass-card-bg)',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      borderColor: 'var(--glass-border)',
-                      boxShadow: 'var(--glass-card-shadow)',
-                    }}>
-
-                    {/* Card Header */}
-                    <div className="p-5"
-                      style={{ background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163,94%,18%))' }}>
-                      <h2 className="text-base font-bold text-white">
-                        {isLoggedIn ? '📋 Your Details (Auto-filled)' : '📝 Quick Sign Up & Order'}
-                      </h2>
-                      <p className="text-xs text-white/70 mt-0.5">
-                        {isLoggedIn
-                          ? 'Your profile info will be used for this order'
-                          : 'Enter your details to create an account and place your order in one step'}
-                      </p>
-                    </div>
-
-                    <div className="p-6 space-y-5">
-                      {isLoggedIn ? (
-                        /* ── Logged-in: show read-only profile + editable address ── */
-                        <>
-                          <ProfileInfoRow label="Name" value={user?.name || ''} />
-                          <ProfileInfoRow label="Phone" value={user?.phone || ''} />
-                          <ProfileInfoRow label="Email" value={user?.email || ''} />
-
-                          <div>
-                            <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-muted-fg)' }}>
-                              Delivery Address *
-                            </label>
-                            
-                            {addressMode === 'view' && (
-                              <div className="relative p-3 rounded-xl border flex items-start gap-3" style={{ background: 'rgba(255,255,255,0.6)', borderColor: 'var(--glass-border)' }}>
-                                <MapPin className="w-4 h-4 mt-0.5 shrink-0" style={{ color: 'var(--color-primary-val)' }} />
-                                <div className="flex-1">
-                                  <p className="text-sm text-gray-800">{guest.address || 'No address saved.'}</p>
-                                  <button onClick={() => setAddressMode('options')} className="text-xs font-bold mt-2" style={{ color: 'var(--color-primary-val)' }}>Change Address</button>
-                                </div>
-                              </div>
-                            )}
-
-                            {addressMode === 'options' && (
-                              <div className="space-y-2">
-                                <button onClick={handleUseCurrentLocation} disabled={gettingLocation} className="w-full p-3 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:bg-black/5" style={{ borderColor: 'var(--color-primary-val)', color: 'var(--color-primary-val)' }}>
-                                  {gettingLocation ? <Loader2 className="w-4 h-4 animate-spin" /> : <Navigation className="w-4 h-4" />}
-                                  Use Current Location
-                                </button>
-                                <button onClick={() => setAddressMode('manual')} className="w-full p-3 rounded-xl border text-sm font-semibold transition-all hover:bg-black/5" style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
-                                  Enter Address Manually
-                                </button>
-                                <button onClick={() => setAddressMode('view')} className="w-full p-2 text-xs font-semibold mt-1" style={{ color: 'var(--color-muted-fg)' }}>Cancel</button>
-                              </div>
-                            )}
-
-                            {addressMode === 'manual' && (
-                              <div className="relative">
-                                <MapPin className="absolute left-3 top-3.5 w-4 h-4" style={{ color: 'var(--color-muted-fg)' }} />
-                                <textarea
-                                  rows={3}
-                                  placeholder="House no., street, city, state, pincode"
-                                  value={guest.address}
-                                  onChange={setField('address')}
-                                  style={{ ...inputStyle, paddingTop: '10px', paddingBottom: '10px', paddingLeft: '42px', resize: 'none' }}
-                                />
-                                <div className="flex gap-2 mt-2">
-                                  <Button onClick={handleManualSave} className="flex-1" size="sm">Save Address</Button>
-                                  <Button onClick={() => setAddressMode('view')} className="flex-1" size="sm" style={{ background: 'transparent', color: 'var(--color-fg)', border: '1px solid var(--glass-border)' }}>Cancel</Button>
-                                </div>
-                              </div>
-                            )}
-                            {errors.address && <p className="text-xs mt-1" style={{ color: 'var(--color-destructive-val)' }}>{errors.address}</p>}
-                          </div>
-                        </>
-                      ) : (
-                        /* ── Guest: full form with password for auto-signup ── */
-                        <>
-                          <AuthInput
-                            label="Full Name *"
-                            type="text"
-                            value={guest.name}
-                            onChange={setField('name')}
-                            placeholder="Ramesh Kumar"
-                            error={errors.name}
-                          />
-                          <AuthInput
-                            label="Phone Number *"
-                            type="tel"
-                            value={guest.phone}
-                            onChange={(e) => setGuest(p => ({ ...p, phone: e.target.value.replace(/\D/g, '').slice(0, 10) }))}
-                            placeholder="10-digit mobile number"
-                            error={errors.phone}
-                          />
-                          <AuthInput
-                            label="Email *"
-                            type="email"
-                            value={guest.email}
-                            onChange={setField('email')}
-                            placeholder="you@example.com"
-                            error={errors.email}
-                          />
-                          <AuthInput
-                            label="Password * (creates your account)"
-                            type="password"
-                            value={guest.password}
-                            onChange={setField('password')}
-                            placeholder="Min. 6 characters"
-                            error={errors.password}
-                          />
-
-                          <div>
-                            <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-muted-fg)' }}>
-                              Delivery Address *
-                            </label>
-                            <div className="relative">
-                              <MapPin className="absolute left-3 top-3.5 w-4 h-4" style={{ color: 'var(--color-muted-fg)' }} />
-                              <textarea
-                                rows={3}
-                                placeholder="House no., street, city, state, pincode"
-                                value={guest.address}
-                                onChange={setField('address')}
-                                style={{ ...inputStyle, paddingTop: '10px', paddingBottom: '10px', paddingLeft: '42px', resize: 'none' }}
-                              />
-                            </div>
-                            {errors.address && <p className="text-xs mt-1" style={{ color: 'var(--color-destructive-val)' }}>{errors.address}</p>}
-                          </div>
-                        </>
-                      )}
-
-
+                {isLoggedIn ? (
+                  <>
+                    {addressMode === 'view' && (
+                      <div className="text-sm leading-relaxed" style={{ color: 'var(--color-muted-fg)' }}>
+                        <p className="font-semibold text-gray-800" style={{ color: 'var(--color-fg)' }}>{user?.name}</p>
+                        <p className="mt-1">{guest.address || 'No address saved.'}</p>
+                        <p className="mt-1">{user?.phone}</p>
+                      </div>
+                    )}
+                    {addressMode === 'options' && (
+                      <div className="space-y-2 mt-2">
+                        <button onClick={handleUseCurrentLocation} disabled={gettingLocation} className="w-full p-3 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:bg-black/5" style={{ borderColor: 'var(--color-primary-val)', color: 'var(--color-primary-val)' }}>
+                          {gettingLocation ? <Loader2 className="w-4 h-4 animate-spin" /> : <Navigation className="w-4 h-4" />}
+                          Use Current Location
+                        </button>
+                        <button onClick={() => setAddressMode('manual')} className="w-full p-3 rounded-xl border text-sm font-semibold transition-all hover:bg-black/5" style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
+                          Enter Address Manually
+                        </button>
+                        <button onClick={() => setAddressMode('view')} className="w-full p-2 text-xs font-semibold mt-1" style={{ color: 'var(--color-muted-fg)' }}>Cancel</button>
+                      </div>
+                    )}
+                    {addressMode === 'manual' && (
+                      <div className="relative mt-2">
+                        <MapPin className="absolute left-3 top-3.5 w-4 h-4" style={{ color: 'var(--color-muted-fg)' }} />
+                        <textarea
+                          rows={3}
+                          placeholder="House no., street, city, state, pincode"
+                          value={guest.address}
+                          onChange={setField('address')}
+                          style={{ ...inputStyle, paddingTop: '10px', paddingBottom: '10px', paddingLeft: '42px', resize: 'none' }}
+                        />
+                        <div className="flex gap-2 mt-2">
+                          <Button onClick={handleManualSave} className="flex-1" size="sm">Save</Button>
+                          <Button onClick={() => setAddressMode('view')} className="flex-1" size="sm" style={{ background: 'transparent', color: 'var(--color-fg)', border: '1px solid var(--glass-border)' }}>Cancel</Button>
+                        </div>
+                      </div>
+                    )}
+                    {errors.address && <p className="text-xs mt-1" style={{ color: 'var(--color-destructive-val)' }}>{errors.address}</p>}
+                  </>
+                ) : (
+                  <div className="space-y-4">
+                    <AuthInput label="Full Name *" type="text" value={guest.name} onChange={setField('name')} error={errors.name} />
+                    <AuthInput label="Phone Number *" type="tel" value={guest.phone} onChange={(e) => setGuest(p => ({ ...p, phone: e.target.value.replace(/\D/g, '').slice(0, 10) }))} error={errors.phone} />
+                    <AuthInput label="Email *" type="email" value={guest.email} onChange={setField('email')} error={errors.email} />
+                    <AuthInput label="Password *" type="password" value={guest.password} onChange={setField('password')} error={errors.password} />
+                    <div>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-muted-fg)' }}>Delivery Address *</label>
+                      <textarea rows={3} placeholder="Full address" value={guest.address} onChange={setField('address')} style={{ ...inputStyle, resize: 'none', paddingLeft: '14px' }} />
+                      {errors.address && <p className="text-xs mt-1" style={{ color: 'var(--color-destructive-val)' }}>{errors.address}</p>}
                     </div>
                   </div>
-                </div>
-
-                {/* Order Summary + Place Order */}
-                <div className="w-full lg:w-80 flex-shrink-0">
-                  <OrderSummary
-                    items={items}
-                    subtotal={subtotal}
-                    tax={tax}
-                    total={total}
-                    subtitle="Order details will be sent to the store"
-                    renderButton={() => (
-                      <Button
-                        id="place-order-btn"
-                        className="w-full mt-2"
-                        size="lg"
-                        onClick={() => {
-                          if (isLoggedIn && !guest.address.trim()) {
-                            setErrors({ address: 'Delivery address is required' });
-                            return;
-                          }
-                          handlePlaceOrder();
-                        }}
-                        disabled={isProcessing}
-                      >
-                        {isProcessing
-                          ? 'Placing Order...'
-                          : isLoggedIn
-                            ? 'Place Order →'
-                            : 'Sign Up & Place Order →'}
-                      </Button>
-                    )}
-                  />
-                </div>
-
+                )}
               </div>
+
+              {/* Shipping & Vouchers Options */}
+              <div className="rounded-2xl border mb-4 divide-y" style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
+                <div className="p-4 flex justify-between items-center cursor-pointer hover:bg-black/5 transition">
+                  <div className="flex items-center gap-3">
+                    <Truck className="w-5 h-5 text-gray-500" />
+                    <span className="font-semibold text-sm" style={{ color: 'var(--color-fg)' }}>Shipping Options</span>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                </div>
+                <div className="p-4 flex justify-between items-center cursor-pointer hover:bg-black/5 transition">
+                  <div className="flex items-center gap-3">
+                    <Ticket className="w-5 h-5 text-yellow-500" />
+                    <span className="font-semibold text-sm" style={{ color: 'var(--color-fg)' }}>Free Shipping up to ₹50</span>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                </div>
+              </div>
+
+              {/* WhatsApp Payment Info */}
+              <div className="rounded-2xl border p-4 mb-4 flex items-start gap-3 bg-green-50/50" style={{ borderColor: 'rgba(34,197,94,0.3)' }}>
+                <MessageCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-sm text-green-800 mb-1">Payment & Confirmation</h4>
+                  <p className="text-xs text-green-700 leading-relaxed">
+                    We will connect with you via <strong>WhatsApp</strong> after you place the order to confirm details and provide the QR code for payment.
+                  </p>
+                </div>
+              </div>
+
+              {/* Summary Section */}
+              <div className="rounded-2xl border p-5 mb-8"
+                style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
+                <div className="flex justify-between text-sm mb-3" style={{ color: 'var(--color-muted-fg)' }}>
+                  <span>Subtotal</span>
+                  <span>₹{subtotal.toFixed(0)}</span>
+                </div>
+                <div className="flex justify-between text-sm mb-3" style={{ color: 'var(--color-muted-fg)' }}>
+                  <span>Shipping</span>
+                  <span>Calculated later</span>
+                </div>
+                <div className="flex justify-between text-sm mb-3" style={{ color: 'var(--color-primary-val)' }}>
+                  <span>Voucher Applied</span>
+                  <span>-₹0</span>
+                </div>
+                <div className="flex justify-between text-base font-bold pt-3 border-t" style={{ borderColor: 'var(--glass-border)', color: 'var(--color-fg)' }}>
+                  <span>TOTAL PAYMENT</span>
+                  <span>₹{total.toFixed(0)}</span>
+                </div>
+              </div>
+
+              {/* Place Order Button */}
+              <Button
+                id="place-order-btn"
+                className="w-full py-6 text-lg rounded-2xl shadow-lg"
+                onClick={() => {
+                  if (isLoggedIn && !guest.address.trim()) {
+                    setErrors({ address: 'Delivery address is required' });
+                    setAddressMode('manual');
+                    return;
+                  }
+                  handlePlaceOrder();
+                }}
+                disabled={isProcessing}
+                style={{ background: 'var(--color-primary-val)' }}
+              >
+                {isProcessing ? 'Placing Order...' : 'Place Order'}
+              </Button>
+
             </motion.div>
           )}
         </AnimatePresence>
@@ -583,18 +520,3 @@ export const CartPage = () => {
     </div>
   );
 };
-
-// ─── Helper: read-only profile row ────────────────────────────────────────────
-const ProfileInfoRow = ({ label, value }: { label: string; value: string }) => (
-  <div>
-    <label className="block text-xs font-semibold mb-1" style={{ color: 'var(--color-muted-fg)' }}>{label}</label>
-    <div className="px-4 py-3 rounded-xl text-sm font-medium"
-      style={{
-        background: 'rgba(22,163,74,0.06)',
-        border: '1.5px solid rgba(22,163,74,0.15)',
-        color: 'var(--color-fg)',
-      }}>
-      {value || '—'}
-    </div>
-  </div>
-);

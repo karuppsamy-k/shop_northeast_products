@@ -52,7 +52,7 @@ const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
   const { orders } = useOrderStore();
 
   const statusColor = (s: Order['status']) =>
-    s === 'Delivered' ? '#16a34a' : s === 'Cancelled' ? '#dc2626' : '#f97316';
+    s === 'Delivered' ? '#16a34a' : s === 'Cancelled' || s === 'Rejected' ? '#dc2626' : '#f97316';
 
   return (
     <motion.div

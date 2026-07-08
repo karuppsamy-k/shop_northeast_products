@@ -7,7 +7,7 @@ export interface OrderItem {
   image?: string;
 }
 
-export type OrderStatus = 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+export type OrderStatus = 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' | 'Rejected';
 
 export interface Order {
   orderId: string;

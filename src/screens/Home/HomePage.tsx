@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Truck, ShieldCheck, RefreshCw, ChevronRight, Tag } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, RefreshCw, ChevronRight, Tag, Clock, Bike, ShoppingBag, CreditCard, MapPin, AlertCircle, QrCode, Globe } from 'lucide-react';
 import { ProductCard } from '@/components/ProductCard';
 import { useCartStore } from '@/store/cartStore';
 import { useProductStore } from '@/store/productStore';
@@ -150,6 +150,138 @@ const AutoBanner = () => {
 };
 
 
+// ─── Delivery Info Data ───────────────────────────────────────────────────────
+const WITHIN_BLR = [
+  { icon: Clock,       text: 'Delivery time: 30 mins to 2 hours' },
+  { icon: ShoppingBag, text: 'No minimum order' },
+  { icon: Bike,        text: 'Delivery charge based on Porter / Rapido actual fare' },
+  { icon: CreditCard,  text: 'Payment: Prepaid only (COD not available)' },
+  { icon: Clock,       text: 'Pre-order items must be ordered 1 day in advance' },
+  { icon: MapPin,      text: 'Store pickup is also available' },
+  { icon: Clock,       text: 'Store timing: 12 PM to 11 PM' },
+];
+
+const OUTSIDE_BLR = [
+  { icon: ShoppingBag, text: 'Minimum order: \u20b9500' },
+  { icon: AlertCircle, text: 'COD not available' },
+  { icon: Clock,       text: 'Delivery time: 3 to 6 working days' },
+  { icon: MapPin,      text: 'Courier charges depend on location & parcel weight' },
+  { icon: Truck,       text: "Fresh items shipped only at customer's own risk" },
+  { icon: AlertCircle, text: 'No cancellation or return after dispatch' },
+  { icon: AlertCircle, text: 'Tracking details will be shared after shipment' },
+  { icon: AlertCircle, text: 'Failed delivery may attract RTO charges' },
+];
+
+const DeliveryInfoSection = () => (
+  <div className="px-3 md:px-8 max-w-7xl mx-auto mb-10 md:mb-16">
+    {/* Section header */}
+    <div className="flex items-center gap-3 mb-5">
+      <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+        style={{ background: 'linear-gradient(135deg,#1a4731,#2d6a4f)' }}>
+        <Truck className="w-4 h-4 text-white" />
+      </div>
+      <h2 className="text-lg md:text-2xl font-bold" style={{ color: 'var(--color-fg)' }}>
+        Delivery Information
+      </h2>
+    </div>
+
+    {/* Thank-you banner */}
+    <div className="rounded-2xl mb-4 py-2.5 px-4 flex items-center justify-center"
+      style={{ background: 'linear-gradient(135deg,#1a4731 0%,#2d6a4f 100%)' }}>
+      <p className="text-white/90 text-xs md:text-sm font-medium text-center italic m-0">
+        🌿 Thank you for choosing <strong className="text-white">The Northeast Shop</strong> 🌿
+      </p>
+    </div>
+
+    {/* Main two-column grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+      {/* Within Bangalore */}
+      <div className="rounded-2xl overflow-hidden"
+        style={{ background: 'var(--glass-card-bg)', border: '1px solid var(--glass-border)' }}>
+        <div className="flex items-center gap-2 px-4 py-3"
+          style={{ background: 'linear-gradient(135deg,#1a4731,#2d6a4f)' }}>
+          <Bike className="w-4 h-4 text-green-200" />
+          <span className="text-white font-bold text-sm tracking-wide uppercase">Within Bangalore</span>
+        </div>
+        <ul style={{ listStyle: 'none', margin: 0, padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {WITHIN_BLR.map(({ icon: Icon, text }, i) => (
+            <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <div style={{ width: 24, height: 24, borderRadius: '6px', background: 'rgba(26,71,49,0.15)', display: 'grid', placeItems: 'center', flexShrink: 0, marginTop: 1 }}>
+                <Icon size={13} color="#2d6a4f" />
+              </div>
+              <span style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--color-fg)' }}>{text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Outside Bangalore */}
+      <div className="rounded-2xl overflow-hidden"
+        style={{ background: 'var(--glass-card-bg)', border: '1px solid var(--glass-border)' }}>
+        <div className="flex items-center gap-2 px-4 py-3"
+          style={{ background: 'linear-gradient(135deg,#78350f,#b45309)' }}>
+          <Truck className="w-4 h-4 text-amber-200" />
+          <span className="text-white font-bold text-sm tracking-wide uppercase">Outside Bangalore</span>
+        </div>
+        <ul style={{ listStyle: 'none', margin: 0, padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {OUTSIDE_BLR.map(({ icon: Icon, text }, i) => (
+            <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <div style={{ width: 24, height: 24, borderRadius: '6px', background: 'rgba(120,53,15,0.15)', display: 'grid', placeItems: 'center', flexShrink: 0, marginTop: 1 }}>
+                <Icon size={13} color="#b45309" />
+              </div>
+              <span style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--color-fg)' }}>{text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    {/* Bottom row: alerts + store info */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+      {/* Free Delivery note */}
+      <div className="rounded-xl p-4 flex gap-3 items-start"
+        style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.18)' }}>
+        <AlertCircle size={18} style={{ color: '#ef4444', flexShrink: 0, marginTop: 2 }} />
+        <p style={{ fontSize: '13px', lineHeight: '1.6', margin: 0, color: 'var(--color-fg)' }}>
+          Please ignore any <strong>"Free Delivery"</strong> shown on the website. Actual charges confirmed based on{' '}
+          <strong style={{ color: '#ef4444' }}>your location.</strong>
+        </p>
+      </div>
+
+      {/* QR Payment note */}
+      <div className="rounded-xl p-4 flex gap-3 items-start"
+        style={{ background: 'rgba(168,85,247,0.06)', border: '1px solid rgba(168,85,247,0.18)' }}>
+        <QrCode size={18} style={{ color: '#a855f7', flexShrink: 0, marginTop: 2 }} />
+        <div>
+          <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', color: '#a855f7', margin: '0 0 4px' }}>Important</p>
+          <p style={{ fontSize: '13px', lineHeight: '1.6', margin: 0, color: 'var(--color-fg)' }}>
+            Payment only on <strong>QR code</strong> provided in your{' '}
+            <strong style={{ color: '#a855f7' }}>WhatsApp.</strong>
+          </p>
+        </div>
+      </div>
+
+      {/* Store Hours */}
+      <div className="rounded-xl p-4 flex flex-col gap-2"
+        style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.18)' }}>
+        <div className="flex items-center gap-2">
+          <Clock size={14} style={{ color: '#22c55e' }} />
+          <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', color: '#22c55e' }}>Store Hours</span>
+        </div>
+        <p style={{ fontSize: '20px', fontWeight: 800, margin: 0, color: 'var(--color-fg)' }}>09 AM – 11 PM</p>
+        <div className="flex items-center gap-2 mt-auto">
+          <Globe size={12} style={{ color: 'var(--color-muted-fg)' }} />
+          <span style={{ fontSize: '11px', color: 'var(--color-muted-fg)' }}>www.thenortheastshop.in</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+);
+
+
 export const HomePage = () => {
   const { products, fetchInitialProducts } = useProductStore();
   const navigate = useNavigate();
@@ -192,7 +324,6 @@ export const HomePage = () => {
     });
     
     if (cats.length === 0) {
-      // Fallback categories if empty
       return [
         { id: 'electronics', name: 'Electronics', emoji: '🎧', bgClass: 'bg-blue-100' },
         { id: 'fashion', name: 'Fashion', emoji: '👕', bgClass: 'bg-pink-100' },
@@ -220,7 +351,7 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* ── SMALL FLIPKART-LIKE OFFERS STRIP ── */}
+      {/* ── OFFERS STRIP ── */}
       <div className="px-3 md:px-8 max-w-7xl mx-auto mb-8">
         <div 
           onClick={() => navigate('/categories?offers=true')}
@@ -270,7 +401,6 @@ export const HomePage = () => {
               <p className="text-[10px] md:text-xs font-medium" style={{ color: 'var(--color-muted-fg)' }}>Direct From Farmer</p>
             </div>
           </div>
-       
         </div>
       </div>
 
@@ -309,8 +439,8 @@ export const HomePage = () => {
         </div>
       </div>
 
-
-
+      {/* ── DELIVERY INFORMATION ── */}
+      <DeliveryInfoSection />
 
     </div>
   );
