@@ -5,8 +5,9 @@ import { Card, CardContent } from '@/components/ui/Card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 import { Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, X, Check } from 'lucide-react';
 import { FirestoreService } from '@/services/firestore.service';
+import { NotificationService } from '@/services/notification.service';
 import type { Product } from '@/models/Product';
-import type { Order } from '@/models/Order';
+import type { Order, OrderStatus } from '@/models/Order';
 import { compressToBase64, getProductImageUrl } from '@/utils/imageHandling';
 import TopBar from './components/TopBar';
 
@@ -130,6 +131,18 @@ export const OrdersManager = () => {
   const updateStatus = async (orderId: string, newStatus: string) => {
     try {
       await FirestoreService.updateDocument('orders', orderId, { status: newStatus });
+      
+      const order = orders.find(o => o.orderId === orderId);
+      if (order) {
+        await NotificationService.createNotification({
+          userId: order.userId,
+          orderId: order.orderId,
+          status: newStatus as OrderStatus,
+          type: 'order_status',
+          title: `Order ${newStatus}`,
+          message: `Your order #${orderId} is now ${newStatus}.`
+        });
+      }
       // The onSnapshot listener will automatically update the local state
     } catch (err) {
       console.error("Failed to update status", err);

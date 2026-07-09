@@ -1,9 +1,12 @@
 
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Grid, Info, User } from 'lucide-react';
+import { NotificationBell } from './NotificationBell';
+import { useAuthStore } from '@/store/authStore';
 
 export const BottomNav = () => {
   const location = useLocation();
+  const { isLoggedIn } = useAuthStore();
 
   const navItems = [
     { icon: Home, label: 'Home', path: '/' },
@@ -62,6 +65,11 @@ export const BottomNav = () => {
             </Link>
           );
         })}
+        {isLoggedIn && (
+          <div className="flex-1 flex justify-center items-center h-full">
+            <NotificationBell isMobile />
+          </div>
+        )}
       </div>
     </div>
   );

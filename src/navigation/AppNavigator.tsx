@@ -6,6 +6,7 @@ import { useThemeStore } from '../store/themeStore';
 import { useToastStore } from '../store/toastStore';
 import { useAuthStore } from '../store/authStore';
 import { useOrderStore } from '../store/orderStore';
+import { useNotificationStore } from '../store/notificationStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import { useEffect } from 'react';
@@ -75,26 +76,29 @@ const MainLayout = () => {
   const toast = useToastStore();
   const { user, isInitializing } = useAuthStore();
   const { subscribeToOrders, clearOrders } = useOrderStore();
+  const { subscribeToNotifications, clearNotifications } = useNotificationStore();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   useEffect(() => {
-    let unsubscribe: (() => void) | undefined;
+    let unsubscribeOrders: (() => void) | undefined;
+    let unsubscribeNotifications: (() => void) | undefined;
     
     if (user?.uid) {
-      unsubscribe = subscribeToOrders(user.uid);
+      unsubscribeOrders = subscribeToOrders(user.uid);
+      unsubscribeNotifications = subscribeToNotifications(user.uid);
     } else {
       clearOrders();
+      clearNotifications();
     }
     
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
+      if (unsubscribeOrders) unsubscribeOrders();
+      if (unsubscribeNotifications) unsubscribeNotifications();
     };
-  }, [user?.uid, subscribeToOrders, clearOrders]);
+  }, [user?.uid, subscribeToOrders, clearOrders, subscribeToNotifications, clearNotifications]);
 
   if (isInitializing) return <AppLoadingScreen />;
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ShoppingCart, User } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
+import { NotificationBell } from './NotificationBell';
 
 export const Navbar = () => {
   const { items } = useCartStore();
@@ -71,6 +72,9 @@ export const Navbar = () => {
             >
               <User className="w-5 h-5" />
             </Link>
+
+            {/* Notification Bell */}
+            {isLoggedIn && <NotificationBell />}
 
             {/* Cart */}
             <Link
