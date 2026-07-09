@@ -12,7 +12,7 @@ interface AccordionProps {
   children: React.ReactNode;
 }
 
-const Accordion = ({ title, icon: Icon, color, bgColor, isOpen, onToggle, children }: AccordionProps) => {
+const Accordion = ({ title, icon: Icon, bgColor, isOpen, onToggle, children }: AccordionProps) => {
   return (
     <div className="rounded-2xl border mb-4 overflow-hidden" style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
       <button 

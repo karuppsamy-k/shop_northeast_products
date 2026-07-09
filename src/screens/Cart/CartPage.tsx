@@ -448,7 +448,7 @@ export const CartPage = () => {
                 </div>
                 <div className="p-4 flex justify-between items-center cursor-pointer hover:bg-black/5 transition">
                   <div className="flex items-center gap-3">
-                    <Ticket className="w-5 h-5 text-yellow-500" />
+                   
                     <span className="font-semibold text-sm" style={{ color: 'var(--color-fg)' }}>Free Shipping up to ₹50</span>
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-400" />
