@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { createPortal } from 'react-dom';
 import { ArrowLeft, Bell, Check, Package, XCircle, Clock, Truck, CheckCircle } from 'lucide-react';
 import { useNotificationStore } from '../store/notificationStore';
 import { useAuthStore } from '../store/authStore';
@@ -42,7 +43,7 @@ export const NotificationPanel = ({ onClose }: { onClose: () => void }) => {
     }
   };
 
-  return (
+  return createPortal(
     <motion.div
       initial={{ x: '100%' }}
       animate={{ x: 0 }}
@@ -120,6 +121,7 @@ export const NotificationPanel = ({ onClose }: { onClose: () => void }) => {
           </div>
         )}
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 };

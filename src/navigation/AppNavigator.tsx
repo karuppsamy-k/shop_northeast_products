@@ -7,6 +7,7 @@ import { useToastStore } from '../store/toastStore';
 import { useAuthStore } from '../store/authStore';
 import { useOrderStore } from '../store/orderStore';
 import { useNotificationStore } from '../store/notificationStore';
+import { requestNotificationPermission } from '../utils/pushNotifications';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { FirestoreService } from '../services/firestore.service';
 import type { User } from '../models/User';
+import { NotificationEnforcer } from '../components/NotificationEnforcer';
 
 import { HomePage } from '../screens/Home/HomePage';
 import { CategoryPage } from '../screens/Category/CategoryPage';
@@ -89,6 +91,8 @@ const MainLayout = () => {
     if (user?.uid) {
       unsubscribeOrders = subscribeToOrders(user.uid);
       unsubscribeNotifications = subscribeToNotifications(user.uid);
+      
+      requestNotificationPermission().catch(console.error);
     } else {
       clearOrders();
       clearNotifications();
@@ -102,7 +106,7 @@ const MainLayout = () => {
 
   if (isInitializing) return <AppLoadingScreen />;
 
-  return (
+  const content = (
     <div className="flex flex-col min-h-screen pb-16 md:pb-0">
       <Navbar />
       <main className="flex-grow">
@@ -120,7 +124,7 @@ const MainLayout = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.9 }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            className="fixed bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 z-[100] px-5 py-3 rounded-2xl text-white text-sm font-semibold shadow-2xl flex items-center gap-2 whitespace-nowrap"
+            className="fixed bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 z-[9999] px-5 py-3 rounded-2xl text-white text-sm font-semibold shadow-2xl flex items-center gap-2 whitespace-nowrap"
             style={{ background: 'var(--color-primary-val)' }}
           >
             <ShoppingCart className="w-4 h-4" />
@@ -130,6 +134,12 @@ const MainLayout = () => {
       </AnimatePresence>
     </div>
   );
+
+  if (user) {
+    return <NotificationEnforcer>{content}</NotificationEnforcer>;
+  }
+
+  return content;
 };
 
 import { AdminRoute } from '../components/AdminRoute';

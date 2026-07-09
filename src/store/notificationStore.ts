@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import type { AppNotification } from '../models/Notification';
 import { NotificationService } from '../services/notification.service';
+import { useToastStore } from './toastStore';
+import { showSystemNotification } from '../utils/pushNotifications';
 
 interface NotificationState {
   notifications: AppNotification[];
@@ -12,18 +14,34 @@ interface NotificationState {
   clearNotifications: () => void;
 }
 
-export const useNotificationStore = create<NotificationState>()((set) => ({
+export const useNotificationStore = create<NotificationState>()((set, get) => ({
   notifications: [],
   unreadCount: 0,
   isLoading: false,
 
   subscribeToNotifications: (userId: string) => {
     set({ isLoading: true });
+    let isInitialLoad = true;
+
     const unsubscribe = NotificationService.subscribeToUserNotifications(userId, (fetched) => {
       // Sort descending by date
       fetched.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
       const unreadCount = fetched.filter(n => !n.read).length;
+      
+      if (!isInitialLoad) {
+        const currentNotifications = get().notifications;
+        const currentIds = new Set(currentNotifications.map(n => n.id));
+        const newNotifications = fetched.filter(n => !currentIds.has(n.id) && !n.read);
+        
+        if (newNotifications.length > 0) {
+          const latest = newNotifications[0];
+          useToastStore.getState().showToast(`${latest.title}: ${latest.message}`);
+          showSystemNotification(latest.title, latest.message);
+        }
+      }
+      
+      isInitialLoad = false;
       
       set({ 
         notifications: fetched, 
