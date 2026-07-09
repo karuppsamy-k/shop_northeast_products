@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { ArrowLeft, Bell, Check, Package, XCircle, Clock, Truck, CheckCircle } from 'lucide-react';
 import { useNotificationStore } from '../store/notificationStore';

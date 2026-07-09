@@ -27,9 +27,8 @@ export const showSystemNotification = async (title: string, body: string) => {
         if (registration) {
           registration.showNotification(title, {
             body,
-            icon: '/vite.svg',
-            vibrate: [200, 100, 200]
-          });
+            icon: '/vite.svg'
+          } as any);
           return;
         }
       }
@@ -40,8 +39,7 @@ export const showSystemNotification = async (title: string, body: string) => {
     // Fallback for desktop/browsers that support it without SW
     new Notification(title, {
       body,
-      icon: '/vite.svg',
-      vibrate: [200, 100, 200]
-    });
+      icon: '/vite.svg'
+    } as any);
   }
 };
