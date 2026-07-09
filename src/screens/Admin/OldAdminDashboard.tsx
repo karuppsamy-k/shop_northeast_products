@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useOutletContext } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
-import { Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, X, Check } from 'lucide-react';
+import { Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, X, Check, Filter } from 'lucide-react';
 import { FirestoreService } from '@/services/firestore.service';
 import { NotificationService } from '@/services/notification.service';
 import type { Product } from '@/models/Product';
@@ -356,6 +356,7 @@ export const ProductsManager = () => {
   const [lastDocId, setLastDocId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const fetchProducts = async (reset = false) => {
     try {
@@ -408,12 +409,30 @@ export const ProductsManager = () => {
         onMenuClick={() => setSidebarOpen(true)}
         isSidebarOpen={sidebarOpen}
         actions={
-          <button
-            onClick={() => { setEditingProduct(null); setShowModal(true); }}
-            className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-xl font-medium text-sm"
-          >
-            <Plus className="w-4 h-4" /> Add Product
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="relative flex items-center">
+              <Filter className="w-4 h-4 absolute left-3 text-foreground/50 pointer-events-none" />
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="pl-9 pr-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm font-medium text-foreground appearance-none cursor-pointer hover:bg-white/10 transition-colors min-w-[160px]"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+              >
+                <option value="all">All Categories</option>
+                {[...new Set(products.map(p => p.category))].sort().map(cat => (
+                  <option key={cat} value={cat}>
+                    {cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              onClick={() => { setEditingProduct(null); setShowModal(true); }}
+              className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-xl font-medium text-sm"
+            >
+              <Plus className="w-4 h-4" /> Add Product
+            </button>
+          </div>
         }
       />
 
@@ -432,7 +451,9 @@ export const ProductsManager = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((p) => (
+            {products
+              .filter(p => selectedCategory === 'all' || p.category === selectedCategory)
+              .map((p) => (
               <TableRow key={p.id}>
                 <TableCell>
                   <img src={getProductImageUrl(p.imageUrl, p.category)} alt={p.name} className="w-10 h-10 object-cover rounded" loading="lazy" />
