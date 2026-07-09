@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { ArrowLeft, Bell, Check, Package, XCircle, Clock, Truck, CheckCircle } from 'lucide-react';
 import { useNotificationStore } from '../store/notificationStore';
 import { useAuthStore } from '../store/authStore';
+import { useToastStore } from '../store/toastStore';
+import { showSystemNotification } from '../utils/pushNotifications';
 import type { OrderStatus } from '../models/Order';
 
 const fmtDate = (iso: string) => {
@@ -36,11 +38,17 @@ const getStatusColor = (status: OrderStatus) => {
 export const NotificationPanel = ({ onClose }: { onClose: () => void }) => {
   const { notifications, markAsRead, markAllAsRead, unreadCount } = useNotificationStore();
   const { user } = useAuthStore();
+  const { showToast } = useToastStore();
 
   const handleMarkAllRead = () => {
     if (user) {
       markAllAsRead(user.uid);
     }
+  };
+
+  const handleTestNotification = async () => {
+    showToast("Test Toast: If you see this, in-app notifications work!");
+    await showSystemNotification("Test Push", "If you see this, push notifications work on your device!");
   };
 
   return createPortal(
@@ -58,14 +66,18 @@ export const NotificationPanel = ({ onClose }: { onClose: () => void }) => {
           <ArrowLeft className="w-5 h-5" />
         </button>
         <h2 className="text-lg font-bold" style={{ color: 'var(--color-fg)' }}>Notifications</h2>
-        {unreadCount > 0 ? (
-          <button onClick={handleMarkAllRead} className="p-2 rounded-full hover:bg-black/10 transition-colors"
-            style={{ color: 'var(--color-primary-val)' }} title="Mark all as read">
-            <Check className="w-5 h-5" />
+        <div className="flex gap-2">
+          <button onClick={handleTestNotification} className="p-2 rounded-full hover:bg-black/10 transition-colors text-xs font-bold"
+            style={{ color: 'var(--color-primary-val)' }} title="Test Push">
+            TEST
           </button>
-        ) : (
-          <div className="w-9" />
-        )}
+          {unreadCount > 0 && (
+            <button onClick={handleMarkAllRead} className="p-2 rounded-full hover:bg-black/10 transition-colors"
+              style={{ color: 'var(--color-primary-val)' }} title="Mark all as read">
+              <Check className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="px-4 pb-24 max-w-lg mx-auto">
