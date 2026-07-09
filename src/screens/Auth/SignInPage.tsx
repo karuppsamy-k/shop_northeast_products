@@ -35,7 +35,7 @@ export const SignInPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 md:pt-24 md:pb-12"
+    <div className="min-h-screen flex items-center justify-center px-4 py-12"
       style={{ background: 'var(--body-gradient)' }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}

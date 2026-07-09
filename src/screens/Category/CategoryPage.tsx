@@ -71,21 +71,8 @@ export const CategoryPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen pt-16 md:pt-20 bg-background overflow-hidden">
+    <div className="flex flex-col bg-background overflow-hidden" style={{ height: 'calc(100vh - 4rem)' }}>
       
-      {/* Search Bar - Top Area */}
-      <div className="hidden md:block px-4 py-3 bg-[var(--color-surface)] shadow-sm z-20 relative">
-        <div className="max-w-7xl mx-auto flex items-center bg-[var(--color-background)] rounded-full px-4 py-2 border border-[var(--color-border)] focus-within:border-primary transition-colors">
-          <Search className="w-5 h-5 text-foreground/50 mr-3" />
-          <input
-            type="text"
-            placeholder="Search for products..."
-            className="flex-1 bg-transparent border-none outline-none text-sm text-foreground placeholder:text-foreground/50"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </div>
 
       <div className="flex flex-1 max-w-7xl mx-auto w-full overflow-hidden">
         
@@ -221,7 +208,8 @@ export const CategoryPage = () => {
         {/* Right Side - Products (Independent Scroll) */}
         <main className="flex-1 overflow-y-auto bg-background pb-24 relative" id="scrollableProductList">
           <div className="p-4 md:p-6 lg:p-8">
-            <div className="flex items-center justify-between mb-4 md:mb-6">
+            <div className="flex flex-col gap-3 mb-4 md:mb-6">
+            <div className="flex items-center justify-between">
               <h1 className="text-xl md:text-3xl font-extrabold text-foreground tracking-tight">
             {selectedCategory === 'all'
               ? 'All Products'
@@ -233,6 +221,18 @@ export const CategoryPage = () => {
                 {filteredProducts.length} items
               </div>
             </div>
+            {/* Search bar moved here — no gap under Navbar */}
+            <div className="flex items-center bg-[var(--color-background)] rounded-full px-4 py-2 border border-[var(--color-border)] focus-within:border-primary transition-colors">
+              <Search className="w-4 h-4 text-foreground/50 mr-3" />
+              <input
+                type="text"
+                placeholder="Search for products..."
+                className="flex-1 bg-transparent border-none outline-none text-sm text-foreground placeholder:text-foreground/50"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
             
             <AnimatePresence mode="wait">
               {filteredProducts.length > 0 ? (

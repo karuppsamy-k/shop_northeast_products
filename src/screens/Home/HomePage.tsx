@@ -345,7 +345,7 @@ export const HomePage = () => {
     <div className="min-h-screen pb-12" style={{ background: 'var(--body-gradient, #fff)' }}>
 
       {/* ── HERO SECTION ── */}
-      <div className="pt-2 md:pt-4 px-3 md:px-8 max-w-7xl mx-auto mb-6 md:mb-10 mt-16 md:mt-24">
+      <div className="pt-2 md:pt-4 px-3 md:px-8 max-w-7xl mx-auto mb-6 md:mb-10">
         <div className="w-full flex items-center justify-center h-[160px] md:h-[350px]">
           <AutoBanner />
         </div>

@@ -277,7 +277,7 @@ export const ProfilePage = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 pb-28 pt-20"
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 pb-28"
         style={{ background: 'var(--body-gradient)' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm text-center">
           <div className="glass-card p-10 mb-4">
@@ -327,7 +327,7 @@ export const ProfilePage = () => {
         )}
       </AnimatePresence>
 
-      <div className="min-h-screen pt-20 pb-28 px-4" style={{ background: 'var(--body-gradient)' }}>
+      <div className="min-h-screen pb-28 px-4" style={{ background: 'var(--body-gradient)' }}>
         <div className="max-w-lg mx-auto">
 
           {/* Header */}

@@ -23,7 +23,7 @@ export const AboutPage = () => {
   }, [location]);
 
   return (
-    <div className="min-h-screen pt-20 md:pt-28 pb-12" style={{ background: 'var(--body-gradient)' }}>
+    <div className="min-h-screen pb-12" style={{ background: 'var(--body-gradient)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
         
         {/* About Us */}

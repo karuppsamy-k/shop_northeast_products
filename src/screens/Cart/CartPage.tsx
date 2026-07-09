@@ -7,11 +7,12 @@ import { notificationService } from '@/services/notification';
 import { Button } from '@/components/ui/Button';
 import { AuthInput } from '@/components/ui/AuthInput';
 import { useAuthStore } from '@/store/authStore';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, MapPin, CheckCircle2, Navigation, Ticket, Truck, ChevronRight, MessageCircle } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, MapPin, CheckCircle2, Navigation, Truck, ChevronRight, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
-import { getCurrentLocation, reverseGeocode } from '@/helpers/location';
+import { reverseGeocode, getCurrentLocation } from '@/helpers/location';
 import { Loader2 } from 'lucide-react';
+import { DeliveryInfo } from '@/components/DeliveryInfo';
 
 // ─── EmailJS Config ──────────────────────────────────────────────────────────
 const EMAILJS_SERVICE_ID = 'service_gcyueqa';
@@ -243,7 +244,7 @@ export const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-28" style={{ background: 'var(--body-gradient)' }}>
+    <div className="min-h-screen pb-28" style={{ background: 'var(--body-gradient)' }}>
       <div className="max-w-xl mx-auto px-4 sm:px-6">
 
         {/* Header */}
@@ -337,15 +338,7 @@ export const CartPage = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Vouchers Section */}
-              <div className="rounded-2xl border p-4 mb-6 flex justify-between items-center cursor-pointer"
-                style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
-                <div className="flex items-center gap-3">
-                  <Ticket className="w-5 h-5" style={{ color: 'var(--color-primary-val)' }} />
-                  <span className="font-semibold text-sm" style={{ color: 'var(--color-fg)' }}>See All Vouchers</span>
-                </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
-              </div>
+              <DeliveryInfo />
 
               {/* Summary Section */}
               <div className="rounded-2xl border p-5 mb-8"
