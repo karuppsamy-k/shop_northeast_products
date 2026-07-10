@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import type { Product } from '@/models/Product';
-import { useToastStore } from '@/store/toastStore';
 
 interface ProductCardProps {
   product: Product;
@@ -10,12 +9,9 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
-  const { showToast } = useToastStore();
-
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
     onAddToCart?.(product);
-    showToast(`🛒 ${product.name} added to cart!`);
   };
 
   const getProductImageUrl = (imageUrl?: string, category?: string) => {
@@ -47,16 +43,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
       }}
     >
       {/* Image Area */}
-      <div className="relative flex justify-center items-center pt-3 pb-2" style={{ background: 'var(--color-surface, #f8f9fa)' }}>
-        <button className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors">
-          <Heart className="w-4 h-4" />
-        </button>
+      <div className="relative w-full overflow-hidden" style={{ height: '140px', background: 'var(--color-surface, #f8f9fa)' }}>
+
         <img
           src={getProductImageUrl(product?.imageUrl, product?.category)}
           alt={product?.name || 'Product'}
           loading="lazy"
           decoding="async"
-          className="h-20 w-20 md:h-24 md:w-24 object-contain transition-transform hover:scale-105"
+          className="w-full h-full object-cover transition-transform hover:scale-105"
         />
       </div>
 

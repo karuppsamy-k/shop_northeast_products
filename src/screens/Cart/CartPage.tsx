@@ -285,10 +285,10 @@ export const CartPage = () => {
                         borderColor: 'var(--glass-border)',
                       }}
                     >
-                      <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-black/5"
+                      <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-black/5"
                         style={{ border: '1px solid var(--glass-border)' }}>
                         <img src={item?.imageUrl || ''} alt={item?.name || 'Item'}
-                          className="object-contain w-full h-full p-2 drop-shadow-md" />
+                          className="object-cover w-full h-full" />
                       </div>
 
                       <div className="flex-1 flex flex-col justify-center">
@@ -337,7 +337,7 @@ export const CartPage = () => {
                 </AnimatePresence>
               </div>
 
-              <DeliveryInfo />
+
 
               {/* Summary Section */}
               <div className="rounded-2xl border p-5 mb-8"
@@ -436,34 +436,10 @@ export const CartPage = () => {
                 )}
               </div>
 
-              {/* Shipping & Vouchers Options */}
-              <div className="rounded-2xl border mb-4 divide-y" style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
-                <div className="p-4 flex justify-between items-center cursor-pointer hover:bg-black/5 transition">
-                  <div className="flex items-center gap-3">
-                    <Truck className="w-5 h-5 text-gray-500" />
-                    <span className="font-semibold text-sm" style={{ color: 'var(--color-fg)' }}>Shipping Options</span>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400" />
-                </div>
-                <div className="p-4 flex justify-between items-center cursor-pointer hover:bg-black/5 transition">
-                  <div className="flex items-center gap-3">
-                   
-                    <span className="font-semibold text-sm" style={{ color: 'var(--color-fg)' }}>Free Shipping up to ₹50</span>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400" />
-                </div>
-              </div>
 
-              {/* WhatsApp Payment Info */}
-              <div className="rounded-2xl border p-4 mb-4 flex items-start gap-3 bg-green-50/50" style={{ borderColor: 'rgba(34,197,94,0.3)' }}>
-                <MessageCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                <div>
-                  <h4 className="font-semibold text-sm text-green-800 mb-1">Payment & Confirmation</h4>
-                  <p className="text-xs text-green-700 leading-relaxed">
-                    We will connect with you via <strong>WhatsApp</strong> after you place the order to confirm details and provide the QR code for payment.
-                  </p>
-                </div>
-              </div>
+
+              {/* Delivery Details */}
+              <DeliveryInfo />
 
               {/* Summary Section */}
               <div className="rounded-2xl border p-5 mb-8"

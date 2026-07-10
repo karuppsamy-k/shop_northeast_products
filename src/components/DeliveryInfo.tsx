@@ -15,38 +15,43 @@ interface AccordionProps {
 const Accordion = ({ title, icon: Icon, bgColor, isOpen, onToggle, children }: AccordionProps) => {
   return (
     <div className="rounded-2xl border mb-4 overflow-hidden" style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>
-      <button 
+      <button
         onClick={onToggle}
-        className="w-full p-4 flex items-center justify-between text-white font-bold transition-colors"
+        className="w-full p-4 flex items-center justify-between text-white font-bold"
         style={{ background: bgColor }}
       >
         <div className="flex items-center gap-3">
           <Icon className="w-5 h-5" />
           <span className="tracking-wide uppercase">{title}</span>
         </div>
-        <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        >
           <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </motion.div>
       </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 25 }}
-          >
-            <div className="p-5 space-y-4">
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+      <motion.div
+        initial={false}
+        animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+        style={{ overflow: 'hidden' }}
+      >
+        <motion.div
+          animate={{ y: isOpen ? 0 : -8 }}
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          className="p-5 space-y-4"
+        >
+          {children}
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
+
 
 const InfoItem = ({ icon: Icon, text }: { icon: React.ElementType, text: React.ReactNode }) => (
   <div className="flex gap-4 items-start">
