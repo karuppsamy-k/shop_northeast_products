@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import { useOrderStore } from '@/store/orderStore';
-import { api } from '@/services/api';
-import { notificationService } from '@/services/notification';
+
+
 import { Button } from '@/components/ui/Button';
 import { AuthInput } from '@/components/ui/AuthInput';
 import { useAuthStore } from '@/store/authStore';
@@ -140,7 +140,7 @@ export const CartPage = () => {
       const customerAddress = guest.address || user.address || '';
 
       const orderLines = items.map(item =>
-        `  • ${item.name} (x${item.quantity}) = ₹${((item.discountPrice || item.price) * item.quantity).toFixed(0)}`
+        `  • ${item.name} (x${item.quantity}) = ₹${((item.finalPrice || item.price) * item.quantity).toFixed(0)}`
       ).join('\n');
 
       const templateParams = {
@@ -163,8 +163,7 @@ export const CartPage = () => {
         console.warn('EmailJS error:', emailErr);
       }
 
-      const order = await api.placeOrder({ items, total });
-      notificationService.notify('ORDER_PLACED', order);
+
 
       await addOrder({
         orderId: Math.random().toString(36).substring(2, 11),
@@ -288,7 +287,7 @@ export const CartPage = () => {
                     >
                       <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-black/5"
                         style={{ border: '1px solid var(--glass-border)' }}>
-                        <img src={item?.images?.[0] || ''} alt={item?.name || 'Item'}
+                        <img src={item?.imageUrl || ''} alt={item?.name || 'Item'}
                           className="object-contain w-full h-full p-2 drop-shadow-md" />
                       </div>
 
@@ -301,14 +300,14 @@ export const CartPage = () => {
                           </button>
                         </div>
                         
-                        <p className="text-xs text-gray-500 mb-2">Volume : {item.unit}</p>
+                        <p className="text-xs text-gray-500 mb-2">Volume : {item.unit || '1 pc'}</p>
                         
                         <div className="flex items-center justify-between mt-auto">
                           <div className="flex items-baseline gap-2">
                             <span className="text-sm font-bold text-gray-800" style={{ color: 'var(--color-fg)' }}>
-                              ₹{((item?.discountPrice) || (item?.price) || 0).toFixed(0)}
+                              ₹{((item?.finalPrice) || (item?.price) || 0).toFixed(0)}
                             </span>
-                            {item.price > item.discountPrice && (
+                            {item.price > (item.finalPrice || item.price) && (
                               <span className="text-xs line-through text-gray-400">
                                 ₹{item.price.toFixed(0)}
                               </span>

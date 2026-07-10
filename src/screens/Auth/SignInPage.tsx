@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, ArrowLeft } from 'lucide-react';
@@ -10,11 +10,17 @@ export const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { login } = useAuthStore();
+  const { login, isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const redirectUrl = query.get('redirect') || '/profile';
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(redirectUrl, { replace: true });
+    }
+  }, [isLoggedIn, navigate, redirectUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,9 +29,9 @@ export const SignInPage = () => {
     try {
       await login(email, password);
       if (email === 'karuppasamy.k.dev@gmail.com') {
-        navigate('/admin');
+        navigate('/admin', { replace: true });
       } else {
-        navigate(redirectUrl);
+        navigate(redirectUrl, { replace: true });
       }
     } catch (err: any) {
       setError(err.message || 'Invalid email or password.');

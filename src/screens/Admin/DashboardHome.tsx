@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, memo } from 'react'
 import { useOutletContext, useNavigate } from 'react-router-dom'
 import StatCard from './components/StatCard'
 import './admin.css'
@@ -155,7 +155,7 @@ const processFirestoreData = (docs, type, currentYear) => {
   };
 };
 
-const AnalyticsChart = ({ data }) => {
+const AnalyticsChart = memo(({ data }) => {
   const [activeModule, setActiveModule] = useState('order');
   const [timeRange, setTimeRange] = useState('monthly');
   const [chartType, setChartType] = useState('area'); // 'area', 'pie', 'gauge', 'bar'
@@ -438,7 +438,7 @@ const AnalyticsChart = ({ data }) => {
       </div>
     </div>
   );
-};
+});
 
 const navItems = [
   { label: 'Dash Board', id: 'admin-dashboard', active: true },

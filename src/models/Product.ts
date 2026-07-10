@@ -7,6 +7,7 @@ export interface Product {
   category: string;
   imageUrl: string;
   isActive: boolean;
+  unit?: string;
   createdAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
 }

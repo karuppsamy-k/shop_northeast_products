@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Loader2, ArrowLeft, Navigation } from 'lucide-react';
@@ -17,11 +17,17 @@ export const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { register } = useAuthStore();
+  const { register, isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const redirectUrl = query.get('redirect') || '/profile';
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(redirectUrl, { replace: true });
+    }
+  }, [isLoggedIn, navigate, redirectUrl]);
 
   const validatePhone = (val: string) => {
     if (!val) {
@@ -86,7 +92,7 @@ export const SignUpPage = () => {
         address,
         currentLocation: coords ? { ...coords, address } : undefined
       });
-      navigate(redirectUrl);
+      navigate(redirectUrl, { replace: true });
     } catch (err: any) {
       setError(err.message || 'Could not create account. Please try again.');
     } finally {

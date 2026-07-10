@@ -7,7 +7,7 @@ import { useToastStore } from '../store/toastStore';
 import { useAuthStore } from '../store/authStore';
 import { useOrderStore } from '../store/orderStore';
 import { useNotificationStore } from '../store/notificationStore';
-import { requestNotificationPermission } from '../utils/pushNotifications';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import { useEffect } from 'react';
@@ -15,7 +15,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { FirestoreService } from '../services/firestore.service';
 import type { User } from '../models/User';
-import { NotificationEnforcer } from '../components/NotificationEnforcer';
+
 
 import { HomePage } from '../screens/Home/HomePage';
 import { CategoryPage } from '../screens/Category/CategoryPage';
@@ -26,8 +26,10 @@ import { SignInPage } from '../screens/Auth/SignInPage';
 import { SignUpPage } from '../screens/Auth/SignUpPage';
 import AdminDashboard from '../screens/Admin/AdminDashboard';
 import DashboardHome from '../screens/Admin/DashboardHome';
-import { ProductsManager, OrdersManager } from '../screens/Admin/OldAdminDashboard';
+import { ProductsManager } from '../screens/Admin/ProductsManager';
+import { OrdersManager } from '../screens/Admin/OrdersManager';
 import UsersPage from '../screens/Admin/UsersPage';
+import { AdminRoute } from '../components/AdminRoute';
 
 // ─── Session Initializer — runs once at app root ──────────────────────────────
 const SessionManager = () => {
@@ -92,7 +94,7 @@ const MainLayout = () => {
       unsubscribeOrders = subscribeToOrders(user.uid);
       unsubscribeNotifications = subscribeToNotifications(user.uid);
       
-      requestNotificationPermission().catch(console.error);
+
     } else {
       clearOrders();
       clearNotifications();
@@ -135,14 +137,10 @@ const MainLayout = () => {
     </div>
   );
 
-  if (user) {
-    return <NotificationEnforcer>{content}</NotificationEnforcer>;
-  }
-
   return content;
 };
 
-import { AdminRoute } from '../components/AdminRoute';
+
 
 // ─── Router ──────────────────────────────────────────────────────────────────
 export const AppNavigator = () => {

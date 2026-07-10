@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Product } from '@/services/api';
+import type { Product } from '@/models/Product';
 
 export interface CartItem extends Product {
   quantity: number;
@@ -47,7 +47,7 @@ export const useCartStore = create<CartState>()(
       clearCart: () => set({ items: [] }),
       getTotals: () => {
         const items = get().items;
-        const subtotal = items.reduce((acc, item) => acc + ((item.discountPrice || item.price) * item.quantity), 0);
+        const subtotal = items.reduce((acc, item) => acc + ((item.finalPrice || item.price) * item.quantity), 0);
         const tax = subtotal * 0.08; // 8% tax mock
         return {
           subtotal,

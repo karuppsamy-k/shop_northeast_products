@@ -36,7 +36,7 @@ const Accordion = ({ title, icon: Icon, bgColor, isOpen, onToggle, children }: A
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
           >
             <div className="p-5 space-y-4">
               {children}

@@ -59,7 +59,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
               }}
             >
               <img
-                src={item?.images?.[0] || ''}
+                src={item?.imageUrl || ''}
                 alt={item.name}
                 loading="lazy"
                 decoding="async"
@@ -70,7 +70,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
               {item.name} ×{item.quantity}
             </span>
             <span className="text-xs font-bold flex-shrink-0" style={{ color: 'var(--color-fg)' }}>
-              ₹{((item.discountPrice || item.price) * item.quantity).toFixed(0)}
+              ₹{((item.finalPrice || item.price) * item.quantity).toFixed(0)}
             </span>
           </div>
         ))}
