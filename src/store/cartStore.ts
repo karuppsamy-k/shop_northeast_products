@@ -60,4 +60,5 @@ export const useCartStore = create<CartState>()(
       name: 'heritage-cart-storage',
     }
   )
+  
 );
