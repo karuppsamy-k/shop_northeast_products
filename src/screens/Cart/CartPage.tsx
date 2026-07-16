@@ -7,7 +7,7 @@ import { useOrderStore } from '@/store/orderStore';
 import { Button } from '@/components/ui/Button';
 import { AuthInput } from '@/components/ui/AuthInput';
 import { useAuthStore } from '@/store/authStore';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, MapPin, CheckCircle2, Navigation, Truck, ChevronRight, MessageCircle } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, MapPin, CheckCircle2, Navigation, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import { reverseGeocode, getCurrentLocation } from '@/helpers/location';
@@ -97,9 +97,9 @@ export const CartPage = () => {
     try {
       const coords = await getCurrentLocation();
       const addr = await reverseGeocode(coords.latitude, coords.longitude);
-      await updateProfile({ 
-        address: addr, 
-        currentLocation: { latitude: coords.latitude, longitude: coords.longitude, address: addr } 
+      await updateProfile({
+        address: addr,
+        currentLocation: { latitude: coords.latitude, longitude: coords.longitude, address: addr }
       });
       setGuest(g => ({ ...g, address: addr }));
       setAddressMode('view');
@@ -133,7 +133,7 @@ export const CartPage = () => {
 
     try {
       if (!user) throw new Error("No valid user found.");
-      
+
       const customerName = user.name;
       const customerPhone = user.phone || guest.phone;
       const customerEmail = user.email;
@@ -205,7 +205,7 @@ export const CartPage = () => {
           <p className="text-sm mb-4" style={{ color: 'var(--color-muted-fg)' }}>
             Thank you, <strong>{user?.name}</strong>! Your order has been received.
           </p>
-          
+
           <div className="p-4 rounded-xl mb-6 flex flex-col items-center gap-3"
             style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
             <MessageCircle className="w-8 h-8 text-green-500" />
@@ -265,7 +265,7 @@ export const CartPage = () => {
           {!showCheckout ? (
             /* ── Cart View ────────────────────────────────────────────── */
             <motion.div key="cart" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-              
+
               {/* Items List */}
               <div className="space-y-4 mb-6">
                 <AnimatePresence>
@@ -299,9 +299,9 @@ export const CartPage = () => {
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
-                        
+
                         <p className="text-xs text-gray-500 mb-2">Volume : {item.unit || '1 pc'}</p>
-                        
+
                         <div className="flex items-center justify-between mt-auto">
                           <div className="flex items-baseline gap-2">
                             <span className="text-sm font-bold text-gray-800" style={{ color: 'var(--color-fg)' }}>
@@ -313,7 +313,7 @@ export const CartPage = () => {
                               </span>
                             )}
                           </div>
-                          
+
                           <div className="flex items-center gap-2 rounded-full border px-2 py-1"
                             style={{ background: 'rgba(255,255,255,0.4)', borderColor: 'var(--glass-border)' }}>
                             <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -366,7 +366,7 @@ export const CartPage = () => {
           ) : (
             /* ── Checkout Flow ────────────────────────────────────────── */
             <motion.div key="checkout" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
-              
+
               {/* Address Section */}
               <div className="rounded-2xl border p-5 mb-4"
                 style={{ background: 'var(--glass-card-bg)', borderColor: 'var(--glass-border)' }}>

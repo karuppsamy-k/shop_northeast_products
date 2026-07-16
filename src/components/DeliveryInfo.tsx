@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Bike, Truck, Clock, ShoppingBag, CreditCard, Calendar, MapPin, Store, Package, XCircle, FileWarning, AlertCircle, QrCode, Info } from 'lucide-react';
 
 interface AccordionProps {
