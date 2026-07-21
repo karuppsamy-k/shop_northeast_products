@@ -271,17 +271,12 @@ export const ProfilePage = () => {
   const { orders } = useOrderStore();
   const [editOpen, setEditOpen] = useState(false);
   const [ordersOpen, setOrdersOpen] = useState(false);
-  const [toast, setToast] = useState('');
+  const [toast] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const showToast = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(''), 2500);
-  };
 
   const handleLogout = () => {
     logout();
