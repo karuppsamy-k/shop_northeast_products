@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
-import { Plus, Edit, Trash2, X, Check, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Check, Filter, ChevronLeft, ChevronRight, BadgeCheck } from 'lucide-react';
 import { FirestoreService } from '@/services/firestore.service';
 import type { Product } from '@/models/Product';
 import { compressToBase64, getProductImageUrl } from '@/utils/imageHandling';
@@ -214,9 +214,11 @@ export const ProductsManager = () => {
         </div>
       </div>
 
-      {/* ── Products Table ── */}
+      {/* ── Products List ── */}
       <Card className="border-[var(--color-border)] overflow-hidden" style={{ background: 'var(--color-card)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
-        <div className="overflow-x-auto min-h-[400px]">
+        
+        {/* ── Desktop View (Table) ── */}
+        <div className="hidden md:block overflow-x-auto min-h-[400px]">
           <Table>
             <TableHeader className="bg-black/5 dark:bg-black/20 border-b border-[var(--color-border)]">
               <TableRow className="border-none hover:bg-transparent">
@@ -281,6 +283,60 @@ export const ProductsManager = () => {
           </Table>
         </div>
 
+        {/* ── Mobile View (Cards) ── */}
+        <div className="md:hidden flex flex-col gap-4 p-4 min-h-[400px]">
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-20 text-[var(--color-muted-fg)]">
+              No products found{selectedCategory !== 'all' ? ` in "${selectedCategory.split('-').join(' ')}"` : ''}.
+            </div>
+          ) : (
+            products.map(p => (
+              <div key={p.id} className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 flex flex-col shadow-sm relative overflow-hidden">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 shrink-0 rounded-xl bg-black/5 flex items-center justify-center overflow-hidden border border-[var(--color-border)]">
+                    <img src={getProductImageUrl(p.imageUrl, p.category)} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-bold text-[var(--color-fg)] text-base leading-tight truncate">{p.name}</h3>
+                      <span className="shrink-0 text-blue-500 mt-0.5" title="Verified Product">
+                        <BadgeCheck className="w-4 h-4" />
+                      </span>
+                    </div>
+                    
+                    <p className="text-sm text-[var(--color-muted-fg)] mt-1 capitalize">
+                      {p.category.split('-').join(' ')} • ₹{p.price}
+                    </p>
+                    
+                    <div className="mt-3 flex items-center gap-2">
+                      <span className="text-yellow-500 text-sm">★</span>
+                      <span className="text-sm font-semibold text-[var(--color-fg)]">₹{p.finalPrice}</span>
+                      {p.offer ? <span className="text-xs text-[var(--color-muted-fg)] line-through">₹{p.price}</span> : null}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-5 w-full">
+                  <button onClick={() => { setEditingProduct(p); setShowModal(true); }} className="flex-1 bg-[var(--color-card)] border border-[var(--color-border)] text-[var(--color-fg)] py-2.5 rounded-xl text-sm font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                    Edit
+                  </button>
+                  <button onClick={() => handleSoftDelete(p)} className="flex-1 bg-[var(--color-card)] border border-[var(--color-border)] text-[var(--color-fg)] py-2.5 rounded-xl text-sm font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                    {p.isActive ? 'Block' : 'Activate'}
+                  </button>
+                  <button onClick={() => handleHardDelete(p)} className="w-11 shrink-0 bg-[var(--color-card)] border border-[var(--color-border)] text-[var(--color-muted-fg)] hover:text-red-500 rounded-xl flex items-center justify-center transition-colors shadow-sm">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
         {/* ── Pagination Controls ── */}
         <div className="p-4 border-t border-[var(--color-border)] flex items-center justify-between bg-[var(--color-surface)]">
           <span className="text-sm text-[var(--color-muted-fg)]">
@@ -338,6 +394,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
     category: product?.category || KNOWN_CATEGORIES[0],
     price: product?.price || 0,
     offer: product?.offer || 0,
+    description: product?.description || '',
     isActive: product?.isActive ?? true
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -374,6 +431,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
         offer: offerVal ? Number(offerVal) : null,
         finalPrice: Math.round(Number(finalPrice)),
         category: formData.category,
+        description: formData.description,
         imageUrl,
         isActive: formData.isActive,
         createdAt: product?.createdAt || new Date().toISOString(),
@@ -404,6 +462,11 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
           <div>
             <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Name</label>
             <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Description</label>
+            <textarea rows={3} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary resize-y" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">

@@ -22,7 +22,7 @@ service cloud.firestore {
 
     // -- Orders Collection --
     match /orders/{orderId} {
-      // Users can read their own orders (we check the userId field in the doc)
+      // Users can read their own orders (single doc or list query)
       // Admins can read all orders
       allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
       

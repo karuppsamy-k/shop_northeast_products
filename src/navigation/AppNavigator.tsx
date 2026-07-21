@@ -24,6 +24,7 @@ import { ProfilePage } from '../screens/Profile/ProfilePage';
 import { AboutPage } from '../screens/Home/AboutPage';
 import { SignInPage } from '../screens/Auth/SignInPage';
 import { SignUpPage } from '../screens/Auth/SignUpPage';
+import { ProductDetailsPage } from '../screens/Product/ProductDetailsPage';
 import AdminDashboard from '../screens/Admin/AdminDashboard';
 import DashboardHome from '../screens/Admin/DashboardHome';
 import { ProductsManager } from '../screens/Admin/ProductsManager';
@@ -93,8 +94,6 @@ const MainLayout = () => {
     if (user?.uid) {
       unsubscribeOrders = subscribeToOrders(user.uid);
       unsubscribeNotifications = subscribeToNotifications(user.uid);
-      
-
     } else {
       clearOrders();
       clearNotifications();
@@ -104,7 +103,8 @@ const MainLayout = () => {
       if (unsubscribeOrders) unsubscribeOrders();
       if (unsubscribeNotifications) unsubscribeNotifications();
     };
-  }, [user?.uid, subscribeToOrders, clearOrders, subscribeToNotifications, clearNotifications]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.uid]);
 
   if (isInitializing) return <AppLoadingScreen />;
 
@@ -157,6 +157,7 @@ export const AppNavigator = () => {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="product/:id" element={<ProductDetailsPage />} />
         </Route>
 
         <Route 
@@ -171,8 +172,6 @@ export const AppNavigator = () => {
           <Route path="products" element={<ProductsManager />} />
           <Route path="orders" element={<OrdersManager />} />
           <Route path="users" element={<UsersPage />} />
-          <Route path="analytics" element={<div className="p-8 text-white">Analytics Coming Soon</div>} />
-          <Route path="settings" element={<div className="p-8 text-white">Settings Coming Soon</div>} />
         </Route>
       </Routes>
     </Router>

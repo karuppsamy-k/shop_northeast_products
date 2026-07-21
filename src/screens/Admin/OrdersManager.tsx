@@ -117,7 +117,7 @@ export const OrdersManager = () => {
         </div>
       </div>
       
-      <div className="overflow-x-auto">
+      <div className="hidden md:block overflow-x-auto">
         <Table>
           <TableHeader className="bg-black/5 dark:bg-black/20 border-b border-[var(--color-border)]">
             <TableRow className="border-none hover:bg-transparent">
@@ -207,35 +207,98 @@ export const OrdersManager = () => {
         </Table>
       </div>
 
+      {/* Mobile View */}
+      <div className="md:hidden flex flex-col gap-4 p-4 min-h-[400px]">
+        {filteredOrders.length === 0 ? (
+          <div className="text-center py-20 text-[var(--color-muted-fg)]">
+            No {activeTab.toLowerCase()} orders found.
+          </div>
+        ) : (
+          filteredOrders.map((order) => {
+            const isPending = order.status === 'Pending';
+            const isDelivered = order.status === 'Delivered';
+            const isRejected = order.status === 'Cancelled' || order.status === 'Rejected';
+            
+            return (
+              <div 
+                key={order.orderId} 
+                className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 flex flex-col shadow-sm relative overflow-hidden cursor-pointer"
+                onClick={() => setSelectedOrder(order)}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h3 className="font-bold text-[var(--color-fg)] text-sm">{order.orderId}</h3>
+                    <p className="text-xs text-[var(--color-muted-fg)] mt-1">{new Date(order.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold shrink-0 ${
+                    isDelivered ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 
+                    isRejected ? 'bg-red-500/10 text-red-500 border border-red-500/20' :
+                    isPending ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
+                    'bg-blue-500/10 text-blue-500 border border-blue-500/20'
+                  }`}>
+                    {order.status}
+                  </span>
+                </div>
+                
+                <div className="flex flex-col gap-1 mb-4">
+                  <p className="font-medium text-[var(--color-fg)] text-sm">{users[order.userId]?.name || order.userId}</p>
+                  <p className="text-xs text-[var(--color-muted-fg)] truncate max-w-full">{order.deliveryAddress || 'N/A'}</p>
+                </div>
+
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-[var(--color-border)]">
+                  <p className="font-bold text-[var(--color-fg)] text-lg">₹{order.totalAmount}</p>
+                  <select 
+                    value={order.status}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={(e) => { e.stopPropagation(); updateStatus(order.orderId, e.target.value); }}
+                    className="bg-black/5 dark:bg-black/30 text-[var(--color-fg)] rounded-lg py-1.5 px-3 text-xs outline-none border border-[var(--color-border)] hover:border-[var(--color-muted)] transition-colors cursor-pointer appearance-none"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%22//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239CA3AF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E")`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'right 0.5rem top 50%',
+                      backgroundSize: '0.65rem auto',
+                      paddingRight: '1.5rem'
+                    }}
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
       {selectedOrder && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-[var(--color-card)] border border-[var(--color-border)] p-6 rounded-2xl w-full max-w-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-[var(--color-card)] border border-[var(--color-border)] p-6 rounded-2xl w-full max-w-md shadow-2xl overflow-y-auto max-h-[90vh]">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-[var(--color-fg)]">Order Details - {selectedOrder.orderId}</h2>
-              <button onClick={() => setSelectedOrder(null)} className="p-2 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-[var(--color-fg)]"><X className="w-5 h-5" /></button>
+              <h2 className="text-xl font-bold text-[var(--color-fg)]">Order Details</h2>
+              <button onClick={() => setSelectedOrder(null)} className="p-2 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-[var(--color-fg)] transition-colors"><X className="w-5 h-5" /></button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="flex flex-col gap-4 mb-6">
               <div className="bg-[var(--color-surface)] p-4 rounded-xl border border-[var(--color-border)]">
                 <h3 className="text-sm text-[var(--color-muted-fg)] mb-2 uppercase tracking-wider font-semibold">Customer Info</h3>
                 <p className="font-medium text-[var(--color-fg)]">{users[selectedOrder.userId]?.name || 'Unknown User'}</p>
                 <p className="text-sm text-[var(--color-muted-fg)] mt-1">{users[selectedOrder.userId]?.email || 'No email'}</p>
                 <p className="text-sm text-[var(--color-muted-fg)]">{users[selectedOrder.userId]?.phone || 'No phone'}</p>
-                <p className="text-xs text-[var(--color-muted-fg)] mt-2 font-mono break-all">{selectedOrder.userId}</p>
               </div>
               <div className="bg-[var(--color-surface)] p-4 rounded-xl border border-[var(--color-border)]">
                 <h3 className="text-sm text-[var(--color-muted-fg)] mb-2 uppercase tracking-wider font-semibold">Delivery Info</h3>
-                <p className="text-sm text-[var(--color-fg)] break-words">{selectedOrder.deliveryAddress || 'No address provided'}</p>
-                <div className="mt-3">
-                  <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                    selectedOrder.status === 'Delivered' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 
-                    selectedOrder.status === 'Cancelled' || selectedOrder.status === 'Rejected' ? 'bg-red-500/10 text-red-500 border border-red-500/20' :
-                    selectedOrder.status === 'Pending' ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
-                    'bg-blue-500/10 text-blue-500 border border-blue-500/20'
-                  }`}>
-                    {selectedOrder.status}
-                  </span>
-                </div>
+                <p className="text-sm text-[var(--color-fg)] break-words mb-3">{selectedOrder.deliveryAddress || 'No address provided'}</p>
+                <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                  selectedOrder.status === 'Delivered' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 
+                  selectedOrder.status === 'Cancelled' || selectedOrder.status === 'Rejected' ? 'bg-red-500/10 text-red-500 border border-red-500/20' :
+                  selectedOrder.status === 'Pending' ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
+                  'bg-blue-500/10 text-blue-500 border border-blue-500/20'
+                }`}>
+                  {selectedOrder.status}
+                </span>
               </div>
             </div>
 

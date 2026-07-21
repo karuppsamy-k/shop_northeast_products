@@ -19,9 +19,7 @@ export const useOrderStore = create<OrderState>()(
       set({ isLoading: true });
       try {
         await OrderService.createOrder(orderData);
-        set((state) => ({ 
-          orders: [orderData, ...state.orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        }));
+        // Don't add locally — the real-time subscription will pick it up
       } catch (err) {
         console.error("Failed to add order", err);
       } finally {
@@ -32,7 +30,6 @@ export const useOrderStore = create<OrderState>()(
       set({ isLoading: true });
       try {
         const fetchedOrders = await OrderService.getUserOrders(userId);
-        // Sort descending by date
         fetchedOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         set({ orders: fetchedOrders });
       } catch (err) {

@@ -12,8 +12,6 @@ const navItems = [
   { label: 'Products', id: 'products', icon: <Package size={18} /> },
   { label: 'Orders', id: 'orders', icon: <ShoppingBag size={18} /> },
   { label: 'Users', id: 'users', icon: <Users size={18} /> },
-  { label: 'Analytics', id: 'analytics', icon: <BarChart3 size={18} /> },
-  { label: 'Settings', id: 'settings', icon: <Settings size={18} /> },
 ]
 
 export default function AdminLayout() {

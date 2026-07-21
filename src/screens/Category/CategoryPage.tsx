@@ -22,6 +22,8 @@ export const CategoryPage = () => {
     const query = new URLSearchParams(location.search);
     if (query.get('offers') === 'true') {
       setSelectedCategory('offers');
+    } else if (query.get('category')) {
+      setSelectedCategory(query.get('category')!);
     }
   }, [location.search]);
 
@@ -42,6 +44,18 @@ export const CategoryPage = () => {
     });
     return cats.sort((a, b) => a.name.localeCompare(b.name));
   }, [products]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setTimeout(() => {
+        const btn = document.getElementById(`category-btn-${selectedCategory}`);
+        if (btn) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 50);
+    }
+  }, [selectedCategory, categories]);
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -77,7 +91,7 @@ export const CategoryPage = () => {
       <div className="flex flex-1 max-w-7xl mx-auto w-full overflow-hidden">
         
         {/* Left Sidebar - Categories (Independent Scroll) */}
-        <aside className="w-[100px] md:w-[160px] lg:w-[220px] flex-shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)] overflow-y-auto hide-scrollbar pb-24">
+        <aside className="w-[100px] md:w-[160px] lg:w-[220px] flex-shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)] overflow-y-auto hide-scrollbar pb-6">
           <div className="flex flex-col p-2 md:p-3 space-y-2 md:space-y-4">
             {/* All category synthetic entry */}
             {(() => {
@@ -85,6 +99,7 @@ export const CategoryPage = () => {
               return (
                 <button
                   key="all"
+                  id="category-btn-all"
                   onClick={() => handleCategorySelect('all')}
                   className={`relative flex flex-col items-center justify-center p-3 md:p-4 rounded-2xl transition-all duration-300 w-full group ${
                     isSelected
@@ -117,6 +132,7 @@ export const CategoryPage = () => {
               return (
                 <button
                   key="offers"
+                  id="category-btn-offers"
                   onClick={() => handleCategorySelect('offers')}
                   className={`relative flex flex-col items-center justify-center p-3 md:p-4 rounded-2xl transition-all duration-300 w-full group ${
                     isSelected
@@ -175,6 +191,7 @@ export const CategoryPage = () => {
               return (
                 <button
                   key={cat.id}
+                  id={`category-btn-${cat.id}`}
                   onClick={() => handleCategorySelect(cat.id)}
                   className={`relative flex flex-col items-center justify-center p-3 md:p-4 rounded-2xl transition-all duration-300 w-full group ${
                     isSelected 
@@ -206,7 +223,7 @@ export const CategoryPage = () => {
         </aside>
 
         {/* Right Side - Products (Independent Scroll) */}
-        <main className="flex-1 overflow-y-auto bg-background pb-24 relative" id="scrollableProductList">
+        <main className="flex-1 overflow-y-auto bg-background pb-6 relative" id="scrollableProductList">
           <div className="p-4 md:p-6 lg:p-8">
             <div className="flex flex-col gap-3 mb-4 md:mb-6">
             <div className="flex items-center justify-between">

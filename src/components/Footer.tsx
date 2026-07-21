@@ -35,6 +35,11 @@ export const Footer = () => {
             <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--color-muted-fg)' }}>
               Authentic flavors from Northeast India, delivered fresh to your doorstep.
             </p>
+            <div className="mt-4 space-y-2 text-sm" style={{ color: 'var(--color-muted-fg)' }}>
+              <p><strong>Contact:</strong> Sathish</p>
+              <p><strong>Phone:</strong> +91 80958 48956</p>
+              <p><strong>Email:</strong> northeastfreshmart@gmail.com</p>
+            </div>
 
           </div>
 

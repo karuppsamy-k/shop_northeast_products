@@ -67,7 +67,6 @@ export default function TopBar({
             }} />
           )}
         </button>
-        <button className="profile-button" onClick={handleProfileClick}>{profileLabel}</button>
       </div>
     </header>
   )

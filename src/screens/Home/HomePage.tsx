@@ -342,7 +342,7 @@ export const HomePage = () => {
   }, [fetchInitialProducts]);
 
   return (
-    <div className="min-h-screen pb-12" style={{ background: 'var(--body-gradient, #fff)' }}>
+    <div className="pb-4" style={{ background: 'var(--body-gradient, #fff)' }}>
 
       {/* ── HERO SECTION ── */}
       <div className="pt-2 md:pt-4 px-3 md:px-8 max-w-7xl mx-auto mb-6 md:mb-10">
@@ -414,7 +414,7 @@ export const HomePage = () => {
         </div>
         <div className="grid grid-cols-4 md:flex md:overflow-x-auto gap-3 md:gap-8 pb-2 hide-scrollbar">
           {categories.slice(0, 8).map((cat) => (
-            <div key={cat.id} className="flex flex-col items-center shrink-0 cursor-pointer group" onClick={() => navigate('/categories')}>
+            <div key={cat.id} className="flex flex-col items-center shrink-0 cursor-pointer group" onClick={() => navigate(`/categories?category=${cat.id}`)}>
               <div className={`w-14 h-14 md:w-20 md:h-20 rounded-full ${cat.bgClass} flex items-center justify-center text-2xl md:text-3xl mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm border border-black/5`}>
                 {cat.emoji}
               </div>

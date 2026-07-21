@@ -1,6 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Plus, Minus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useCartStore } from '@/store/cartStore';
+import { useToastStore } from '@/store/toastStore';
 import type { Product } from '@/models/Product';
 
 interface ProductCardProps {
@@ -9,9 +12,37 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const navigate = useNavigate();
+  const { items, addItem, updateQuantity, removeItem } = useCartStore();
+  const showToast = useToastStore((state) => state.showToast);
+  const cartItem = items.find(item => item.id === product.id);
+
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onAddToCart?.(product);
+    if (onAddToCart) {
+      onAddToCart(product);
+    } else {
+      addItem(product);
+    }
+    showToast(`${product.name} added to cart`);
+  };
+
+  const handleIncrease = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (cartItem) {
+      updateQuantity(product.id, cartItem.quantity + 1);
+    }
+  };
+
+  const handleDecrease = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (cartItem) {
+      if (cartItem.quantity === 1) {
+        removeItem(product.id);
+      } else {
+        updateQuantity(product.id, cartItem.quantity - 1);
+      }
+    }
   };
 
   const getProductImageUrl = (imageUrl?: string, category?: string) => {
@@ -36,11 +67,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5, scale: 1.02 }}
       transition={{ duration: 0.2 }}
-      className="bg-white rounded-lg overflow-hidden cursor-pointer flex flex-col"
+      className="bg-[var(--color-surface)] rounded-xl overflow-hidden cursor-pointer flex flex-col border border-[var(--color-border)] shadow-sm"
       style={{
-        border: '1px solid #eaeaea',
         boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
       }}
+      onClick={() => navigate(`/product/${product.id}`)}
     >
       {/* Image Area */}
       <div className="relative w-full overflow-hidden" style={{ height: '140px', background: 'var(--color-surface, #f8f9fa)' }}>
@@ -73,13 +104,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
         </div>
 
         {/* Add to Cart Button */}
-        <button
-          onClick={handleAdd}
-          className="w-full py-1.5 md:py-2 rounded text-white font-semibold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-opacity hover:opacity-90 mt-1"
-          style={{ background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163, 94%, 18%))' }}
-        >
-          <ShoppingCart className="w-3.5 h-3.5" /> Add
-        </button>
+        <div className="mt-1">
+          {cartItem ? (
+            <div className="w-full py-1 md:py-1.5 flex items-center justify-between border rounded px-2" style={{ borderColor: 'var(--color-primary-val)' }}>
+              <button onClick={handleDecrease} className="p-0.5 hover:bg-gray-100 rounded transition-colors" style={{ color: 'var(--color-primary-val)' }}>
+                <Minus className="w-3.5 h-3.5 md:w-4 md:h-4" />
+              </button>
+              <span className="font-bold text-xs md:text-sm" style={{ color: 'var(--color-fg)' }}>{cartItem.quantity}</span>
+              <button onClick={handleIncrease} className="p-0.5 hover:bg-gray-100 rounded transition-colors" style={{ color: 'var(--color-primary-val)' }}>
+                <Plus className="w-3.5 h-3.5 md:w-4 md:h-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleAdd}
+              className="w-full py-1.5 md:py-2 rounded text-white font-semibold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-opacity hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163, 94%, 18%))' }}
+            >
+              <ShoppingCart className="w-3.5 h-3.5" /> Add
+            </button>
+          )}
+        </div>
       </div>
     </motion.div>
   );

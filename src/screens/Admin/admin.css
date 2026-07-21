@@ -306,7 +306,8 @@
 }
 
 .dashboard-shell {
-  --sidebar-bg: #0a0b10;
+  --bg-panel: var(--glass-panel-bg);
+  --sidebar-bg: var(--bg-panel);
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr); /* Reduced from 280px */
   min-height: 100vh;
@@ -335,6 +336,8 @@
 .dashboard-sidebar {
   padding: 24px 20px; /* Reduced from 32px 24px */
   background: var(--sidebar-bg);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
@@ -448,13 +451,13 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   font-size: 10.5px; /* Reduced from 12px */
-  color: #7b8abc;
+  color: var(--color-primary-val, #6c9cff);
 }
 
 .dashboard-topbar h1 {
   margin: 0;
   font-size: 32px; /* Reduced from 40px */
-  color: #f6f8ff;
+  color: var(--color-fg);
 }
 
 .topbar-actions {
@@ -466,17 +469,17 @@
 
 .icon-button,
 .profile-button {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--color-border);
   border-radius: 999px;
-  background: var(--btn-bg);
-  color: var(--text-heading);
+  background: var(--color-surface);
+  color: var(--color-fg);
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .icon-button:hover,
 .profile-button:hover {
-  background: var(--btn-bg-hover);
+  background: var(--color-border);
 }
 
 .icon-button {
@@ -497,8 +500,8 @@
   width: 40px;
   height: 40px;
   border: none;
-  background: var(--btn-bg-hover);
-  color: var(--text-heading);
+  background: var(--color-surface);
+  color: var(--color-fg);
   cursor: pointer;
   border-radius: 8px;
   font-size: 20px;

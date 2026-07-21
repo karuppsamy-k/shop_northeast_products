@@ -243,7 +243,7 @@ export const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen pb-28" style={{ background: 'var(--body-gradient)' }}>
+    <div className="pb-8" style={{ background: 'var(--body-gradient)' }}>
       <div className="max-w-xl mx-auto px-4 sm:px-6">
 
         {/* Header */}

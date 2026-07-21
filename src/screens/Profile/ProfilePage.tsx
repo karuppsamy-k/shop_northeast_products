@@ -49,7 +49,16 @@ const MenuItem = ({
 
 /* ─── Orders Panel ─── */
 const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
-  const { orders } = useOrderStore();
+  const { orders, isLoading, fetchOrders } = useOrderStore();
+  const { user } = useAuthStore();
+
+  useEffect(() => {
+    // Actively fetch orders when the panel opens
+    if (user?.uid) {
+      fetchOrders(user.uid);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.uid]);
 
   const statusColor = (s: Order['status']) =>
     s === 'Delivered' ? '#16a34a' : s === 'Cancelled' || s === 'Rejected' ? '#dc2626' : '#f97316';
@@ -73,7 +82,15 @@ const OrdersPanel = ({ onClose }: { onClose: () => void }) => {
       </div>
 
       <div className="px-4 pb-24 max-w-lg mx-auto">
-        {orders.length === 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4 animate-pulse"
+              style={{ background: 'rgba(22,163,74,0.1)' }}>
+              <Package className="w-9 h-9" style={{ color: 'var(--color-primary-val)' }} />
+            </div>
+            <p className="text-sm" style={{ color: 'var(--color-muted-fg)' }}>Loading your orders...</p>
+          </div>
+        ) : orders.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4"
               style={{ background: 'rgba(22,163,74,0.1)' }}>
@@ -169,8 +186,8 @@ const EditProfilePanel = ({ onClose }: { onClose: () => void }) => {
   };
 
   const inputStyle = {
-    background: 'rgba(255,255,255,0.6)',
-    border: '1.5px solid var(--glass-border)',
+    background: 'var(--color-surface)',
+    border: '1.5px solid var(--color-border)',
     color: 'var(--color-fg)',
   };
 
@@ -277,7 +294,7 @@ export const ProfilePage = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 pb-28"
+      <div className="flex flex-col items-center justify-center px-4 py-8"
         style={{ background: 'var(--body-gradient)' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm text-center">
           <div className="glass-card p-10 mb-4">
@@ -327,7 +344,7 @@ export const ProfilePage = () => {
         )}
       </AnimatePresence>
 
-      <div className="min-h-screen pb-28 px-4" style={{ background: 'var(--body-gradient)' }}>
+      <div className="pb-8 px-4" style={{ background: 'var(--body-gradient)' }}>
         <div className="max-w-lg mx-auto">
 
           {/* Header */}
@@ -422,8 +439,6 @@ export const ProfilePage = () => {
               }
             />
 
-            <MenuItem icon={Trash2} label="Clear Cache" onClick={handleClearCache} />
-            <MenuItem icon={Clock} label="Clear History" onClick={handleClearHistory} />
           </div>
 
           <div className="glass-card p-2">
