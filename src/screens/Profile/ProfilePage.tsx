@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Trash2, Clock,
   LogOut, ChevronRight, Sun, Moon, Camera, Check, Eye, EyeOff,
   ArrowLeft, Settings, ShoppingBag, Package, MapPin
 } from 'lucide-react';
@@ -289,8 +288,7 @@ export const ProfilePage = () => {
     navigate('/signin');
   };
 
-  const handleClearCache = () => showToast('Cache cleared successfully!');
-  const handleClearHistory = () => showToast('History cleared successfully!');
+
 
   if (!isLoggedIn) {
     return (
