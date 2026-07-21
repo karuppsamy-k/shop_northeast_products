@@ -228,6 +228,7 @@ export const ProductsManager = () => {
                 <TableHead className="text-[var(--color-muted-fg)] font-medium">Price</TableHead>
                 <TableHead className="text-[var(--color-muted-fg)] font-medium">Offer %</TableHead>
                 <TableHead className="text-[var(--color-muted-fg)] font-medium">Final Price</TableHead>
+                <TableHead className="text-[var(--color-muted-fg)] font-medium">Stock</TableHead>
                 <TableHead className="text-[var(--color-muted-fg)] font-medium">Status</TableHead>
                 <TableHead className="text-right text-[var(--color-muted-fg)] font-medium">Actions</TableHead>
               </TableRow>
@@ -258,6 +259,7 @@ export const ProductsManager = () => {
                     <TableCell className="text-[var(--color-fg)]">₹{p.price}</TableCell>
                     <TableCell className="text-[var(--color-muted-fg)]">{p.offer ? `${p.offer}%` : '-'}</TableCell>
                     <TableCell className="font-bold text-[var(--color-fg)]">₹{p.finalPrice}</TableCell>
+                    <TableCell className="text-[var(--color-fg)]">{p.stockQuantity ?? 0}</TableCell>
                     <TableCell>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${p.isActive ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
                         {p.isActive ? 'Active' : 'Inactive'}
@@ -317,6 +319,7 @@ export const ProductsManager = () => {
                       <span className="text-yellow-500 text-sm">★</span>
                       <span className="text-sm font-semibold text-[var(--color-fg)]">₹{p.finalPrice}</span>
                       {p.offer ? <span className="text-xs text-[var(--color-muted-fg)] line-through">₹{p.price}</span> : null}
+                      <span className="ml-2 text-xs text-[var(--color-muted-fg)]">Stock: {p.stockQuantity ?? 0}</span>
                     </div>
                   </div>
                 </div>
@@ -394,6 +397,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
     category: product?.category || KNOWN_CATEGORIES[0],
     price: product?.price || 0,
     offer: product?.offer || 0,
+    stockQuantity: product?.stockQuantity ?? 0,
     description: product?.description || '',
     isActive: product?.isActive ?? true
   });
@@ -430,6 +434,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
         price: Number(formData.price),
         offer: offerVal ? Number(offerVal) : null,
         finalPrice: Math.round(Number(finalPrice)),
+        stockQuantity: Number(formData.stockQuantity),
         category: formData.category,
         description: formData.description,
         imageUrl,
@@ -469,7 +474,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
             <textarea rows={3} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary resize-y" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Price (₹)</label>
               <input required type="number" value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
@@ -477,6 +482,10 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
             <div>
               <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Offer (%)</label>
               <input type="number" value={formData.offer} onChange={e => setFormData({...formData, offer: Number(e.target.value)})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Stock</label>
+              <input required type="number" value={formData.stockQuantity} onChange={e => setFormData({...formData, stockQuantity: Number(e.target.value)})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
             </div>
           </div>
 

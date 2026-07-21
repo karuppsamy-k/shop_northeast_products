@@ -15,6 +15,7 @@ export const ProductDetailsPage = () => {
   const { items, addItem, updateQuantity, removeItem } = useCartStore();
   const showToast = useToastStore((state) => state.showToast);
   const cartItem = product ? items.find(item => item.id === product.id) : undefined;
+  const isOutOfStock = product ? (product.stockQuantity ?? 0) <= 0 : false;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -35,8 +36,8 @@ export const ProductDetailsPage = () => {
   if (loading) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-green-600 mb-4" />
-        <p className="text-gray-500 font-medium">Loading details...</p>
+        <Loader2 className="w-10 h-10 animate-spin mb-4" style={{ color: 'var(--color-primary-val)' }} />
+        <p className="font-medium" style={{ color: 'var(--color-muted-fg)' }}>Loading details...</p>
       </div>
     );
   }
@@ -44,7 +45,7 @@ export const ProductDetailsPage = () => {
   if (!product) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center">
-        <p className="text-gray-500 font-medium mb-4">Product not found.</p>
+        <p className="font-medium mb-4" style={{ color: 'var(--color-muted-fg)' }}>Product not found.</p>
         <button
           onClick={() => navigate(-1)}
           className="px-6 py-2 rounded-full text-white font-bold"
@@ -94,23 +95,23 @@ export const ProductDetailsPage = () => {
   };
 
   return (
-    <div className="pb-12 pt-4 md:pt-8" style={{ background: 'var(--body-gradient, #fff)' }}>
-      <div className="max-w-6xl mx-auto px-4 md:px-8">
+    <div className="pb-6 pt-2 md:pt-8" style={{ background: 'var(--body-gradient, var(--color-background))' }}>
+      <div className="max-w-6xl mx-auto px-3 md:px-8">
         
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-sm font-semibold mb-6 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 text-sm font-semibold mb-4 hover:opacity-80 transition-opacity"
           style={{ color: 'var(--color-fg)' }}
         >
           <ArrowLeft className="w-4 h-4" /> Back
         </button>
 
-        <div className="bg-white rounded-3xl overflow-hidden shadow-xl" style={{ border: '1px solid var(--glass-border)' }}>
+        <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl" style={{ background: 'var(--color-card)', border: '1px solid var(--color-border)' }}>
           <div className="grid grid-cols-1 md:grid-cols-2">
             
             {/* Image Section */}
-            <div className="relative h-[350px] md:h-auto bg-gray-50 flex items-center justify-center p-6">
+            <div className="relative h-[240px] md:h-auto flex items-center justify-center p-4 md:p-6" style={{ background: 'var(--color-surface)' }}>
               <motion.img
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -120,17 +121,22 @@ export const ProductDetailsPage = () => {
                 className="w-full h-full object-contain max-h-[500px]"
               />
               {product.offer && product.offer > 0 && (
-                <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md flex items-center gap-1">
-                  <Tag className="w-4 h-4" /> {product.offer}% OFF
+                <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1">
+                  <Tag className="w-3.5 h-3.5" /> {product.offer}% OFF
+                </div>
+              )}
+              {isOutOfStock && (
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <span className="bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md">Out of Stock</span>
                 </div>
               )}
             </div>
 
             {/* Details Section */}
-            <div className="p-6 md:p-10 flex flex-col">
+            <div className="p-4 md:p-10 flex flex-col">
               
               <div className="mb-2">
-                <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full" style={{ background: 'var(--color-surface)', color: 'var(--color-primary-val)' }}>
+                <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full" style={{ background: 'var(--color-surface)', color: 'var(--color-primary-val)', border: '1px solid var(--color-border)' }}>
                   {product.category}
                 </span>
               </div>
@@ -138,65 +144,69 @@ export const ProductDetailsPage = () => {
               <motion.h1 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-2xl md:text-4xl font-bold mb-4" style={{ color: 'var(--color-fg)' }}
+                className="text-xl md:text-4xl font-bold mb-3" style={{ color: 'var(--color-fg)' }}
               >
                 {product.name}
               </motion.h1>
 
               {product.unit && (
-                <p className="text-sm font-medium mb-4" style={{ color: 'var(--color-muted-fg)' }}>
+                <p className="text-xs md:text-sm font-medium mb-3" style={{ color: 'var(--color-muted-fg)' }}>
                   Unit: {product.unit}
                 </p>
               )}
 
-              <div className="flex items-center gap-4 mb-8 pb-8 border-b border-gray-100">
-                <span className="text-4xl font-bold" style={{ color: 'var(--color-primary-val)' }}>
+              <div className="flex items-center gap-3 mb-5 pb-5" style={{ borderBottom: '1px solid var(--color-border)' }}>
+                <span className="text-3xl md:text-4xl font-bold" style={{ color: 'var(--color-primary-val)' }}>
                   ₹{product.finalPrice}
                 </span>
                 {product.offer && product.offer > 0 && (
-                  <span className="text-lg line-through" style={{ color: 'var(--color-muted-fg)' }}>
+                  <span className="text-base md:text-lg line-through" style={{ color: 'var(--color-muted-fg)' }}>
                     ₹{product.price}
                   </span>
                 )}
               </div>
 
               {product.description && (
-                <div className="mb-8">
-                  <h3 className="text-sm font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--color-fg)' }}>Description</h3>
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--color-muted-fg)' }}>
+                <div className="mb-5">
+                  <h3 className="text-xs md:text-sm font-bold uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-muted-fg)' }}>Description</h3>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--color-fg)' }}>
                     {product.description}
                   </p>
                 </div>
               )}
 
               {/* Trust Badges */}
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
-                  <ShieldCheck className="w-6 h-6" style={{ color: 'var(--color-primary-val)' }} />
+              <div className="grid grid-cols-2 gap-3 mb-5">
+                <div className="flex items-center gap-2.5 p-2.5 rounded-xl" style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
+                  <ShieldCheck className="w-5 h-5 shrink-0" style={{ color: 'var(--color-primary-val)' }} />
                   <div>
-                    <p className="text-xs font-bold">100% Authentic</p>
-                    <p className="text-[10px] text-gray-500">Quality Guaranteed</p>
+                    <p className="text-[11px] font-bold" style={{ color: 'var(--color-fg)' }}>100% Authentic</p>
+                    <p className="text-[10px]" style={{ color: 'var(--color-muted-fg)' }}>Quality Guaranteed</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
-                  <RefreshCw className="w-6 h-6" style={{ color: 'var(--color-primary-val)' }} />
+                <div className="flex items-center gap-2.5 p-2.5 rounded-xl" style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
+                  <RefreshCw className="w-5 h-5 shrink-0" style={{ color: 'var(--color-primary-val)' }} />
                   <div>
-                    <p className="text-xs font-bold">Fresh Produce</p>
-                    <p className="text-[10px] text-gray-500">Direct from source</p>
+                    <p className="text-[11px] font-bold" style={{ color: 'var(--color-fg)' }}>Fresh Produce</p>
+                    <p className="text-[10px]" style={{ color: 'var(--color-muted-fg)' }}>Direct from source</p>
                   </div>
                 </div>
               </div>
 
               {/* Add to cart action */}
-              <div className="mt-auto pt-4">
-                {cartItem ? (
-                  <div className="w-full py-2 px-4 rounded-2xl flex items-center justify-between shadow-lg" style={{ border: '2px solid var(--color-primary-val)' }}>
-                    <button onClick={handleDecrease} className="p-2 hover:bg-gray-100 rounded-full transition-colors" style={{ color: 'var(--color-primary-val)' }}>
-                      <Minus className="w-6 h-6" />
+              <div className="mt-auto pt-3">
+                {isOutOfStock ? (
+                  <div className="w-full py-3.5 md:py-4 rounded-2xl text-white font-bold text-base md:text-lg shadow-lg flex items-center justify-center gap-2 opacity-60 cursor-not-allowed" style={{ background: 'var(--color-muted-fg)' }}>
+                    Out of Stock
+                  </div>
+                ) : cartItem ? (
+                  <div className="w-full py-2 px-4 rounded-2xl flex items-center justify-between shadow-lg" style={{ border: '2px solid var(--color-primary-val)', background: 'var(--color-surface)' }}>
+                    <button onClick={handleDecrease} className="p-2 rounded-full transition-colors hover:opacity-70" style={{ color: 'var(--color-primary-val)' }}>
+                      <Minus className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
-                    <span className="font-bold text-xl" style={{ color: 'var(--color-fg)' }}>{cartItem.quantity}</span>
-                    <button onClick={handleIncrease} className="p-2 hover:bg-gray-100 rounded-full transition-colors" style={{ color: 'var(--color-primary-val)' }}>
-                      <Plus className="w-6 h-6" />
+                    <span className="font-bold text-lg md:text-xl" style={{ color: 'var(--color-fg)' }}>{cartItem.quantity}</span>
+                    <button onClick={handleIncrease} className="p-2 rounded-full transition-colors hover:opacity-70" style={{ color: 'var(--color-primary-val)' }}>
+                      <Plus className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
                   </div>
                 ) : (
@@ -204,10 +214,10 @@ export const ProductDetailsPage = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleAddToCart}
-                    className="w-full py-4 rounded-2xl text-white font-bold text-lg shadow-lg flex items-center justify-center gap-2 transition-opacity"
+                    className="w-full py-3.5 md:py-4 rounded-2xl text-white font-bold text-base md:text-lg shadow-lg flex items-center justify-center gap-2 transition-opacity"
                     style={{ background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163, 94%, 18%))' }}
                   >
-                    <ShoppingCart className="w-6 h-6" />
+                    <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
                     Add to Cart
                   </motion.button>
                 )}

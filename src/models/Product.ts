@@ -7,6 +7,7 @@ export interface Product {
   category: string;
   imageUrl: string;
   isActive: boolean;
+  stockQuantity?: number; // Added stock quantity
   unit?: string;
   description?: string;
   createdAt: string; // ISO timestamp

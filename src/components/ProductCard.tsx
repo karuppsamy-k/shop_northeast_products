@@ -16,6 +16,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
   const { items, addItem, updateQuantity, removeItem } = useCartStore();
   const showToast = useToastStore((state) => state.showToast);
   const cartItem = items.find(item => item.id === product.id);
+  const isOutOfStock = (product.stockQuantity ?? 0) <= 0;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -83,6 +84,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
           decoding="async"
           className="w-full h-full object-cover transition-transform hover:scale-105"
         />
+        {isOutOfStock && (
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">Out of Stock</span>
+          </div>
+        )}
       </div>
 
       {/* Info Area */}
@@ -105,7 +111,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
 
         {/* Add to Cart Button */}
         <div className="mt-1">
-          {cartItem ? (
+          {isOutOfStock ? (
+            <button
+              disabled
+              onClick={(e) => e.stopPropagation()}
+              className="w-full py-1.5 md:py-2 rounded text-white font-semibold text-xs md:text-sm flex items-center justify-center gap-1.5 opacity-60 cursor-not-allowed"
+              style={{ background: 'var(--color-muted-fg)' }}
+            >
+              Out of Stock
+            </button>
+          ) : cartItem ? (
             <div className="w-full py-1 md:py-1.5 flex items-center justify-between border rounded px-2" style={{ borderColor: 'var(--color-primary-val)' }}>
               <button onClick={handleDecrease} className="p-0.5 hover:bg-gray-100 rounded transition-colors" style={{ color: 'var(--color-primary-val)' }}>
                 <Minus className="w-3.5 h-3.5 md:w-4 md:h-4" />
