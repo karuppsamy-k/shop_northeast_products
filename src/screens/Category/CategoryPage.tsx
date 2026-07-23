@@ -5,7 +5,7 @@ import { useCartStore } from '@/store/cartStore';
 import { useProductStore } from '@/store/productStore';
 import { Search } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { CATEGORIES, getCategoryById } from '@/constants/categories';
+import { CATEGORIES } from '@/constants/categories';
 export const CategoryPage = () => {
   const { products, fetchInitialProducts } = useProductStore();
   const location = useLocation();
