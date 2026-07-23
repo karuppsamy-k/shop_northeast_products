@@ -3,94 +3,62 @@ import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import path from 'path';
 
-const mapToNewCategory = (name, oldCategory) => {
-  const n = name.toLowerCase();
-  
-  // Specific keyword matching
-  if (n.includes('cup noodle') || n.includes('mami') || n.includes('mama')) return 'cup-noodles';
-  if (n.includes('noodle') || n.includes('ramen') || n.includes('wai wai') || n.includes('thukpa')) return 'noodles';
-  if (n.includes('cake')) return 'cakes';
-  if (n.includes('rusk')) return 'rusk';
-  if (n.includes('biscuit')) return 'biscuits';
-  if (n.includes('cookie')) return 'cookies';
-  if (n.includes('cracker')) return 'crispy-crackers';
-  if (n.includes('candy') || n.includes('candies') || n.includes('lollipops') || n.includes('titora')) return 'candys';
-  if (n.includes('chocolate')) return 'chocolates';
-  if (n.includes('jelly')) return 'jellys';
-  if (n.includes('bhujiya')) return 'bhujiya';
-  if (n.includes('peanut')) return 'peanuts';
-  if (n.includes('seed')) return 'seeds';
-  if (n.includes('shrimp paste') || n.includes('ngari paste')) return 'shrimp-paste';
-  if (n.includes('mg5')) return 'mg5';
-  if (n.includes('bmc')) return 'bmc-masala';
-  if (n.includes('powder')) return 'powder';
-  if (n.includes('soap')) return 'soap';
-  if (n.includes('tobacco') || n.includes('biri') || n.includes('sada') || n.includes('win') || n.includes('king size') || n.includes('cigarette')) return 'tobacco';
-  if (n.includes('beetle nut') || n.includes('tamul')) return 'beetle-nuts';
-  if (n.includes('tin') && (n.includes('fish') || n.includes('sardine') || n.includes('tuna') || n.includes('mackerel'))) return 'teen-fish';
-  
-  if (oldCategory === 'canned-fish-dry-fish') {
-    if (n.includes('tin') || n.includes('can')) return 'teen-fish';
-    return 'dry-items';
-  }
-  
-  if (oldCategory === 'cold-drinks') {
-    if (n.includes('energy') || n.includes('bull') || n.includes('shark')) return 'energy-drinks';
-    return 'soft-drinks';
-  }
-  
-  if (oldCategory === 'pickle-collection') {
-    return 'pickles';
-  }
-  
-  if (oldCategory === 'meat-collection') {
-    return 'meat';
-  }
-  
-  if (oldCategory === 'fermented-items') {
-    return 'fermented-items';
-  }
-  
-  if (oldCategory === 'rice-items') {
-    return 'rice';
-  }
-  
-  if (oldCategory === 'fresh-vegetables') {
-    return 'fresh-vegetables';
-  }
-  
-  if (oldCategory === 'spices') {
-    if (n.includes('sauce') || n.includes('ketchup')) return 'sauces';
-    return 'powder';
-  }
-  
-  if (oldCategory === 'preserved-fruits-dry') {
-    return 'sweet-and-sour';
-  }
-  
-  if (oldCategory === 'tea-coffee') {
-    return 'powder'; 
-  }
-  
-  if (oldCategory === 'cookware-handicrafts') {
-    return 'new-lauches';
-  }
-  
-  if (oldCategory === 'edible') {
-    if (n.includes('dry')) return 'dry-items';
-    return 'new-lauches';
-  }
-  
-  if (oldCategory === 'biscuit-items') {
-    return 'biscuits';
-  }
-  
-  if (oldCategory === 'noodle-items') {
-    return 'noodles';
-  }
-  
-  // Default fallback
-  return 'new-lauches';
+const mapToNewCategory = (oldCategory) => {
+  const mapping = {
+    // Fresh & Meat
+    'fresh-vegetables': 'fresh-and-meat',
+    'meat': 'fresh-and-meat',
+    'teen-fish': 'fresh-and-meat',
+    'shrimp-paste': 'fresh-and-meat',
+    
+    // Rice & Dry Foods
+    'rice': 'rice-and-dry-foods',
+    'dry-items': 'rice-and-dry-foods',
+    'seeds': 'rice-and-dry-foods',
+    'peanuts': 'rice-and-dry-foods',
+    
+    // Noodles & Instant Foods
+    'cup-noodles': 'noodles-and-instant-foods',
+    'noodles': 'noodles-and-instant-foods',
+    'fermented-items': 'noodles-and-instant-foods',
+    
+    // Snacks & Biscuits
+    'biscuits': 'snacks-and-biscuits',
+    'cookies': 'snacks-and-biscuits',
+    'rusk': 'snacks-and-biscuits',
+    'crispy-crackers': 'snacks-and-biscuits',
+    'bhujiya': 'snacks-and-biscuits',
+    
+    // Sweets & Chocolates
+    'candys': 'sweets-and-chocolates',
+    'chocolates': 'sweets-and-chocolates',
+    'jellys': 'sweets-and-chocolates',
+    'cakes': 'sweets-and-chocolates',
+    
+    // Sauces, Pickles & Masala
+    'pickles': 'sauces-pickles-masala',
+    'sauces': 'sauces-pickles-masala',
+    'bmc-masala': 'sauces-pickles-masala',
+    'powder': 'sauces-pickles-masala',
+    'sweet-and-sour': 'sauces-pickles-masala',
+    
+    // Drinks & Beverages
+    'soft-drinks': 'drinks-and-beverages',
+    'energy-drinks': 'drinks-and-beverages',
+    
+    // Pan & Tobacco
+    'beetle-nuts': 'pan-and-tobacco',
+    'tobacco': 'pan-and-tobacco',
+    
+    // Personal Care
+    'soap': 'personal-care',
+    
+    // Specialty & Others
+    'mg5': 'specialty-and-others',
+    'new-lauches': 'specialty-and-others',
+  };
+
+  return mapping[oldCategory] || 'specialty-and-others';
 };
 
 async function main() {
@@ -114,7 +82,7 @@ async function main() {
     
     for (const doc of snapshot.docs) {
       const data = doc.data();
-      const newCategory = mapToNewCategory(data.name, data.category);
+      const newCategory = mapToNewCategory(data.category);
       
       categoryCounts[newCategory] = (categoryCounts[newCategory] || 0) + 1;
       

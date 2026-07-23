@@ -7,7 +7,7 @@ import { FirestoreService } from '@/services/firestore.service';
 import type { Product } from '@/models/Product';
 import { compressToBase64, getProductImageUrl } from '@/utils/imageHandling';
 import TopBar from './components/TopBar';
-import { CATEGORIES, getCategoryById } from '@/constants/categories';
+import { CATEGORIES } from '@/constants/categories';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '@/firebase/config';
 import { collection, getDocs, where, query, limit, startAfter, getDoc, doc } from 'firebase/firestore';
@@ -471,22 +471,6 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
                 ))}
               </select>
             </div>
-            
-            {(() => {
-              const selectedCatDef = getCategoryById(formData.category);
-              return (
-                <div>
-                  <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Sub Category</label>
-                  <select value={formData.subCategory} onChange={e => setFormData({...formData, subCategory: e.target.value})}
-                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary capitalize appearance-none">
-                    <option value="">Select Sub Category...</option>
-                    {selectedCatDef?.subCategories.map(sub => (
-                      <option key={sub} value={sub}>{sub}</option>
-                    ))}
-                  </select>
-                </div>
-              );
-            })()}
           </div>
 
           <div>
