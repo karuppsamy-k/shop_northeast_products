@@ -1,10 +1,11 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Truck, ShieldCheck, RefreshCw, ChevronRight, Tag, Clock, Bike, ShoppingBag, CreditCard, MapPin, AlertCircle, QrCode, Globe } from 'lucide-react';
 import { ProductCard } from '@/components/ProductCard';
 import { useCartStore } from '@/store/cartStore';
 import { useProductStore } from '@/store/productStore';
+import { CATEGORIES } from '@/constants/categories';
 
 import fromHillsImg from '@/assets/From_Hills_To_Table_A3_HighestRes.webp';
 import ourOriginsImg from '@/assets/Our_Origins_Our_Promise_A3_HighestRes.webp';
@@ -287,55 +288,7 @@ export const HomePage = () => {
   const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
 
-  // Derive categories dynamically from loaded products
-  const categories = useMemo(() => {
-    const seen = new Set<string>();
-    const cats: any[] = [];
-
-    // Background colors for categories
-    const bgColors = ['bg-blue-100', 'bg-pink-100', 'bg-orange-100', 'bg-purple-100', 'bg-teal-100', 'bg-red-100', 'bg-yellow-100'];
-
-    products.forEach(p => {
-      if (p.category && !seen.has(p.category)) {
-        seen.add(p.category);
-        const name = p.category
-          .split('-')
-          .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
-          .join(' ');
-
-        let emoji = '🛍️';
-        const n = name.toLowerCase();
-        if (n.includes('candy') || n.includes('sweet')) emoji = '🍬';
-        else if (n.includes('noodle') || n.includes('ramen')) emoji = '🍜';
-        else if (n.includes('snack') || n.includes('chip')) emoji = '🍿';
-        else if (n.includes('rice') || n.includes('grain')) emoji = '🌾';
-        else if (n.includes('sauce')) emoji = '🫙';
-        else if (n.includes('tea') || n.includes('drink')) emoji = '🍵';
-        else if (n.includes('spice')) emoji = '🌶️';
-        else if (n.includes('electronics')) emoji = '🎧';
-        else if (n.includes('fashion') || n.includes('clothing')) emoji = '👕';
-        else if (n.includes('home')) emoji = '🛋️';
-        else if (n.includes('beauty')) emoji = '🧴';
-        else if (n.includes('sports')) emoji = '👟';
-        else if (n.includes('accessories')) emoji = '⌚';
-
-        cats.push({ id: p.category, name, emoji, bgClass: bgColors[cats.length % bgColors.length] });
-      }
-    });
-
-    if (cats.length === 0) {
-      return [
-        { id: 'electronics', name: 'Electronics', emoji: '🎧', bgClass: 'bg-blue-100' },
-        { id: 'fashion', name: 'Fashion', emoji: '👕', bgClass: 'bg-pink-100' },
-        { id: 'home', name: 'Home & Kitchen', emoji: '🛋️', bgClass: 'bg-orange-100' },
-        { id: 'beauty', name: 'Beauty', emoji: '🧴', bgClass: 'bg-purple-100' },
-        { id: 'sports', name: 'Sports', emoji: '👟', bgClass: 'bg-teal-100' },
-        { id: 'accessories', name: 'Accessories', emoji: '⌚', bgClass: 'bg-red-100' },
-      ];
-    }
-
-    return cats.sort((a, b) => a.name.localeCompare(b.name));
-  }, [products]);
+  const categories = CATEGORIES;
 
   useEffect(() => {
     fetchInitialProducts();

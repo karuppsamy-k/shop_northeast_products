@@ -7,6 +7,7 @@ import { FirestoreService } from '@/services/firestore.service';
 import type { Product } from '@/models/Product';
 import { compressToBase64, getProductImageUrl } from '@/utils/imageHandling';
 import TopBar from './components/TopBar';
+import { CATEGORIES, getCategoryById } from '@/constants/categories';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '@/firebase/config';
 import { collection, getDocs, where, query, limit, startAfter, getDoc, doc } from 'firebase/firestore';
@@ -23,8 +24,7 @@ export const ProductsManager = () => {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   // ── All categories (fetched once) ──
-  const [allCategories, setAllCategories] = useState<string[]>([]);
-  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  // Replaced with static CATEGORIES from constants
 
   // ── Filters ──
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -36,26 +36,7 @@ export const ProductsManager = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
 
-  // ─── Step 1: fetch all unique categories once on mount ────────────────────
-  useEffect(() => {
-    const fetchCategories = async () => {
-      setCategoriesLoading(true);
-      try {
-        const snap = await getDocs(collection(db, 'products'));
-        const catSet = new Set<string>();
-        snap.forEach(d => {
-          const cat = d.data().category;
-          if (cat) catSet.add(cat);
-        });
-        setAllCategories(Array.from(catSet).sort());
-      } catch (err) {
-        console.error('Failed to fetch categories:', err);
-      } finally {
-        setCategoriesLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
+  // ─── Step 1: No longer needed (static categories) ────────────────────────
 
   // ─── Step 2: fetch products page ─────────────────────────────────────────
   const fetchPage = useCallback(async (cursorDocId: string | null, categoryFilter: string) => {
@@ -143,11 +124,7 @@ export const ProductsManager = () => {
     try {
       await FirestoreService.deleteDocument('products', product.id);
       setProducts(products.filter(p => p.id !== product.id));
-      // Refresh categories after delete
-      const snap = await getDocs(collection(db, 'products'));
-      const catSet = new Set<string>();
-      snap.forEach(d => { const cat = d.data().category; if (cat) catSet.add(cat); });
-      setAllCategories(Array.from(catSet).sort());
+      // Refresh categories not needed anymore
     } catch (err) {
       console.error(err);
       alert('Failed to delete product');
@@ -189,25 +166,18 @@ export const ProductsManager = () => {
               All
             </button>
 
-            {/* Loading skeleton chips */}
-            {categoriesLoading && (
-              [1,2,3,4,5].map(i => (
-                <div key={i} className="px-10 py-1.5 rounded-full bg-[var(--color-card)] border border-[var(--color-border)] animate-pulse shrink-0 h-8 w-24" />
-              ))
-            )}
-
             {/* Real category chips */}
-            {!categoriesLoading && allCategories.map(cat => (
+            {CATEGORIES.map(cat => (
               <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
                 className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors shrink-0 capitalize ${
-                  selectedCategory === cat
+                  selectedCategory === cat.id
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-[var(--color-card)] border border-[var(--color-border)] text-[var(--color-muted-fg)] hover:text-[var(--color-fg)]'
                 }`}
               >
-                {cat.split('-').join(' ')}
+                {cat.name}
               </button>
             ))}
           </div>
@@ -255,7 +225,7 @@ export const ProductsManager = () => {
                       <img src={getProductImageUrl(p.imageUrl, p.category)} alt={p.name} className="w-10 h-10 object-cover rounded bg-[var(--color-surface)]" loading="lazy" />
                     </TableCell>
                     <TableCell className="font-medium text-[var(--color-fg)]">{p.name}</TableCell>
-                    <TableCell className="capitalize text-[var(--color-muted-fg)]">{p.category.split('-').join(' ')}</TableCell>
+                    <TableCell className="capitalize text-[var(--color-muted-fg)]">{p.category ? p.category.split('-').join(' ') : 'Uncategorized'}</TableCell>
                     <TableCell className="text-[var(--color-fg)]">₹{p.price}</TableCell>
                     <TableCell className="text-[var(--color-muted-fg)]">{p.offer ? `${p.offer}%` : '-'}</TableCell>
                     <TableCell className="font-bold text-[var(--color-fg)]">₹{p.finalPrice}</TableCell>
@@ -312,7 +282,7 @@ export const ProductsManager = () => {
                     </div>
                     
                     <p className="text-sm text-[var(--color-muted-fg)] mt-1 capitalize">
-                      {p.category.split('-').join(' ')} • ₹{p.price}
+                      {p.category ? p.category.split('-').join(' ') : 'Uncategorized'} • ₹{p.price}
                     </p>
                     
                     <div className="mt-3 flex items-center gap-2">
@@ -371,11 +341,7 @@ export const ProductsManager = () => {
             onClose={() => setShowModal(false)}
             onSave={async () => {
               setShowModal(false);
-              // Re-fetch categories in case a new one was added
-              const snap = await getDocs(collection(db, 'products'));
-              const catSet = new Set<string>();
-              snap.forEach(d => { const cat = d.data().category; if (cat) catSet.add(cat); });
-              setAllCategories(Array.from(catSet).sort());
+              // Re-fetch no longer needed for static categories
               // Reload current page
               await fetchPage(cursors[currentPage] ?? null, selectedCategory);
             }}
@@ -387,17 +353,15 @@ export const ProductsManager = () => {
 };
 
 // ─── ProductModal ─────────────────────────────────────────────────────────────
-const KNOWN_CATEGORIES = [
-  'beverages', 'candy', 'food', 'handicrafts', 'noodles', 'rice', 'sauces', 'snacks', 'spices', 'tea', 'textiles'
-];
 
 const ProductModal = ({ product, onClose, onSave }: { product: Product | null, onClose: () => void, onSave: () => void }) => {
   const [formData, setFormData] = useState({
     name: product?.name || '',
-    category: product?.category || KNOWN_CATEGORIES[0],
-    price: product?.price || 0,
-    offer: product?.offer || 0,
-    stockQuantity: product?.stockQuantity ?? 0,
+    category: product?.category || CATEGORIES[0].id,
+    subCategory: product?.subCategory || '',
+    price: product?.price !== undefined ? String(product.price) : '',
+    offer: product?.offer !== undefined && product.offer !== null ? String(product.offer) : '',
+    stockQuantity: product?.stockQuantity !== undefined ? String(product.stockQuantity) : '',
     description: product?.description || '',
     isActive: product?.isActive ?? true
   });
@@ -425,17 +389,20 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
       }
 
       setStatusMsg('Saving...');
-      const offerVal = formData.offer || null;
-      const finalPrice = offerVal ? formData.price - (formData.price * (offerVal / 100)) : formData.price;
+      const priceNum = Number(formData.price) || 0;
+      const offerNum = formData.offer ? Number(formData.offer) : null;
+      const stockNum = Number(formData.stockQuantity) || 0;
+      const finalPrice = offerNum ? priceNum - (priceNum * (offerNum / 100)) : priceNum;
 
       const productData: Product = {
         id: docId,
         name: formData.name,
-        price: Number(formData.price),
-        offer: offerVal ? Number(offerVal) : null,
-        finalPrice: Math.round(Number(finalPrice)),
-        stockQuantity: Number(formData.stockQuantity),
+        price: priceNum,
+        offer: offerNum,
+        finalPrice: Math.round(finalPrice),
+        stockQuantity: stockNum,
         category: formData.category,
+        subCategory: formData.subCategory,
         description: formData.description,
         imageUrl,
         isActive: formData.isActive,
@@ -477,26 +444,49 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Price (₹)</label>
-              <input required type="number" value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
+              <input required type="number" min="0" step="any" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
             </div>
             <div>
               <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Offer (%)</label>
-              <input type="number" value={formData.offer} onChange={e => setFormData({...formData, offer: Number(e.target.value)})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
+              <input type="number" min="0" max="99" value={formData.offer} onChange={e => {
+                const val = e.target.value;
+                if (val === '' || (val.length <= 2 && Number(val) >= 0)) {
+                  setFormData({...formData, offer: val});
+                }
+              }} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
             </div>
             <div>
               <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Stock</label>
-              <input required type="number" value={formData.stockQuantity} onChange={e => setFormData({...formData, stockQuantity: Number(e.target.value)})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
+              <input required type="number" min="0" value={formData.stockQuantity} onChange={e => setFormData({...formData, stockQuantity: e.target.value})} className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary" />
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Category</label>
-            <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}
-              className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary capitalize appearance-none">
-              {KNOWN_CATEGORIES.map(cat => (
-                <option key={cat} value={cat}>{cat.split('-').join(' ')}</option>
-              ))}
-            </select>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Category</label>
+              <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value, subCategory: ''})}
+                className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary capitalize appearance-none">
+                {CATEGORIES.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
+            
+            {(() => {
+              const selectedCatDef = getCategoryById(formData.category);
+              return (
+                <div>
+                  <label className="block text-xs font-medium text-[var(--color-muted-fg)] mb-1">Sub Category</label>
+                  <select value={formData.subCategory} onChange={e => setFormData({...formData, subCategory: e.target.value})}
+                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-xl p-3 outline-none focus:border-primary capitalize appearance-none">
+                    <option value="">Select Sub Category...</option>
+                    {selectedCatDef?.subCategories.map(sub => (
+                      <option key={sub} value={sub}>{sub}</option>
+                    ))}
+                  </select>
+                </div>
+              );
+            })()}
           </div>
 
           <div>

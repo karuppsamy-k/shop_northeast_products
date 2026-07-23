@@ -111,14 +111,14 @@ export const ProductDetailsPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2">
             
             {/* Image Section */}
-            <div className="relative h-[240px] md:h-auto flex items-center justify-center p-4 md:p-6" style={{ background: 'var(--color-surface)' }}>
+            <div className="relative w-full aspect-square md:aspect-auto md:h-auto flex items-center justify-center p-0 md:p-6" style={{ background: 'var(--color-surface)' }}>
               <motion.img
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
                 src={getProductImageUrl(product.imageUrl, product.category)}
                 alt={product.name}
-                className="w-full h-full object-contain max-h-[500px]"
+                className="w-full h-full object-cover md:object-contain md:max-h-[500px]"
               />
               {product.offer && product.offer > 0 && (
                 <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1">

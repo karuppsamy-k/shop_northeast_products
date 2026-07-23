@@ -1,20 +1,16 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProductCard } from '@/components/ProductCard';
 import { useCartStore } from '@/store/cartStore';
 import { useProductStore } from '@/store/productStore';
 import { Search } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-
-interface DerivedCategory {
-  id: string;
-  name: string;
-}
-
+import { CATEGORIES, getCategoryById } from '@/constants/categories';
 export const CategoryPage = () => {
   const { products, fetchInitialProducts } = useProductStore();
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const { addItem } = useCartStore();
 
@@ -27,23 +23,7 @@ export const CategoryPage = () => {
     }
   }, [location.search]);
 
-  // Derive categories dynamically from loaded products
-  const categories = useMemo<DerivedCategory[]>(() => {
-    const seen = new Set<string>();
-    const cats: DerivedCategory[] = [];
-    products.forEach(p => {
-      if (p.category && !seen.has(p.category)) {
-        seen.add(p.category);
-        // Convert slug like "candy-chewy-candy" → "Candy / Chewy Candy"
-        const name = p.category
-          .split('-')
-          .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
-          .join(' ');
-        cats.push({ id: p.category, name });
-      }
-    });
-    return cats.sort((a, b) => a.name.localeCompare(b.name));
-  }, [products]);
+  const categories = CATEGORIES;
 
   useEffect(() => {
     if (selectedCategory) {
@@ -69,15 +49,21 @@ export const CategoryPage = () => {
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
     let matchesCategory = false;
+    let matchesSubCategory = false;
+    
     if (selectedCategory === 'all') matchesCategory = true;
     else if (selectedCategory === 'offers') matchesCategory = (p.offer || 0) > 0;
     else matchesCategory = p.category === selectedCategory;
     
-    return matchesSearch && matchesCategory;
+    if (selectedSubCategory === 'all') matchesSubCategory = true;
+    else matchesSubCategory = p.subCategory === selectedSubCategory;
+    
+    return matchesSearch && matchesCategory && matchesSubCategory;
   });
 
   const handleCategorySelect = (id: string) => {
     setSelectedCategory(id);
+    setSelectedSubCategory('all');
     const list = document.getElementById('scrollableProductList');
     if (list) {
       list.scrollTo({ top: 0, behavior: 'smooth' });
@@ -161,33 +147,7 @@ export const CategoryPage = () => {
 
           {categories.map((cat) => {
               const isSelected = selectedCategory === cat.id;
-              // Pick a simple emoji based on category name keywords
-              const emoji = (() => {
-                const n = cat.name.toLowerCase();
-                if (n.includes('candy') || n.includes('sweet')) return '🍬';
-                if (n.includes('noodle') || n.includes('ramen') || n.includes('udon')) return '🍜';
-                if (n.includes('snack') || n.includes('chip')) return '🍿';
-                if (n.includes('rice') || n.includes('grain')) return '🌾';
-                if (n.includes('sauce') || n.includes('condiment') || n.includes('soy')) return '🫙';
-                if (n.includes('tea') || n.includes('drink') || n.includes('beverage')) return '🍵';
-                if (n.includes('spice') || n.includes('chilli')) return '🌶️';
-                if (n.includes('fish') || n.includes('seafood')) return '🐟';
-                if (n.includes('meat') || n.includes('pork') || n.includes('chicken')) return '🥩';
-                if (n.includes('biscuit') || n.includes('cookie') || n.includes('wafer')) return '🍪';
-                if (n.includes('chocolate')) return '🍫';
-                if (n.includes('vegetable') || n.includes('veg')) return '🥦';
-                if (n.includes('fruit')) return '🍎';
-                if (n.includes('pickle') || n.includes('ferment')) return '🥒';
-                if (n.includes('korean')) return '🇰🇷';
-                if (n.includes('japanese')) return '🇯🇵';
-                if (n.includes('frozen')) return '🧊';
-                if (n.includes('instant')) return '⚡';
-                if (n.includes('herb') || n.includes('flower')) return '🌿';
-                if (n.includes('dressing') || n.includes('marinade')) return '🥗';
-                if (n.includes('vinegar')) return '🍶';
-                if (n.includes('cooking')) return '🍳';
-                return '🛍️';
-              })();
+              const emoji = cat.emoji;
               return (
                 <button
                   key={cat.id}
@@ -249,6 +209,7 @@ export const CategoryPage = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
+            
           </div>
             
             <AnimatePresence mode="wait">
