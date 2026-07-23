@@ -3,59 +3,94 @@ import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import path from 'path';
 
-// Map ALL old database categories to the new category IDs
-const CATEGORY_MAP = {
-  // === From TSV import (exact matches) ===
-  'canned-fish-dry-fish': { category: 'canned-fish-dry-fish', subCategory: '' },
-  'cold-drinks':          { category: 'cold-drinks',          subCategory: '' },
-  'cookware-handicrafts': { category: 'cookware-handicrafts', subCategory: '' },
-  'edible':               { category: 'edible',               subCategory: '' },
-  'preserved-fruits-dry': { category: 'preserved-fruits-dry', subCategory: '' },
-  'tea-coffee':           { category: 'tea-coffee',           subCategory: '' },
-  'fermented-items':      { category: 'fermented-items',      subCategory: '' },
-  'fresh-vegetables':     { category: 'fresh-vegetables',     subCategory: '' },
-  'meat-collection':      { category: 'meat-collection',      subCategory: '' },
-  'pickle-items':         { category: 'pickle-collection',    subCategory: '' },
-  'pickle-collection':    { category: 'pickle-collection',    subCategory: '' },
-  'mix-collection':       { category: 'mix-collection',       subCategory: '' },
-  'noodle-items':         { category: 'noodle-items',         subCategory: '' },
-  'biscuit-items':        { category: 'biscuit-items',        subCategory: '' },
-  'other-collections':    { category: 'mix-collection',       subCategory: 'Others' },
-  'rice-items':           { category: 'rice-items',           subCategory: '' },
-  'spices':               { category: 'spices',               subCategory: '' },
-
-  // === Korean items (from Excel import) ===
-  'noodles':              { category: 'noodle-items',         subCategory: 'Instant Noodles' },
-  'snacks':               { category: 'edible',               subCategory: 'Crispy Snacks' },
-  'sauces':               { category: 'spices',               subCategory: 'Seasonings' },
-  'beverages':            { category: 'cold-drinks',          subCategory: '' },
-  'candy':                { category: 'edible',               subCategory: 'Traditional Snacks' },
-  'rice':                 { category: 'rice-items',           subCategory: '' },
-  'tea':                  { category: 'tea-coffee',           subCategory: 'Tea' },
-  'food':                 { category: 'edible',               subCategory: '' },
-  'handicrafts':          { category: 'cookware-handicrafts', subCategory: '' },
-  'textiles':             { category: 'mix-collection',       subCategory: 'Others' },
-
-  // === Unmapped Korean categories (from previous run) ===
-  'biscuits':             { category: 'biscuit-items',        subCategory: 'Biscuits' },
-  'chocolate':            { category: 'edible',               subCategory: 'Traditional Snacks' },
-  'confectionery':        { category: 'edible',               subCategory: 'Traditional Snacks' },
-  'cookies':              { category: 'biscuit-items',        subCategory: 'Cookies' },
-  'crackers':             { category: 'edible',               subCategory: 'Crispy Snacks' },
-  'cup-noodles':          { category: 'noodle-items',         subCategory: 'Instant Noodles' },
-  'curry':                { category: 'spices',               subCategory: 'Masala Mixes' },
-  'drink':                { category: 'cold-drinks',          subCategory: '' },
-  'dry-fruits':           { category: 'preserved-fruits-dry', subCategory: 'Dry Fruits' },
-  'dry-vegetables':       { category: 'fresh-vegetables',     subCategory: 'Others' },
-  'jelly':                { category: 'edible',               subCategory: 'Traditional Snacks' },
-  'non-veg-pickles':      { category: 'pickle-collection',    subCategory: 'Meat Pickles' },
-  'paste':                { category: 'spices',               subCategory: 'Seasonings' },
-  'pickles':              { category: 'pickle-collection',    subCategory: '' },
-  'ramen':                { category: 'noodle-items',         subCategory: 'Ramen' },
-  'rice-cake':            { category: 'biscuit-items',        subCategory: 'Rice Cake' },
-  'seaweed':              { category: 'edible',               subCategory: 'Crispy Snacks' },
-  'tin-fish':             { category: 'canned-fish-dry-fish', subCategory: 'Canned Fish' },
-  'tteokbokki':           { category: 'noodle-items',         subCategory: 'Others' },
+const mapToNewCategory = (name, oldCategory) => {
+  const n = name.toLowerCase();
+  
+  // Specific keyword matching
+  if (n.includes('cup noodle') || n.includes('mami') || n.includes('mama')) return 'cup-noodles';
+  if (n.includes('noodle') || n.includes('ramen') || n.includes('wai wai') || n.includes('thukpa')) return 'noodles';
+  if (n.includes('cake')) return 'cakes';
+  if (n.includes('rusk')) return 'rusk';
+  if (n.includes('biscuit')) return 'biscuits';
+  if (n.includes('cookie')) return 'cookies';
+  if (n.includes('cracker')) return 'crispy-crackers';
+  if (n.includes('candy') || n.includes('candies') || n.includes('lollipops') || n.includes('titora')) return 'candys';
+  if (n.includes('chocolate')) return 'chocolates';
+  if (n.includes('jelly')) return 'jellys';
+  if (n.includes('bhujiya')) return 'bhujiya';
+  if (n.includes('peanut')) return 'peanuts';
+  if (n.includes('seed')) return 'seeds';
+  if (n.includes('shrimp paste') || n.includes('ngari paste')) return 'shrimp-paste';
+  if (n.includes('mg5')) return 'mg5';
+  if (n.includes('bmc')) return 'bmc-masala';
+  if (n.includes('powder')) return 'powder';
+  if (n.includes('soap')) return 'soap';
+  if (n.includes('tobacco') || n.includes('biri') || n.includes('sada') || n.includes('win') || n.includes('king size') || n.includes('cigarette')) return 'tobacco';
+  if (n.includes('beetle nut') || n.includes('tamul')) return 'beetle-nuts';
+  if (n.includes('tin') && (n.includes('fish') || n.includes('sardine') || n.includes('tuna') || n.includes('mackerel'))) return 'teen-fish';
+  
+  if (oldCategory === 'canned-fish-dry-fish') {
+    if (n.includes('tin') || n.includes('can')) return 'teen-fish';
+    return 'dry-items';
+  }
+  
+  if (oldCategory === 'cold-drinks') {
+    if (n.includes('energy') || n.includes('bull') || n.includes('shark')) return 'energy-drinks';
+    return 'soft-drinks';
+  }
+  
+  if (oldCategory === 'pickle-collection') {
+    return 'pickles';
+  }
+  
+  if (oldCategory === 'meat-collection') {
+    return 'meat';
+  }
+  
+  if (oldCategory === 'fermented-items') {
+    return 'fermented-items';
+  }
+  
+  if (oldCategory === 'rice-items') {
+    return 'rice';
+  }
+  
+  if (oldCategory === 'fresh-vegetables') {
+    return 'fresh-vegetables';
+  }
+  
+  if (oldCategory === 'spices') {
+    if (n.includes('sauce') || n.includes('ketchup')) return 'sauces';
+    return 'powder';
+  }
+  
+  if (oldCategory === 'preserved-fruits-dry') {
+    return 'sweet-and-sour';
+  }
+  
+  if (oldCategory === 'tea-coffee') {
+    return 'powder'; 
+  }
+  
+  if (oldCategory === 'cookware-handicrafts') {
+    return 'new-lauches';
+  }
+  
+  if (oldCategory === 'edible') {
+    if (n.includes('dry')) return 'dry-items';
+    return 'new-lauches';
+  }
+  
+  if (oldCategory === 'biscuit-items') {
+    return 'biscuits';
+  }
+  
+  if (oldCategory === 'noodle-items') {
+    return 'noodles';
+  }
+  
+  // Default fallback
+  return 'new-lauches';
 };
 
 async function main() {
@@ -74,62 +109,37 @@ async function main() {
     
     let batch = db.batch();
     let count = 0;
-    let batchCount = 0;
-    let skipped = 0;
     
-    const oldCategories = new Set();
-    const unmappedCategories = new Set();
+    const categoryCounts = {};
     
     for (const doc of snapshot.docs) {
       const data = doc.data();
-      const oldCategory = data.category || '';
-      oldCategories.add(oldCategory);
+      const newCategory = mapToNewCategory(data.name, data.category);
       
-      const mapping = CATEGORY_MAP[oldCategory];
+      categoryCounts[newCategory] = (categoryCounts[newCategory] || 0) + 1;
       
-      if (!mapping) {
-        unmappedCategories.add(oldCategory);
-        batch.update(doc.ref, { 
-          category: 'mix-collection',
-          subCategory: 'Others'
-        });
-      } else {
-        batch.update(doc.ref, { 
-          category: mapping.category,
-          subCategory: mapping.subCategory
-        });
-      }
+      batch.update(doc.ref, { 
+        category: newCategory,
+        subCategory: '' 
+      });
       
       count++;
       
       if (count % 500 === 0) {
         await batch.commit();
         batch = db.batch();
-        batchCount++;
-        console.log(`Committed batch ${batchCount} (${count} products updated)`);
       }
     }
 
     if (count > 0 && count % 500 !== 0) {
       await batch.commit();
-      console.log(`Committed final batch (${count} products updated)`);
     }
 
     console.log(`\n=== Migration Summary ===`);
-    console.log(`Total products scanned: ${snapshot.size}`);
-    console.log(`Products updated: ${count}`);
-    console.log(`\nCategories mapped:`);
-    for (const cat of [...oldCategories].sort()) {
-      const mapped = CATEGORY_MAP[cat];
-      console.log(`  "${cat}" → ${mapped ? mapped.category : 'mix-collection (UNMAPPED)'}`);
-    }
-    if (unmappedCategories.size > 0) {
-      console.log(`\n⚠️  Unmapped categories (defaulted to mix-collection):`);
-      for (const cat of unmappedCategories) {
-        console.log(`  - "${cat}"`);
-      }
-    } else {
-      console.log(`\n✅ All categories mapped successfully!`);
+    console.log(`Total products scanned and updated: ${count}`);
+    console.log(`\nDistribution:`);
+    for (const [cat, num] of Object.entries(categoryCounts).sort((a,b) => b[1] - a[1])) {
+      console.log(`  ${cat}: ${num}`);
     }
     
     process.exit(0);
