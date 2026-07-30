@@ -2,9 +2,9 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
-import { Plus, Edit, Trash2, X, Check, Filter, ChevronLeft, ChevronRight, BadgeCheck } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Check, Filter, ChevronLeft, ChevronRight, BadgeCheck, PlusCircle } from 'lucide-react';
 import { FirestoreService } from '@/services/firestore.service';
-import type { Product } from '@/models/Product';
+import type { Product, ProductVariant } from '@/models/Product';
 import { compressToBase64, getProductImageUrl } from '@/utils/imageHandling';
 import TopBar from './components/TopBar';
 import { CATEGORIES } from '@/constants/categories';
@@ -131,6 +131,34 @@ export const ProductsManager = () => {
     }
   };
 
+  const handleRunMigration = async () => {
+    if (!confirm('Run migration to add size variants (100g, 200g, 500g) to applicable categories?')) return;
+    try {
+      const snap = await getDocs(collection(db, 'products'));
+      let updated = 0;
+      for (const docSnap of snap.docs) {
+        const p = docSnap.data();
+        if (p.category && ['rice-and-dry-foods', 'fresh-and-meat', 'sauces-pickles-masala'].includes(p.category)) {
+          const basePrice = p.price || 0;
+          const offer = p.offer || null;
+          const calc = (pr: number, off: number | null) => off ? Math.round(pr - (pr * (off / 100))) : pr;
+          const variants = [
+            { id: `var_${docSnap.id}_100g`, label: '100gm', price: Math.round(basePrice * 0.5), offer, finalPrice: calc(Math.round(basePrice * 0.5), offer) },
+            { id: `var_${docSnap.id}_200g`, label: '200gm', price: basePrice, offer, finalPrice: calc(basePrice, offer) },
+            { id: `var_${docSnap.id}_500g`, label: '500gm', price: Math.round(basePrice * 2.5), offer, finalPrice: calc(Math.round(basePrice * 2.5), offer) },
+          ];
+          await FirestoreService.updateDocument('products', docSnap.id, { variants });
+          updated++;
+        }
+      }
+      alert(`Migration complete! Updated ${updated} products.`);
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      alert('Migration failed');
+    }
+  };
+
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <>
@@ -140,12 +168,20 @@ export const ProductsManager = () => {
         onMenuClick={() => setSidebarOpen(true)}
         isSidebarOpen={sidebarOpen}
         actions={
-          <button
-            onClick={() => { setEditingProduct(null); setShowModal(true); }}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all"
-          >
-            <Plus className="w-4 h-4" /> Add Product
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleRunMigration}
+              className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all"
+            >
+              Run Migration
+            </button>
+            <button
+              onClick={() => { setEditingProduct(null); setShowModal(true); }}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all"
+            >
+              <Plus className="w-4 h-4" /> Add Product
+            </button>
+          </div>
         }
       />
 
@@ -365,6 +401,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
     description: product?.description || '',
     isActive: product?.isActive ?? true
   });
+  const [variants, setVariants] = useState<ProductVariant[]>(product?.variants || []);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(product?.imageUrl || null);
   const [uploading, setUploading] = useState(false);
@@ -406,6 +443,7 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
         description: formData.description,
         imageUrl,
         isActive: formData.isActive,
+        variants: variants.map(v => ({ ...v, finalPrice: Math.round(v.finalPrice) })),
         createdAt: product?.createdAt || new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
@@ -483,6 +521,85 @@ const ProductModal = ({ product, onClose, onSave }: { product: Product | null, o
                 <span className="text-xs text-[var(--color-muted-fg)]">{imageFile ? `${(imageFile.size / 1024).toFixed(0)} KB → will be compressed` : 'Current image'}</span>
               </div>
             )}
+          </div>
+
+          <div className="pt-4 border-t border-[var(--color-border)]">
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-bold text-[var(--color-fg)]">Size Variants (Optional)</label>
+              <button
+                type="button"
+                onClick={() => setVariants([...variants, { id: `var_${Date.now()}`, label: '', price: 0, offer: null, finalPrice: 0 }])}
+                className="text-xs font-bold text-primary flex items-center gap-1 hover:underline"
+              >
+                <PlusCircle className="w-3.5 h-3.5" /> Add Size
+              </button>
+            </div>
+            
+            <div className="space-y-3">
+              {variants.map((variant, index) => (
+                <div key={variant.id} className="grid grid-cols-12 gap-2 items-center bg-black/5 dark:bg-white/5 p-2 rounded-xl border border-[var(--color-border)]">
+                  <div className="col-span-4">
+                    <input 
+                      required
+                      placeholder="Size (e.g. 100gm)"
+                      value={variant.label} 
+                      onChange={e => {
+                        const newVars = [...variants];
+                        newVars[index].label = e.target.value;
+                        setVariants(newVars);
+                      }} 
+                      className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-lg px-2 py-1.5 text-xs outline-none focus:border-primary" 
+                    />
+                  </div>
+                  <div className="col-span-3">
+                    <input 
+                      required
+                      type="number" min="0" step="any"
+                      placeholder="Price"
+                      value={variant.price || ''} 
+                      onChange={e => {
+                        const newVars = [...variants];
+                        newVars[index].price = Number(e.target.value);
+                        const offer = newVars[index].offer;
+                        newVars[index].finalPrice = offer ? newVars[index].price - (newVars[index].price * (offer / 100)) : newVars[index].price;
+                        setVariants(newVars);
+                      }} 
+                      className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-lg px-2 py-1.5 text-xs outline-none focus:border-primary" 
+                    />
+                  </div>
+                  <div className="col-span-3">
+                    <input 
+                      type="number" min="0" max="99"
+                      placeholder="Offer %"
+                      value={variant.offer || ''} 
+                      onChange={e => {
+                        const val = e.target.value;
+                        if (val === '' || (val.length <= 2 && Number(val) >= 0)) {
+                          const newVars = [...variants];
+                          newVars[index].offer = val ? Number(val) : null;
+                          const offer = newVars[index].offer;
+                          newVars[index].finalPrice = offer ? newVars[index].price - (newVars[index].price * (offer / 100)) : newVars[index].price;
+                          setVariants(newVars);
+                        }
+                      }} 
+                      className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-fg)] rounded-lg px-2 py-1.5 text-xs outline-none focus:border-primary" 
+                    />
+                  </div>
+                  <div className="col-span-2 flex justify-end">
+                    <button 
+                      type="button" 
+                      onClick={() => setVariants(variants.filter((_, i) => i !== index))}
+                      className="text-red-500 hover:bg-red-500/10 p-1.5 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {variants.length === 0 && (
+                <p className="text-xs text-[var(--color-muted-fg)] italic">No size variants added. The default price will be used.</p>
+              )}
+            </div>
           </div>
 
           {uploading && (

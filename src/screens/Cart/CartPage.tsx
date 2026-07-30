@@ -140,7 +140,7 @@ export const CartPage = () => {
       const customerAddress = guest.address || user.address || '';
 
       const orderLines = items.map(item =>
-        `  • ${item.name} (x${item.quantity}) = ₹${((item.finalPrice || item.price) * item.quantity).toFixed(0)}`
+        `  • ${item.name}${item.selectedVariant ? ` (${item.selectedVariant.label})` : ''} (x${item.quantity}) = ₹${(((item.selectedVariant?.finalPrice) || (item.finalPrice) || (item.price)) * item.quantity).toFixed(0)}`
       ).join('\n');
 
       const templateParams = {
@@ -271,7 +271,7 @@ export const CartPage = () => {
                 <AnimatePresence>
                   {items.map((item, i) => (
                     <motion.div
-                      key={item.id}
+                      key={item.cartItemId}
                       layout
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -295,28 +295,30 @@ export const CartPage = () => {
                         <div className="flex justify-between items-start mb-1">
                           <h3 className="font-bold text-sm leading-tight text-gray-800"
                             style={{ color: 'var(--color-fg)' }}>{item?.name || 'Unknown Item'}</h3>
-                          <button onClick={() => removeItem(item.id)} className="text-gray-400 hover:text-red-500 p-1 -mr-2 -mt-2">
+                          <button onClick={() => removeItem(item.cartItemId)} className="text-gray-400 hover:text-red-500 p-1 -mr-2 -mt-2">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
 
-                        <p className="text-xs text-gray-500 mb-2">Volume : {item.unit || '1 pc'}</p>
+                        <p className="text-xs text-gray-500 mb-2">
+                          {item.selectedVariant ? `Size: ${item.selectedVariant.label}` : `Volume : ${item.unit || '1 pc'}`}
+                        </p>
 
                         <div className="flex items-center justify-between mt-auto">
                           <div className="flex items-baseline gap-2">
                             <span className="text-sm font-bold text-gray-800" style={{ color: 'var(--color-fg)' }}>
-                              ₹{((item?.finalPrice) || (item?.price) || 0).toFixed(0)}
+                              ₹{((item.selectedVariant?.finalPrice) || (item.finalPrice) || (item.price) || 0).toFixed(0)}
                             </span>
-                            {item.price > (item.finalPrice || item.price) && (
+                            {((item.selectedVariant && item.selectedVariant.price > item.selectedVariant.finalPrice) || (!item.selectedVariant && item.price > (item.finalPrice || item.price))) && (
                               <span className="text-xs line-through text-gray-400">
-                                ₹{item.price.toFixed(0)}
+                                ₹{(item.selectedVariant?.price || item.price).toFixed(0)}
                               </span>
                             )}
                           </div>
 
                           <div className="flex items-center gap-2 rounded-full border px-2 py-1"
                             style={{ background: 'rgba(255,255,255,0.4)', borderColor: 'var(--glass-border)' }}>
-                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            <button onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
                               className="w-6 h-6 rounded-full flex items-center justify-center text-white"
                               style={{ background: 'var(--color-primary-val)' }}>
                               <Minus className="w-3 h-3" />
@@ -324,7 +326,7 @@ export const CartPage = () => {
                             <span className="w-4 text-center text-xs font-bold" style={{ color: 'var(--color-fg)' }}>
                               {item.quantity}
                             </span>
-                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            <button onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
                               className="w-6 h-6 rounded-full flex items-center justify-center text-white"
                               style={{ background: 'var(--color-primary-val)' }}>
                               <Plus className="w-3 h-3" />

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShoppingCart, ArrowLeft, Loader2, Tag, ShieldCheck, RefreshCw, Plus, Minus } from 'lucide-react';
 import { FirestoreService } from '../../services/firestore.service';
-import type { Product } from '../../models/Product';
+import type { Product, ProductVariant } from '../../models/Product';
 import { useCartStore } from '../../store/cartStore';
 import { useToastStore } from '../../store/toastStore';
 
@@ -12,9 +12,13 @@ export const ProductDetailsPage = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
   const { items, addItem, updateQuantity, removeItem } = useCartStore();
   const showToast = useToastStore((state) => state.showToast);
-  const cartItem = product ? items.find(item => item.id === product.id) : undefined;
+  
+  const cartItemId = product ? (selectedVariant ? `${product.id}-${selectedVariant.id}` : product.id) : undefined;
+  const cartItem = cartItemId ? items.find(item => item.cartItemId === cartItemId) : undefined;
+  
   const isOutOfStock = product ? (product.stockQuantity ?? 0) <= 0 : false;
 
   useEffect(() => {
@@ -24,6 +28,9 @@ export const ProductDetailsPage = () => {
       try {
         const data = await FirestoreService.getDocument<Product>('products', id);
         setProduct(data);
+        if (data && data.variants && data.variants.length > 0) {
+          setSelectedVariant(data.variants[0]);
+        }
       } catch (error) {
         console.error('Error fetching product:', error);
       } finally {
@@ -73,26 +80,30 @@ export const ProductDetailsPage = () => {
 
   const handleAddToCart = () => {
     if (product) {
-      addItem(product);
-      showToast(`${product.name} added to cart`);
+      addItem(product, selectedVariant || undefined);
+      showToast(`${selectedVariant ? selectedVariant.label + ' ' : ''}${product.name} added to cart`);
     }
   };
 
   const handleIncrease = () => {
-    if (product && cartItem) {
-      updateQuantity(product.id, cartItem.quantity + 1);
+    if (cartItem) {
+      updateQuantity(cartItem.cartItemId, cartItem.quantity + 1);
     }
   };
 
   const handleDecrease = () => {
-    if (product && cartItem) {
+    if (cartItem) {
       if (cartItem.quantity === 1) {
-        removeItem(product.id);
+        removeItem(cartItem.cartItemId);
       } else {
-        updateQuantity(product.id, cartItem.quantity - 1);
+        updateQuantity(cartItem.cartItemId, cartItem.quantity - 1);
       }
     }
   };
+
+  const currentFinalPrice = selectedVariant ? selectedVariant.finalPrice : product?.finalPrice;
+  const currentOriginalPrice = selectedVariant ? selectedVariant.price : product?.price;
+  const currentOffer = selectedVariant ? selectedVariant.offer : product?.offer;
 
   return (
     <div className="pb-6 pt-2 md:pt-8" style={{ background: 'var(--body-gradient, var(--color-background))' }}>
@@ -120,9 +131,9 @@ export const ProductDetailsPage = () => {
                 alt={product.name}
                 className="w-full h-full object-cover md:object-contain md:max-h-[500px]"
               />
-              {product.offer && product.offer > 0 && (
+              {currentOffer && currentOffer > 0 && (
                 <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1">
-                  <Tag className="w-3.5 h-3.5" /> {product.offer}% OFF
+                  <Tag className="w-3.5 h-3.5" /> {currentOffer}% OFF
                 </div>
               )}
               {isOutOfStock && (
@@ -155,13 +166,34 @@ export const ProductDetailsPage = () => {
                 </p>
               )}
 
+              {product.variants && product.variants.length > 0 && (
+                <div className="mb-5">
+                  <p className="text-sm font-bold mb-2" style={{ color: 'var(--color-fg)' }}>Size: <span style={{ color: 'var(--color-muted-fg)' }}>{selectedVariant?.label}</span></p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.variants.map((v) => (
+                      <button
+                        key={v.id}
+                        onClick={() => setSelectedVariant(v)}
+                        className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-colors ${
+                          selectedVariant?.id === v.id
+                            ? 'bg-primary/10 border-primary text-primary'
+                            : 'bg-[var(--color-surface)] border-[var(--color-border)] text-[var(--color-muted-fg)] hover:border-[var(--color-fg)] hover:text-[var(--color-fg)]'
+                        }`}
+                      >
+                        {v.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center gap-3 mb-5 pb-5" style={{ borderBottom: '1px solid var(--color-border)' }}>
                 <span className="text-3xl md:text-4xl font-bold" style={{ color: 'var(--color-primary-val)' }}>
-                  ₹{product.finalPrice}
+                  ₹{currentFinalPrice}
                 </span>
-                {product.offer && product.offer > 0 && (
+                {currentOffer && currentOffer > 0 && (
                   <span className="text-base md:text-lg line-through" style={{ color: 'var(--color-muted-fg)' }}>
-                    ₹{product.price}
+                    ₹{currentOriginalPrice}
                   </span>
                 )}
               </div>

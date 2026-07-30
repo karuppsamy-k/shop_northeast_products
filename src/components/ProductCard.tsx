@@ -15,8 +15,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
   const navigate = useNavigate();
   const { items, addItem, updateQuantity, removeItem } = useCartStore();
   const showToast = useToastStore((state) => state.showToast);
-  const cartItem = items.find(item => item.id === product.id);
+  const cartItem = items.find(item => item.id === product.id && !item.selectedVariant);
   const isOutOfStock = (product.stockQuantity ?? 0) <= 0;
+  const hasVariants = product.variants && product.variants.length > 0;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -119,6 +120,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
               style={{ background: 'var(--color-muted-fg)' }}
             >
               Out of Stock
+            </button>
+          ) : hasVariants ? (
+            <button
+              onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
+              className="w-full py-1.5 md:py-2 rounded text-white font-semibold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-opacity hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, var(--color-primary-val), hsl(163, 94%, 18%))' }}
+            >
+              Select Size
             </button>
           ) : cartItem ? (
             <div className="w-full py-1 md:py-1.5 flex items-center justify-between border rounded px-2" style={{ borderColor: 'var(--color-primary-val)' }}>

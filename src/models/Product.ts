@@ -13,4 +13,13 @@ export interface Product {
   description?: string;
   createdAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
+  variants?: ProductVariant[]; // Optional size/quantity variants
+}
+
+export interface ProductVariant {
+  id: string;
+  label: string; // e.g. "100gm", "Mashed 200gm"
+  price: number;
+  offer: number | null;
+  finalPrice: number;
 }
