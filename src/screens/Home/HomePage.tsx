@@ -324,6 +324,34 @@ export const HomePage = () => {
         </div>
       </div>
 
+      {/* ── NEW ARRIVALS STRIP ── */}
+      <div className="px-3 md:px-8 max-w-7xl mx-auto mb-10">
+        <div
+          onClick={() => navigate('/categories?category=new-arrivals')}
+          className="relative cursor-pointer rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between overflow-hidden group shadow-md transition-all hover:shadow-lg"
+          style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)' }}
+        >
+          <div className="absolute inset-0 bg-white/5 group-hover:bg-transparent transition-colors" />
+          <div className="absolute -right-10 -top-10 w-40 h-40 bg-blue-500/20 rounded-full blur-2xl" />
+          <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-xl" />
+          
+          <div className="relative z-10 flex items-center gap-3 md:gap-5 mb-3 md:mb-0">
+            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-sm text-white shadow-inner border border-white/20">
+              <span className="text-2xl md:text-3xl">✨</span>
+            </div>
+            <div>
+              <h4 className="font-extrabold text-white text-lg md:text-2xl tracking-tight mb-0.5">Discover New Arrivals</h4>
+              <p className="text-blue-100 text-xs md:text-sm font-medium max-w-sm">Explore the freshest additions to our store. Updated regularly with premium Northeast products!</p>
+            </div>
+          </div>
+          <div className="relative z-10 w-full md:w-auto flex justify-end">
+             <div className="bg-white text-blue-900 px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-xs md:text-sm flex items-center gap-2 group-hover:scale-105 transition-transform shadow-md">
+               Shop Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
+             </div>
+          </div>
+        </div>
+      </div>
+
       {/* ── TRUST BADGES ── */}
       <div className="px-3 md:px-8 max-w-7xl mx-auto mb-10 md:mb-16 hidden md:block">
         <div className="rounded-xl p-4 md:p-6 flex flex-wrap items-center justify-between gap-4" style={{ background: 'var(--glass-card-bg)', border: '1px solid var(--glass-border)' }}>

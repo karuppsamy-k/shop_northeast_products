@@ -10,7 +10,7 @@ import TopBar from './components/TopBar';
 import { CATEGORIES } from '@/constants/categories';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '@/firebase/config';
-import { collection, getDocs, where, query, limit, startAfter, getDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, where, query, limit, startAfter, getDoc, doc, orderBy } from 'firebase/firestore';
 
 // ─── ProductsManager ──────────────────────────────────────────────────────────
 export const ProductsManager = () => {
@@ -45,7 +45,12 @@ export const ProductsManager = () => {
       const colRef = collection(db, 'products');
       let constraints: any[] = [];
 
-      if (categoryFilter !== 'all') {
+      if (categoryFilter === 'new-arrivals') {
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+        constraints.push(where('createdAt', '>=', oneMonthAgo.toISOString()));
+        constraints.push(orderBy('createdAt', 'desc'));
+      } else if (categoryFilter !== 'all') {
         constraints.push(where('category', '==', categoryFilter));
       }
 
@@ -200,6 +205,18 @@ export const ProductsManager = () => {
               }`}
             >
               All
+            </button>
+
+            {/* New Arrivals chip */}
+            <button
+              onClick={() => setSelectedCategory('new-arrivals')}
+              className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors shrink-0 ${
+                selectedCategory === 'new-arrivals'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-[var(--color-card)] border border-[var(--color-border)] text-[var(--color-muted-fg)] hover:text-[var(--color-fg)]'
+              }`}
+            >
+              ✨ New Arrivals
             </button>
 
             {/* Real category chips */}

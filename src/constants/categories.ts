@@ -16,6 +16,8 @@ export const CATEGORIES: CategoryDefinition[] = [
   { id: 'pan-and-tobacco', name: 'Pan & Tobacco', emoji: '🚬', bgClass: 'bg-stone-300' },
   { id: 'personal-care', name: 'Personal Care', emoji: '🧼', bgClass: 'bg-cyan-100' },
   { id: 'specialty-and-others', name: 'Specialty & Others', emoji: '📦', bgClass: 'bg-slate-200' },
+  { id: 'korean-products', name: 'Korean Products', emoji: '🍲', bgClass: 'bg-indigo-100' },
+  { id: 'fish-tin-and-dry-fish', name: 'Fish Tin & Dry Fish', emoji: '🐟', bgClass: 'bg-blue-200' },
 ];
 
 export const getCategoryById = (id: string): CategoryDefinition | undefined => {

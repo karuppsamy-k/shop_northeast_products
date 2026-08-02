@@ -53,12 +53,24 @@ export const CategoryPage = () => {
     
     if (selectedCategory === 'all') matchesCategory = true;
     else if (selectedCategory === 'offers') matchesCategory = (p.offer || 0) > 0;
+    else if (selectedCategory === 'new-arrivals') {
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      matchesCategory = new Date(p.createdAt || Date.now()) >= oneMonthAgo;
+    }
     else matchesCategory = p.category === selectedCategory;
     
     if (selectedSubCategory === 'all') matchesSubCategory = true;
     else matchesSubCategory = p.subCategory === selectedSubCategory;
     
     return matchesSearch && matchesCategory && matchesSubCategory;
+  }).sort((a, b) => {
+    if (selectedCategory === 'new-arrivals') {
+      const dateA = new Date(a.createdAt || 0).getTime();
+      const dateB = new Date(b.createdAt || 0).getTime();
+      return dateB - dateA;
+    }
+    return 0;
   });
 
   const handleCategorySelect = (id: string) => {
@@ -145,6 +157,39 @@ export const CategoryPage = () => {
               );
             })()}
 
+            {/* New Arrivals category synthetic entry */}
+            {(() => {
+              const isSelected = selectedCategory === 'new-arrivals';
+              return (
+                <button
+                  key="new-arrivals"
+                  id="category-btn-new-arrivals"
+                  onClick={() => handleCategorySelect('new-arrivals')}
+                  className={`relative flex flex-col items-center justify-center p-3 md:p-4 rounded-2xl transition-all duration-300 w-full group ${
+                    isSelected
+                      ? 'bg-blue-500/10 border-blue-500'
+                      : 'bg-transparent border-transparent hover:bg-black/5 dark:hover:bg-white/5'
+                  } border-2`}
+                >
+                  {isSelected && (
+                    <motion.div
+                      layoutId="activeCategoryIndicator"
+                      className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-blue-500 rounded-l-full"
+                    />
+                  )}
+                  <div className={`w-14 h-14 md:w-20 md:h-20 mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    isSelected ? 'shadow-md ring-4 ring-blue-500/20' : 'bg-black/5 dark:bg-white/5 group-hover:scale-105'
+                  }`}
+                    style={{ background: isSelected ? 'rgba(59,130,246,0.15)' : undefined }}>
+                    <span className="text-2xl">✨</span>
+                  </div>
+                  <span className={`text-[10px] md:text-sm font-semibold text-center leading-tight ${
+                    isSelected ? 'text-blue-500' : 'text-foreground/70 group-hover:text-foreground'
+                  }`}>New Arrivals</span>
+                </button>
+              );
+            })()}
+
           {categories.map((cat) => {
               const isSelected = selectedCategory === cat.id;
               const emoji = cat.emoji;
@@ -192,6 +237,8 @@ export const CategoryPage = () => {
               ? 'All Products'
               : selectedCategory === 'offers' 
               ? 'Special Offers' 
+              : selectedCategory === 'new-arrivals'
+              ? 'New Arrivals'
               : categories.find(c => c.id === selectedCategory)?.name || 'Products'}
           </h1>
               <div className="bg-[var(--color-surface)] px-3 py-1 rounded-full border border-[var(--color-border)] text-xs md:text-sm font-semibold text-foreground/70 shadow-sm">
